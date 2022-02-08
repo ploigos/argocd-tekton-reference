@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: package-application-
+spec:
+  taskRef:
+    name: maven
+  params:
+      - name: GOALS
+        value:
+          - --no-transfer-progress
+          - package
+  workspaces:
+    - name: source
+      persistentVolumeClaim:
+        claimName: app
+    - name: maven-settings
+      emptyDir: {}
+

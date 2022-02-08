@@ -1,0 +1,534 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  labels:
+    ploigos.dev/workflow: standard
+  name: everything-java
+spec:
+  params:
+  - default: "false"
+    description: Log any sh commands used during execution.
+    name: verbose
+    type: string
+  - description: |
+      URL to the application repository to run the pipeline for.
+    name: appRepoUrl
+    type: string
+  - description: |
+      Git reference (tag, branch) of the application repository to run the pipeline for.
+    name: appRepoRef
+    type: string
+  - description: |
+      The pipeline will build and push an application image with this name. Do not include the tag because the pipeline
+      will generate it. Example: quay.io/myuser/myapp. The pipeline will push to i.e. the :1.0-mybranch-A34D2, :edge,
+      :1.0, and :latest tags as it progresses.
+    name: appImageName
+    type: string
+  - default: "true"
+    description: |
+      If this is "false", no tasks will use TLS verification. Leave it "true" in production. If you want to turn
+      off verification for only some tasks, fork the pipeline and add pipeline parameters.
+    name: tlsVerify
+    type: string
+  - default: ./Containerfile
+    description: |
+      The path to the application's Containerfile or Dockerfile relative to the root of the source repository.
+    name: containerfile
+    type: string
+  - default: ^$
+    description: |
+      Regex pattern for git references that should only go through the
+      Continuous Integration (CI) workflow.
+    name: ciOnlyGitRefPatterns
+    type: string
+  - default: ^feature/.+$|^PR-.+$
+    description: |
+      Regex pattern for git references that should go through the
+      Continuous Integration (CI) workflow and then the deployment to
+      "Development" environment(s) (IE: "DEV" environment) workflow.
+    name: devGitRefPatterns
+    type: string
+  - default: ^main$
+    description: |
+      Regex pattern for git references that should go through the
+      Continuous Integration (CI) workflow and then the deployment to
+      "Release" environment(s) (IE: "TEST" and then "PROD" environments) workflow.
+    name: releaseGitRefPatterns
+    type: string
+  - default: IfNotPresent
+    description: |
+      Policy for pulling new versions of the imageTag for the CI worker images
+      when running this pipeline.
+    name: workflowWorkersImagePullPolicy
+    type: string
+  tasks:
+  - name: setup-stage-gate
+    params:
+    - name: verbose
+      value: $(params.verbose)
+    - name: input
+      value: $(params.appRepoRef)
+    - name: pattern
+      value: $(params.ciOnlyGitRefPatterns)|$(params.devGitRefPatterns)|$(params.releaseGitRefPatterns)
+    taskRef:
+      name: ploigos-pattern-matcher
+  - name: setup-app-clone
+    params:
+    - name: verbose
+      value: $(params.verbose)
+    - name: imagePullPolicy
+      value: $(params.workflowWorkersImagePullPolicy)
+    - name: url
+      value: $(params.appRepoUrl)
+    - name: revision
+      value: $(params.appRepoRef)
+    - name: deleteExisting
+      value: "true"
+    - name: sslVerify
+      value: $(params.tlsVerify)
+    - name: refspec
+      value: +refs/heads/$(params.appRepoRef):$(params.appRepoRef)
+    runAfter:
+    - setup-stage-gate
+    taskRef:
+      name: ploigos-git-clone
+    when:
+    - input: $(tasks.setup-stage-gate.results.matches)
+      operator: in
+      values:
+      - "true"
+    workspaces:
+    - name: output
+      workspace: app
+  - name: setup-read-code-version
+    runAfter:
+      - setup-app-clone
+    taskRef:
+      name: read-code-version-maven
+    when:
+      - input: $(tasks.setup-stage-gate.results.matches)
+        operator: in
+        values:
+          - "true"
+    workspaces:
+      - name: app
+        workspace: app
+  - name: setup-generate-artifact-version
+    params:
+      - name: codeVersion
+        value: $(tasks.setup-read-code-version.results.codeVersion)
+      - name: gitRef
+        value: $(params.appRepoRef)
+      - name: gitCommit
+        value: $(tasks.setup-app-clone.results.commit)
+    runAfter:
+      - setup-read-code-version
+    taskRef:
+      name: generate-artifact-version
+    when:
+      - input: $(tasks.setup-stage-gate.results.matches)
+        operator: in
+        values:
+          - "true"
+  - name: ci-stage-gate
+    params:
+    - name: verbose
+      value: $(params.verbose)
+    - name: input
+      value: $(params.appRepoRef)
+    - name: pattern
+      value: $(params.ciOnlyGitRefPatterns)|$(params.devGitRefPatterns)|$(params.releaseGitRefPatterns)
+    runAfter:
+    - setup-app-clone
+    - setup-read-code-version
+    - setup-generate-artifact-version
+    taskRef:
+      name: ploigos-pattern-matcher
+  - name: ci-run-unit-tests
+    params:
+    - name: GOALS
+      value:
+      - --no-transfer-progress
+      - -Dquarkus.build.skip
+      - test
+    runAfter:
+    - ci-stage-gate
+    taskRef:
+      name: maven
+    when:
+    - input: $(tasks.ci-stage-gate.results.matches)
+      operator: in
+      values:
+      - "true"
+    workspaces:
+    - name: source
+      workspace: app
+    - name: maven-settings
+      workspace: maven-settings
+  - name: ci-package-application
+    params:
+      - name: GOALS
+        value:
+          - --no-transfer-progress
+          - -Dmaven.install.skip=true
+          - -Dmaven.test.skip=true
+          - -DskipTests
+          - -DskipITs
+          - package
+    runAfter:
+      - ci-run-unit-tests
+    taskRef:
+      name: maven
+    when:
+      - input: $(tasks.ci-stage-gate.results.matches)
+        operator: in
+        values:
+          - "true"
+    workspaces:
+      - name: source
+        workspace: app
+      - name: maven-settings
+        workspace: maven-settings
+  - name: ci-static-code-analysis
+    params:
+    runAfter:
+      - ci-package-application
+    taskRef:
+      name: sonarqube-scanner
+    when:
+      - input: $(tasks.ci-stage-gate.results.matches)
+        operator: in
+        values:
+          - "true"
+    workspaces:
+      - name: source-dir
+        workspace: app
+      - name: sonar-settings
+        workspace: sonar-settings
+  - name: ci-pre-push-application-to-repository
+    params:
+      - name: GOALS
+        value:
+          - --no-transfer-progress
+          - -DnewVersion=$(tasks.setup-generate-artifact-version.results.artifactVersion)
+          - versions:set
+    runAfter:
+      - ci-static-code-analysis
+    taskRef:
+      name: maven
+    when:
+      - input: $(tasks.ci-stage-gate.results.matches)
+        operator: in
+        values:
+          - "true"
+    workspaces:
+      - name: source
+        workspace: app
+      - name: maven-settings
+        workspace: maven-settings
+  - name: ci-push-application-to-repository
+    params:
+      - name: GOALS
+        value:
+          - --no-transfer-progress
+          - -Dquarkus.build.skip
+          - -Dmaven.install.skip=true
+          - -Dmaven.test.skip=true
+          - -DskipTests
+          - -DskipITs
+          - deploy
+    runAfter:
+      - ci-pre-push-application-to-repository
+    taskRef:
+      name: maven
+    when:
+      - input: $(tasks.ci-stage-gate.results.matches)
+        operator: in
+        values:
+          - "true"
+    workspaces:
+      - name: source
+        workspace: app
+      - name: maven-settings
+        workspace: maven-settings
+  - name: ci-create-container-image
+    params:
+      - name: outputImageTag
+        value: quay.io/dwinchell_redhat/my-image:latest
+      - name: verbose
+        value: $(params.verbose)
+    runAfter:
+    - ci-push-application-to-repository
+    taskRef:
+      name: create-container-image
+    when:
+    - input: $(tasks.ci-stage-gate.results.matches)
+      operator: in
+      values:
+      - "true"
+    workspaces:
+    - name: home
+      workspace: home
+    - name: app
+      workspace: app
+    - name: container-auth
+      workspace: container-auth
+#  - name: ci-static-image-scan-compliance
+#    params:
+#    runAfter:
+#    - ci-create-container-image
+#    taskRef:
+#      name: ploigos-step-runner
+#    when:
+#    - input: $(tasks.ci-stage-gate.results.matches)
+#      operator: in
+#      values:
+#      - "true"
+#    workspaces:
+#    - name: home
+#      workspace: home
+#    - name: app
+#      workspace: app
+#  - name: ci-static-image-scan-vulnerability
+#    params:
+#      - name: verbose
+#        value: $(params.verbose)
+#      - name: imagePullPolicy
+#        value: $(params.workflowWorkersImagePullPolicy)
+#    runAfter:
+#    - ci-create-container-image
+#    - ci-static-image-scan-compliance
+#    taskRef:
+#      name: ploigos-step-runner
+#    when:
+#    - input: $(tasks.ci-stage-gate.results.matches)
+#      operator: in
+#      values:
+#      - "true"
+#    workspaces:
+#    - name: home
+#      workspace: home
+#    - name: app
+#      workspace: app
+
+  - name: ci-push-container-image
+    params:
+      - name: verbose
+        value: $(params.verbose)
+      - name: imagePullPolicy
+        value: $(params.workflowWorkersImagePullPolicy)
+      - name: localImageTag
+        value: quay.io/dwinchell_redhat/my-image:latest
+      - name: remoteImageTag
+        value: registry-internal-nexus.apps.tssc.rht-set.com/ploigos-ref/tekton-test:latest
+      - name: pauseForDebugBeforeStepRun
+        value: "false"
+    runAfter:
+#    - ci-static-image-scan-vulnerability
+#    - ci-static-image-scan-compliance
+     - ci-create-container-image
+    taskRef:
+      name: push-container-image
+    when:
+    - input: $(tasks.ci-stage-gate.results.matches)
+      operator: in
+      values:
+      - "true"
+    workspaces:
+    - name: home
+      workspace: home
+    - name: app
+      workspace: app
+    - name: container-auth
+      workspace: container-auth
+
+#  - name: ci-sign-container-image
+#    params:
+#      - name: verbose
+#        value: $(params.verbose)
+#      - name: imagePullPolicy
+#        value: $(params.workflowWorkersImagePullPolicy)
+#    runAfter:
+#    - ci-push-container-image
+#    taskRef:
+#      name: ploigos-step-runner
+#    when:
+#    - input: $(tasks.ci-stage-gate.results.matches)
+#      operator: in
+#      values:
+#      - "true"
+#    workspaces:
+#    - name: home
+#      workspace: home
+#    - name: app
+#      workspace: app
+
+#  - name: ci-generate-evidence
+#    params:
+#      - name: verbose
+#        value: $(params.verbose)
+#      - name: imagePullPolicy
+#        value: $(params.workflowWorkersImagePullPolicy)
+#    runAfter:
+#    - ci-sign-container-image
+#    taskRef:
+#      name: ploigos-step-runner
+#    workspaces:
+#    - name: home
+#      workspace: home
+#    - name: app
+#      workspace: app
+
+  - name: dev-stage-gate
+    params:
+    - name: verbose
+      value: $(params.verbose)
+    - name: input
+      value: $(params.appRepoRef)
+    - name: pattern
+      value: $(params.devGitRefPatterns)
+    runAfter:
+#    - ci-generate-evidence
+     - ci-push-container-image
+    taskRef:
+      name: ploigos-pattern-matcher
+
+#  - name: dev-audit-attestation
+#    params:
+#    - name: verbose
+#      value: $(params.verbose)
+#    - name: environment
+#      value: 'DEV'
+#    runAfter:
+#    - dev-stage-gate
+#    taskRef:
+#      name: ploigos-step-runner
+#    when:
+#    - input: $(tasks.dev-stage-gate.results.matches)
+#      operator: in
+#      values:
+#      - "true"
+#    workspaces:
+#    - name: home
+#      workspace: home
+#    - name: app
+#      workspace: app
+
+  - name: dev-deploy-or-update-environment
+    params:
+      - name: verbose
+        value: $(params.verbose)
+      - name: imagePullPolicy
+        value: $(params.workflowWorkersImagePullPolicy)
+    runAfter:
+#    - dev-audit-attestation
+     - dev-stage-gate
+    taskRef:
+      name: ploigos-step-runner
+    when:
+    - input: $(tasks.dev-stage-gate.results.matches)
+      operator: in
+      values:
+      - "true"
+    workspaces:
+    - name: home
+      workspace: home
+    - name: app
+      workspace: app
+
+#  - name: dev-validate-environment-configuration
+#    params:
+#      - name: verbose
+#        value: $(params.verbose)
+#      - name: imagePullPolicy
+#        value: $(params.workflowWorkersImagePullPolicy)
+#    runAfter:
+#    - dev-deploy-or-update-environment
+#    taskRef:
+#      name: ploigos-step-runner
+#    when:
+#    - input: $(tasks.dev-stage-gate.results.matches)
+#      operator: in
+#      values:
+#      - "true"
+#    workspaces:
+#    - name: home
+#      workspace: home
+#    - name: app
+#      workspace: app
+
+#  - name: dev-run-user-acceptance-tests
+#    params:
+#      - name: verbose
+#        value: $(params.verbose)
+#      - name: imagePullPolicy
+#        value: $(params.workflowWorkersImagePullPolicy)
+#    runAfter:
+#    - dev-validate-environment-configuration
+#    taskRef:
+#      name: ploigos-step-runner
+#    when:
+#    - input: $(tasks.dev-stage-gate.results.matches)
+#      operator: in
+#      values:
+#      - "true"
+#    workspaces:
+#    - name: home
+#      workspace: home
+#    - name: app
+#      workspace: app
+
+#  - name: dev-generate-evidence
+#    params:
+#      - name: verbose
+#        value: $(params.verbose)
+#      - name: imagePullPolicy
+#        value: $(params.workflowWorkersImagePullPolicy)
+#    runAfter:
+#    - dev-run-user-acceptance-tests
+#    taskRef:
+#      name: ploigos-step-runner
+#    when:
+#    - input: $(tasks.dev-stage-gate.results.matches)
+#      operator: in
+#      values:
+#      - "true"
+#    workspaces:
+#    - name: home
+#      workspace: home
+#    - name: app
+#      workspace: app
+#  finally:
+#    - name: report
+#      params:
+#        - name: verbose
+#          value: $(params.verbose)
+#        - name: imagePullPolicy
+#          value: $(params.workflowWorkersImagePullPolicy)
+#      taskRef:
+#        name: ploigos-step-runner
+#      workspaces:
+#        - name: home
+#          workspace: home
+#        - name: app
+#          workspace: app
+  workspaces:
+  - description: |
+      Workspace for the container users home directory.
+    name: home
+  - description: |
+      Workspace to checkout the application this workflow is for and set as the working directory
+      for the step executions.
+    name: app
+  - description: |
+      Workspace for the Maven settings directory (.m2). Useful for adding files like settings.xml.
+      You can use a ConfigMap to inject files. See https://github.com/tektoncd/catalog/tree/main/task/maven/0.2
+      for usage.
+    name: maven-settings
+  - description: |
+      Workspace to contain SonarQube settings file (sonar.properties). Use a ConfigMap or Secret to inject sonar.propertes.
+      See https://github.com/tektoncd/catalog/tree/main/task/sonarqube-scanner/0.1 for usage.
+    name: sonar-settings
+  - description: |
+      Used to pass a json configuration file with authentication information for container registries.
+    name: container-auth

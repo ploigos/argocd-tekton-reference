@@ -1,0 +1,14 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: manual-generate-metadata-semver-
+spec:
+  taskRef:
+    name: generate-metadata-artifact-version
+  params:
+      - name: gitRef
+        value: main
+      - name: gitCommit
+        value: 531396db82753f132e83a44673f7c76025e956a9
+      - name: codeVersion
+        value: 1.0.2

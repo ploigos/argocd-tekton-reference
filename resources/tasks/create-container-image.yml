@@ -1,0 +1,182 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: create-container-image
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.14.0"
+spec:
+  description: |
+    Builds a container image using buildah. This is performed in a container with the Kubernetes securityContext
+    capabilities required for doing container image builds in a container running rootless with a random UID in OpenShift.
+  workspaces:
+  - name: home
+    mountPath: /home/ploigos
+    description: |
+      Workspace for the container users home directory.
+  - name: app
+    description: |
+      Workspace with the checked out application in to use as the
+      working directory for the step execution.
+  - name: container-auth
+    description: |
+      Used to mount a secret with container-auth.json.
+  params:
+
+  - name: outputImageTag
+    description: "The tag for the created image. Example: my-org/my-image:latest"
+    type: string
+  - name: format
+    default: oci
+    type: string
+  - name: tls_verify
+    default: "true"
+    type: string
+  - name: image_spec_file
+    default: Containerfile
+    type: string
+  - name: containers_config_auth_file
+    default: container-auth.json
+    type: string
+  - name: context
+    default: .
+
+  - name: verbose
+    description: log the commands used during execution
+    type: string
+    default: "false"
+  - name: image
+    type: string
+    description: |
+      Container image to run the steps of this task in.
+    default: quay.io/ploigos/ploigos-tool-containers:v1.0.0
+  - name: imagePullPolicy
+    type: string
+    description: |
+      Policy for pulling new versions of the given image.
+    default: IfNotPresent
+  - name: pauseForDebugBeforeStepRun
+    type: string
+    description: |
+      If "true" will pause before running the step so a workflow debugger can log into the
+      CI worker pod and look around
+    default: "false"
+
+  steps:
+  - name: workflow-step
+    image: $(params.image)
+    imagePullPolicy: $(params.imagePullPolicy)
+    securityContext:
+      capabilities:
+          add:
+          - 'SETUID'
+          - 'SETGID'
+    env:
+    - name: HOME
+      value: $(workspaces.home.path)
+    - name: VERBOSE
+      value: $(params.verbose)
+    - name: PAUSE_FOR_DEBUG_BEFORE_STEP_RUN
+      value: $(params.pauseForDebugBeforeStepRun)
+    workingDir: $(workspaces.app.path)
+    script: |
+      #!/bin/sh
+      if [ "${VERBOSE}" == "true" ]; then set -x; else set +x; fi
+      set -eu -o pipefail
+
+      if [ "${PAUSE_FOR_DEBUG_BEFORE_STEP_RUN}" == "true" ]; then
+        echo
+        echo "********************"
+        echo "* PAUSED FOR DEBUG *"
+        echo "********************"
+        echo "To continue:"
+        echo "> touch ${HOME}/workflow-continue"
+
+        while [ ! -f ${HOME}/workflow-continue ]; do
+          sleep 2
+        done
+        rm -f ${HOME}/workflow-continue
+      fi
+
+      # NOTE 1: This is handled by the entrypoint of ploigos-* containers,
+      #         but tekton overrides the entrypoint when providing a script.
+      # NOTE 2: Making this optional incase using a container that doesn't allow for this
+      #         and it doesn't matter.
+      echo
+      echo "*******************"
+      echo "* Update CA Trust *"
+      echo "*******************"
+      update-ca-trust \
+        && echo "Updated CA Trust" \
+        || (echo "WARN: Could not update CA trust."
+            echo "If this is unexpected, check permissions on /etc/pki/ca-trust/extracted")
+
+      # NOTE 1: This is handled by the entrypoint of ploigos-tool-containers containers,
+      #         but tekton overrides the entrypoint when providing a script.
+      # NOTE 2: Making this optional incase using a container that doesn't allow for this
+      #         and it doesn't matter.
+      echo
+      echo "******************"
+      echo "* Update SUBUIDs *"
+      echo "******************"
+      echo $(whoami):10000:65536 >> /etc/subuid \
+        && echo "Updated $(whoami) SUBUIDs" \
+        || (echo "WARN: Could not update SUBUIDs for $(whoami)."
+            echo "If this is unexpected, check permissions on /etc/subuid")
+
+      # NOTE 1: This is handled by the entrypoint of ploigos-tool-containers containers,
+      #         but tekton overrides the entrypoint when providing a script.
+      # NOTE 2: Making this optional incase using a container that doesn't allow for this
+      #         and it doesn't matter.
+      echo
+      echo "******************"
+      echo "* Update SUBGIDs *"
+      echo "******************"
+      echo $(whoami):10000:65536 >> /etc/subgid \
+        && echo "Updated $(whoami) SUBGIDs" \
+        || (echo "WARN: Could not update SUBGIDs for $(whoami)."
+            echo "If this is unexpected, check permissions on /etc/subgid")
+
+      # NOTE 1: This is handled by the entrypoint of ploigos-tool-containers containers,
+      #         but tekton overrides the entrypoint when providing a script.
+      echo
+      echo "***************************"
+      echo "* Create Container Socket *"
+      echo "***************************"
+      set +u
+      [[ -z "${DOCKER_HOST}" ]] \
+        && echo 'DOCKER_HOST not set, setting to default' \
+        && export DOCKER_HOST="unix:/${HOME}/podman.sock"
+      set -u
+      podman system service --time=0 ${DOCKER_HOST} \
+        1> ${HOME}/podman.stdout 2> ${HOME}/podman.stderr & \
+      echo "Created Container Socket: ${DOCKER_HOST}"
+
+      # REASONS:
+      #   * https://github.com/tektoncd/pipeline/issues/3509
+      echo
+      echo "****************************"
+      echo "* Fix .ssh dir permissions *"
+      echo "****************************"
+      passwd_home=$(getent passwd $(whoami) | cut -d: -f6)
+      if [ ! -d ${passwd_home}/.ssh ]; then
+        mkdir ${passwd_home}/.ssh
+        touch ${passwd_home}/.ssh/known_hosts
+        touch ${passwd_home}/.ssh/config
+        touch ${passwd_home}/.ssh/id_*
+      fi
+      if [ "$(stat -c %a ${passwd_home}/.ssh)" != "700" ]; then
+        chmod 700 ${passwd_home}/.ssh
+        chmod 644 ${passwd_home}/.ssh/known_hosts
+        chmod 644 ${passwd_home}/.ssh/config
+        chmod 600 ${passwd_home}/.ssh/id_*
+      fi
+
+      buildah bud \
+        --format=$(params.format) \
+        --tls-verify=$(params.tls_verify) \
+        --layers \
+        -f $(params.image_spec_file) \
+        -t localhost/pipeline/$(params.outputImageTag) \
+        --authfile $(workspaces.container-auth.path)/$(params.containers_config_auth_file) \
+        $(params.context)

@@ -1,0 +1,27 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: push-container-image-
+spec:
+  taskRef:
+    name: push-container-image
+  params:
+    - name: localImageTag
+      value: quay.io/dwinchell_redhat/my-image:latest
+    - name: remoteImageTag
+      value: registry-internal-nexus.apps.tssc.rht-set.com/ploigos-ref/tekton-test:latest
+#      registry-internal-nexus.apps.tssc.rht-set.com/ploigos-ref/ref-quarkus-mvn-jenkins-min/fruit:1.0.2-feature-research-skopeo_0908955
+    - name: pauseForDebugBeforeStepRun
+      value: "false"
+    - name: verbose
+      value: "true"
+  workspaces:
+    - name: home
+      persistentVolumeClaim:
+        claimName: home
+    - name: app
+      persistentVolumeClaim:
+        claimName: app
+    - name: container-auth
+      secret:
+        secretName: container-auth

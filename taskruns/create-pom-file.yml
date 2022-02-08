@@ -1,0 +1,11 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: create-pom-file-
+spec:
+  taskRef:
+    name: create-pom-file
+  workspaces:
+    - name: app
+      persistentVolumeClaim:
+        claimName: temp

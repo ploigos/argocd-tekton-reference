@@ -1,0 +1,11 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: read-code-version-maven-
+spec:
+  taskRef:
+    name: read-code-version-maven
+  workspaces:
+    - name: app
+      persistentVolumeClaim:
+        claimName: temp

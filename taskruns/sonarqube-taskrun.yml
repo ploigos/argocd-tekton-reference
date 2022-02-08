@@ -1,0 +1,14 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: manual-sonarqube-
+spec:
+  taskRef:
+    name: sonarqube-scanner
+  workspaces:
+    - name: source-dir
+      persistentVolumeClaim:
+        claimName: app
+    - name: sonar-settings
+      secret:
+        secretName: sonar-settings

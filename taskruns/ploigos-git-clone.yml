@@ -1,0 +1,20 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: ploigos-git-clone-
+spec:
+  params:
+    - name: url
+      value: ssh://gitea@gitea.tssc.rht-set.com:2022/ploigos-reference-applications/reference-quarkus-mvn.git
+    - name: revision
+      value: main
+    - name: deleteExisting
+      value: "true"
+    - name: refspec
+      value: +refs/heads/main:main
+  taskRef:
+    name: ploigos-git-clone
+  workspaces:
+    - name: output
+      persistentVolumeClaim:
+        claimName: app

@@ -1,0 +1,53 @@
+allowHostDirVolumePlugin: false
+allowHostIPC: false
+allowHostNetwork: false
+allowHostPID: false
+allowHostPorts: false
+allowPrivilegeEscalation: true
+allowPrivilegedContainer: false
+allowedCapabilities:
+- SETUID
+- SETGID
+apiVersion: security.openshift.io/v1
+defaultAddCapabilities: null
+fsGroup:
+  type: MustRunAs
+groups:
+- system:authenticated
+kind: SecurityContextConstraints
+metadata:
+  annotations:
+    kubernetes.io/description: |
+      Same as restricted SCC except for allows for
+      use of SETUID and SETGID capabilities.
+    meta.helm.sh/release-name: ploigos-workflow-tekton-cluster-resources
+    meta.helm.sh/release-namespace: ploigos
+  creationTimestamp: "2021-06-28T13:29:54Z"
+  generation: 1
+  labels:
+    app.kubernetes.io/instance: ploigos-workflow-tekton-cluster-resources
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ploigos-workflow-tekton-cluster-resources
+    helm.sh/chart: ploigos-workflow-shared-cluster-resources-0.21.0
+  name: ploigos-workflow-runner-tekton
+  resourceVersion: "400152468"
+  uid: 1f42ff3b-4ed0-479f-8a6a-c38a7e661332
+priority: null
+readOnlyRootFilesystem: false
+requiredDropCapabilities:
+- KILL
+- MKNOD
+runAsUser:
+  type: MustRunAsRange
+seLinuxContext:
+  type: MustRunAs
+supplementalGroups:
+  type: RunAsAny
+users: [pipeline]
+volumes:
+- configMap
+- downwardAPI
+- emptyDir
+- persistentVolumeClaim
+- projected
+- secret

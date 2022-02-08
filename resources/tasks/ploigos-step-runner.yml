@@ -1,0 +1,53 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: ploigos-step-runner
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.14.0"
+    tekton.dev/tags: ploigos,python
+    tekton.dev/displayName: Workflow Step Runner
+spec:
+  description: |
+    Runs a given Ploigos step using the Workflow Step Runner library using the given
+    Step Runner configuration against an optional environment.
+  workspaces:
+  - name: home
+    mountPath: /home/ploigos
+    description: |
+      Workspace for the container users home directory.
+  - name: app
+    description: |
+      Workspace with the checked out application in to use as the
+      working directory for the step execution.
+  params:
+  - name: verbose
+    description: log the commands used during execution
+    type: string
+    default: "false"
+  - name: imagePullPolicy
+    type: string
+    description: |
+      Policy for pulling new versions of the given image.
+    default: IfNotPresent
+  - name: environment
+    type: string
+    description: |
+      Optional.
+      Name of the environment to target when running the given step.
+
+      This should be equal to one of the environment names used in one or more of the
+      Step Runner configuration files in the given Step Runner configuration directory.
+    default: ""
+  steps:
+  - name: workflow-step
+    image: ubi8-minimal
+    imagePullPolicy: $(params.imagePullPolicy)
+    env:
+    - name: HOME
+      value: $(workspaces.home.path)
+    workingDir: $(workspaces.app.path)
+    script: |
+      #!/bin/sh
+      echo No more step runner.
+      exit 1

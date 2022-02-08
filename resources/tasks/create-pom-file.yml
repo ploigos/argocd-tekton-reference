@@ -1,0 +1,30 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: create-pom-file
+spec:
+  params:
+  - name: image
+    type: string
+    description: |
+      Container image to run the steps of this task in.
+    default: bash
+  - name: imagePullPolicy
+    type: string
+    description: |
+      Policy for pulling new versions of the given image.
+    default: IfNotPresent
+  workspaces:
+    - name: app
+      description: The application source code, which must include a pom.xml file that has a version element.
+  steps:
+  - name: read-code-version
+    image: $(params.image)
+    imagePullPolicy: $(params.imagePullPolicy)
+    script: |
+      #!/bin/sh
+      OUTPUT_PATH=$(workspaces.app.path)/pom.xml
+      echo Writing to $OUTPUT_PATH
+      echo '<project><version>foo</version></project>' > $OUTPUT_PATH
+      echo Done
