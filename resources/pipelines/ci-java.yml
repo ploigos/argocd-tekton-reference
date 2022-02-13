@@ -34,26 +34,6 @@ spec:
       The path to the application's Containerfile or Dockerfile relative to the root of the source repository.
     name: containerfile
     type: string
-  - default: ^$
-    description: |
-      Regex pattern for git references that should only go through the
-      Continuous Integration (CI) workflow.
-    name: ciOnlyGitRefPatterns
-    type: string
-  - default: ^feature/.+$|^PR-.+$
-    description: |
-      Regex pattern for git references that should go through the
-      Continuous Integration (CI) workflow and then the deployment to
-      "Development" environment(s) (IE: "DEV" environment) workflow.
-    name: devGitRefPatterns
-    type: string
-  - default: ^main$
-    description: |
-      Regex pattern for git references that should go through the
-      Continuous Integration (CI) workflow and then the deployment to
-      "Release" environment(s) (IE: "TEST" and then "PROD" environments) workflow.
-    name: releaseGitRefPatterns
-    type: string
   - default: IfNotPresent
     description: |
       Policy for pulling new versions of the imageTag for the CI worker images
@@ -63,18 +43,7 @@ spec:
 
   tasks:
 
-  - name: setup-stage-gate
-    params:
-    - name: verbose
-      value: $(params.verbose)
-    - name: input
-      value: $(params.appRepoRef)
-    - name: pattern
-      value: $(params.ciOnlyGitRefPatterns)|$(params.devGitRefPatterns)|$(params.releaseGitRefPatterns)
-    taskRef:
-      name: ploigos-pattern-matcher
-
-  - name: setup-app-clone
+  - name: clone-application
     params:
     - name: verbose
       value: $(params.verbose)
@@ -90,193 +59,39 @@ spec:
       value: $(params.tlsVerify)
     - name: refspec
       value: +refs/heads/$(params.appRepoRef):$(params.appRepoRef)
-    runAfter:
-    - setup-stage-gate
     taskRef:
       name: ploigos-git-clone
-    when:
-    - input: $(tasks.setup-stage-gate.results.matches)
-      operator: in
-      values:
-      - "true"
     workspaces:
     - name: output
       workspace: app
 
-  - name: setup-read-code-version
-    runAfter:
-      - setup-app-clone
-    taskRef:
-      name: read-code-version-maven
-    when:
-      - input: $(tasks.setup-stage-gate.results.matches)
-        operator: in
-        values:
-          - "true"
-    workspaces:
-      - name: app
-        workspace: app
-
-  - name: setup-generate-artifact-version
-    params:
-      - name: codeVersion
-        value: $(tasks.setup-read-code-version.results.codeVersion)
-      - name: gitRef
-        value: $(params.appRepoRef)
-      - name: gitCommit
-        value: $(tasks.setup-app-clone.results.commit)
-    runAfter:
-      - setup-read-code-version
-    taskRef:
-      name: generate-artifact-version
-    when:
-      - input: $(tasks.setup-stage-gate.results.matches)
-        operator: in
-        values:
-          - "true"
-
-  - name: ci-stage-gate
-    params:
-    - name: verbose
-      value: $(params.verbose)
-    - name: input
-      value: $(params.appRepoRef)
-    - name: pattern
-      value: $(params.ciOnlyGitRefPatterns)|$(params.devGitRefPatterns)|$(params.releaseGitRefPatterns)
-    runAfter:
-    - setup-app-clone
-    - setup-read-code-version
-    - setup-generate-artifact-version
-    taskRef:
-      name: ploigos-pattern-matcher
-
-  - name: ci-run-unit-tests
-    params:
-    - name: GOALS
-      value:
-      - --no-transfer-progress
-      - -Dquarkus.build.skip
-      - test
-    runAfter:
-    - ci-stage-gate
-    taskRef:
-      name: maven
-    when:
-    - input: $(tasks.ci-stage-gate.results.matches)
-      operator: in
-      values:
-      - "true"
-    workspaces:
-    - name: source
-      workspace: app
-    - name: maven-settings
-      workspace: maven-settings
-
-  - name: ci-package-application
+  - name: build-application
     params:
       - name: GOALS
         value:
           - --no-transfer-progress
-          - -Dmaven.install.skip=true
-          - -Dmaven.test.skip=true
-          - -DskipTests
           - -DskipITs
           - package
     runAfter:
-      - ci-run-unit-tests
+      - clone-application
     taskRef:
       name: maven
-    when:
-      - input: $(tasks.ci-stage-gate.results.matches)
-        operator: in
-        values:
-          - "true"
     workspaces:
       - name: source
         workspace: app
       - name: maven-settings
         workspace: maven-settings
 
-  - name: ci-static-code-analysis
-    params:
-    runAfter:
-      - ci-package-application
-    taskRef:
-      name: sonarqube-scanner
-    when:
-      - input: $(tasks.ci-stage-gate.results.matches)
-        operator: in
-        values:
-          - "true"
-    workspaces:
-      - name: source-dir
-        workspace: app
-      - name: sonar-settings
-        workspace: sonar-settings
-
-  - name: ci-pre-push-application-to-repository
-    params:
-      - name: GOALS
-        value:
-          - --no-transfer-progress
-          - -DnewVersion=$(tasks.setup-generate-artifact-version.results.artifactVersion)
-          - versions:set
-    runAfter:
-      - ci-static-code-analysis
-    taskRef:
-      name: maven
-    when:
-      - input: $(tasks.ci-stage-gate.results.matches)
-        operator: in
-        values:
-          - "true"
-    workspaces:
-      - name: source
-        workspace: app
-      - name: maven-settings
-        workspace: maven-settings
-
-  - name: ci-push-application-to-repository
-    params:
-      - name: GOALS
-        value:
-          - --no-transfer-progress
-          - -Dquarkus.build.skip
-          - -Dmaven.install.skip=true
-          - -Dmaven.test.skip=true
-          - -DskipTests
-          - -DskipITs
-          - deploy
-    runAfter:
-      - ci-pre-push-application-to-repository
-    taskRef:
-      name: maven
-    when:
-      - input: $(tasks.ci-stage-gate.results.matches)
-        operator: in
-        values:
-          - "true"
-    workspaces:
-      - name: source
-        workspace: app
-      - name: maven-settings
-        workspace: maven-settings
-
-  - name: ci-create-container-image
+  - name: build-container-image
     params:
       - name: outputImageTag
         value: quay.io/dwinchell_redhat/my-image:latest
       - name: verbose
         value: $(params.verbose)
     runAfter:
-    - ci-push-application-to-repository
+    - build-application
     taskRef:
       name: create-container-image
-    when:
-    - input: $(tasks.ci-stage-gate.results.matches)
-      operator: in
-      values:
-      - "true"
     workspaces:
     - name: home
       workspace: home
@@ -285,7 +100,7 @@ spec:
     - name: container-auth
       workspace: container-auth
 
-  - name: ci-push-container-image
+  - name: push-container-image
     params:
       - name: verbose
         value: $(params.verbose)
@@ -298,14 +113,9 @@ spec:
       - name: pauseForDebugBeforeStepRun
         value: "false"
     runAfter:
-     - ci-create-container-image
+     - build-container-image
     taskRef:
       name: push-container-image
-    when:
-    - input: $(tasks.ci-stage-gate.results.matches)
-      operator: in
-      values:
-      - "true"
     workspaces:
     - name: home
       workspace: home
@@ -313,19 +123,6 @@ spec:
       workspace: app
     - name: container-auth
       workspace: container-auth
-
-  - name: dev-stage-gate
-    params:
-    - name: verbose
-      value: $(params.verbose)
-    - name: input
-      value: $(params.appRepoRef)
-    - name: pattern
-      value: $(params.devGitRefPatterns)
-    runAfter:
-     - ci-push-container-image
-    taskRef:
-      name: ploigos-pattern-matcher
 
   workspaces:
   - description: |
@@ -340,10 +137,6 @@ spec:
       You can use a ConfigMap to inject files. See https://github.com/tektoncd/catalog/tree/main/task/maven/0.2
       for usage.
     name: maven-settings
-  - description: |
-      Workspace to contain SonarQube settings file (sonar.properties). Use a ConfigMap or Secret to inject sonar.propertes.
-      See https://github.com/tektoncd/catalog/tree/main/task/sonarqube-scanner/0.1 for usage.
-    name: sonar-settings
   - description: |
       Used to pass a json configuration file with authentication information for container registries.
     name: container-auth
