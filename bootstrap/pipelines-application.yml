@@ -2,14 +2,20 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: pipelines
-  namespace: openshift-gitops
 spec:
   destination:
+    name: ''
+    namespace: pipelines
     server: 'https://kubernetes.default.svc'
   source:
     path: components/pipelines
     repoURL: 'https://github.com/ploigos/ploigos-quickstart.git'
     targetRevision: gitops
+  project: default
   syncPolicy:
-    retry:
-      limit: 20
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
