@@ -9,11 +9,11 @@ spec:
   params:
   - name: mvnArgs
     value:
-      - --no-transfer-progress
-      - -DskipITs
-      - -f
-      - getting-started/
-      - package
+      - "--no-transfer-progress"
+      - "-DskipITs"
+      - "-f"
+      - "getting-started/"
+      - "package"
   - name: appRepoUrl
     value: https://github.com/quarkusio/quarkus-quickstarts.git
   - name: appImage
