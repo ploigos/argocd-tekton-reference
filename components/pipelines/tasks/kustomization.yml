@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - create-container-image.yml
+#  - create-container-image.yml
   - push-container-image.yml
 
 # Skip applying the Tekton operands while the Tekton operator is being installed.

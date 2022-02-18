@@ -20,8 +20,6 @@ spec:
     value: quarkus-quickstarts/getting-started:latest
   - name: appRepoRef
     value: main
-  - name: devGitRefPatterns
-    value: main
   - name: verbose
     value: 'true'
   workspaces:
