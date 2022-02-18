@@ -1,21 +1,27 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: pipelines
+  name: all-components-staging
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
 spec:
-  destination:
-    name: ''
-    namespace: pipelines
-    server: 'https://kubernetes.default.svc'
+  project: build
+
   source:
     path: components/pipelines
-    repoURL: 'https://github.com/ploigos/ploigos-quickstart.git'
-    targetRevision: gitops
-  project: default
+    repoURL: https://github.com/ploigos/ploigos-quickstart.git
+
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+
   syncPolicy:
+
     automated:
       prune: true
       selfHeal: true
+
     syncOptions:
       - CreateNamespace=true
-
