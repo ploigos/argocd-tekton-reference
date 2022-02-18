@@ -1,10 +1,14 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: ci-java
+  name: java-maven
 spec:
 
   params:
+  - default: ['package']
+    description: Arguments (including goals) passed to the Maven mvn command.
+    name: mvnArgs
+    type: array
   - default: "false"
     description: Log any sh commands used during execution.
     name: verbose
