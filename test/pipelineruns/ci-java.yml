@@ -19,11 +19,23 @@ spec:
     value: 'true'
   workspaces:
   - name: app
-    persistentVolumeClaim:
-      claimName: app
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        volumeMode: Filesystem
   - name: home
-    persistentVolumeClaim:
-      claimName: home
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        volumeMode: Filesystem
   - name: maven-settings
     emptyDir: { }
     #secret:
