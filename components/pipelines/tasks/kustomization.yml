@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ploigos-git-clone.yml
   - create-container-image.yml
+  - push-container-image.yml
 
 # Skip applying the Tekton operands while the Tekton operator is being installed.
 # See more information about this option, here:
