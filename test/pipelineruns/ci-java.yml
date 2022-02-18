@@ -9,7 +9,7 @@ spec:
   params:
   - name: appRepoUrl
     value: https://github.com/quarkusio/quarkus-quickstarts.git
-  - name: appImageName
+  - name: appImage
     value: quarkus-quickstarts/getting-started:latest
   - name: appRepoRef
     value: main
