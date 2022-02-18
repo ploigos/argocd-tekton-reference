@@ -75,6 +75,7 @@ spec:
     runAfter:
       - clone-application
     taskRef:
+      kind: ClusterTask
       name: maven
     workspaces:
       - name: source
