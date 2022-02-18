@@ -49,9 +49,6 @@ spec:
     emptyDir: { }
     #secret:
     #  secretName: maven-settings
-  - name: sonar-settings
-    secret:
-      secretName: sonar-settings
   - name: container-auth
     secret:
       secretName: container-auth
