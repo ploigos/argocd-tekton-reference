@@ -47,7 +47,7 @@ spec:
     params:
     - name: verbose
       value: $(params.verbose)
-    - name: imagePullPolicy
+    - name: imagePullPolicy # Not currently supported when using built-in ClusterTask
       value: $(params.workflowWorkersImagePullPolicy)
     - name: url
       value: $(params.appRepoUrl)
