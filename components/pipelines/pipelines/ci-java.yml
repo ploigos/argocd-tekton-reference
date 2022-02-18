@@ -24,7 +24,7 @@ spec:
   - description: |
       The container registry to push the image to.
     name: targetRegistry
-    defaut: image-registry.openshift-image-registry.svc
+    default: image-registry.openshift-image-registry.svc
   - default: "true"
     description: |
       If this is "false", no tasks will use TLS verification. Leave it "true" in production. If you want to turn
