@@ -72,7 +72,6 @@ spec:
         value:
           - --no-transfer-progress
           - -DskipITs
-          - -Pnative
           - -f
           - getting-started/
           - package
