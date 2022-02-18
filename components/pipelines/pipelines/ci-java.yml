@@ -63,7 +63,7 @@ spec:
       value: +refs/heads/$(params.appRepoRef):$(params.appRepoRef)
     taskRef:
       kind: ClusterTask
-      name: git-init
+      name: git-clone
     workspaces:
     - name: output
       workspace: app
