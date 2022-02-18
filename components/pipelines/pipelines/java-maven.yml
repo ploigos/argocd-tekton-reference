@@ -35,6 +35,11 @@ spec:
       off verification for only some tasks, fork the pipeline and add pipeline parameters.
     name: tlsVerify
     type: string
+  - default: .
+    description:
+      The context path for building the container. I.e. the directory from which you would run a docker build or buildah
+      bud command.
+    name: containerBuildContext
   - default: ./Containerfile
     description: |
       The path to the application's Containerfile or Dockerfile relative to the root of the source repository.
@@ -90,6 +95,8 @@ spec:
       - name: IMAGE
         value: $(params.appImage)
       - name: CONTEXT
+        value: $(params.containerBuildContext)
+      - name: DOCKERFILE
         value: $(params.containerfile)
       - name: TLSVERIFY
         value: $(params.tlsVerify)

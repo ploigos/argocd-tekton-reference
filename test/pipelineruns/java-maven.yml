@@ -20,6 +20,8 @@ spec:
     value: quarkus-quickstarts/getting-started:latest
   - name: appRepoRef
     value: main
+  - name: containerBuildContext
+    value: getting-started/
   - name: containerfile
     value: src/main/docker/Dockerfile.jvm
   - name: verbose
