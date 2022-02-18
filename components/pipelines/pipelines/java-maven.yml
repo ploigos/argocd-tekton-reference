@@ -96,7 +96,8 @@ spec:
     runAfter:
     - build-application
     taskRef:
-      name: create-container-image
+      kind: ClusterTask
+      name: buildah
     workspaces:
     - name: source
       workspace: app
