@@ -8,9 +8,9 @@ spec:
     name: ci-java
   params:
   - name: appRepoUrl
-    value: ssh://gitea@gitea.tssc.rht-set.com:2022/ploigos-reference-applications/reference-quarkus-mvn.git
+    value: https://github.com/quarkusio/quarkus-quickstarts.git
   - name: appImageName
-    value: quay.io/dwinchell_redhat/reference-quarkus-mvn
+    value: quarkus-quickstarts/getting-started:latest
   - name: appRepoRef
     value: main
   - name: devGitRefPatterns

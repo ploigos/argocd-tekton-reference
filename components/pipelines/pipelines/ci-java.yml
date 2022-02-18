@@ -18,11 +18,13 @@ spec:
     name: appRepoRef
     type: string
   - description: |
-      The pipeline will build and push an application image with this name. Do not include the tag because the pipeline
-      will generate it. Example: quay.io/myuser/myapp. The pipeline will push to i.e. the :1.0-mybranch-A34D2, :edge,
-      :1.0, and :latest tags as it progresses.
-    name: appImageName
+      The pipeline will build and push an application image with this tag.
+    name: appImage
     type: string
+  - description: |
+      The container registry to push the image to.
+    name: targetRegistry
+    defaut: image-registry.openshift-image-registry.svc
   - default: "true"
     description: |
       If this is "false", no tasks will use TLS verification. Leave it "true" in production. If you want to turn
@@ -72,6 +74,9 @@ spec:
         value:
           - --no-transfer-progress
           - -DskipITs
+          - -Pnative
+          - -f
+          - getting-started/
           - package
     runAfter:
       - clone-application
@@ -87,7 +92,7 @@ spec:
   - name: build-container-image
     params:
       - name: outputImageTag
-        value: quay.io/dwinchell_redhat/my-image:latest
+        value: $(params.appImage)
       - name: verbose
         value: $(params.verbose)
     runAfter:
@@ -109,9 +114,9 @@ spec:
       - name: imagePullPolicy
         value: $(params.workflowWorkersImagePullPolicy)
       - name: localImageTag
-        value: quay.io/dwinchell_redhat/my-image:latest
+        value: $(params.appImage)
       - name: remoteImageTag
-        value: registry-internal-nexus.apps.tssc.rht-set.com/ploigos-ref/tekton-test:latest
+        value: $(params.targetImageRegistry)/$(params.appImage)
       - name: pauseForDebugBeforeStepRun
         value: "false"
     runAfter:
