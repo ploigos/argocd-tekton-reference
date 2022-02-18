@@ -116,7 +116,7 @@ spec:
       - name: localImageTag
         value: $(params.appImage)
       - name: remoteImageTag
-        value: $(params.targetImageRegistry)/$(params.appImage)
+        value: $(params.targetRegistry)/$(params.appImage)
       - name: pauseForDebugBeforeStepRun
         value: "false"
     runAfter:
