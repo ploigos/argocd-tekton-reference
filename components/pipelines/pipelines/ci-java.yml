@@ -60,7 +60,8 @@ spec:
     - name: refspec
       value: +refs/heads/$(params.appRepoRef):$(params.appRepoRef)
     taskRef:
-      name: ploigos-git-clone
+      kind: ClusterTask
+      name: git-init
     workspaces:
     - name: output
       workspace: app
