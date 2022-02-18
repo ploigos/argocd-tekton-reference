@@ -5,3 +5,4 @@ resources:
   - pvcs.yml
   - openshift-pipelines-subscription.yml
   - tasks/
+  - pipelines/
