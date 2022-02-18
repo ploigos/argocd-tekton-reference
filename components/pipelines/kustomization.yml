@@ -3,4 +3,4 @@ kind: Kustomization
 
 resources:
   - pvcs.yml
-
+  - openshift-pipelines-subscription.yml
