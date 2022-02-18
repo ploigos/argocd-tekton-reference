@@ -73,12 +73,7 @@ spec:
   - name: build-application
     params:
       - name: GOALS
-        value:
-          - --no-transfer-progress
-          - -DskipITs
-          - -f
-          - getting-started/
-          - package
+        value: $(mvnArgs)
     runAfter:
       - clone-application
     taskRef:
