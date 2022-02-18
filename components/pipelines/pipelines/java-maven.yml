@@ -6,7 +6,7 @@ spec:
 
   params:
   - default: ['package']
-    description: Arguments (including goals) passed to the Maven mvn command.
+    description: Arguments including goals, passed to the mvn command.
     name: mvnArgs
     type: array
   - default: "false"
@@ -87,21 +87,21 @@ spec:
 
   - name: build-container-image
     params:
-      - name: outputImageTag
+      - name: IMAGE
         value: $(params.appImage)
-      - name: verbose
-        value: $(params.verbose)
+      - name: CONTEXT
+        value: $(params.containerfile)
+      - name: TLSVERIFY
+        value: $(params.tlsVerify)
     runAfter:
     - build-application
     taskRef:
       name: create-container-image
     workspaces:
-    - name: home
-      workspace: home
-    - name: app
+    - name: source
       workspace: app
-    - name: container-auth
-      workspace: container-auth
+#    - name: container-auth
+#      workspace: container-auth
 
   - name: push-container-image
     params:
