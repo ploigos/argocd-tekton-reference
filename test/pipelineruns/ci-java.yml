@@ -25,8 +25,9 @@ spec:
     persistentVolumeClaim:
       claimName: home
   - name: maven-settings
-    secret:
-      secretName: maven-settings
+    emptyDir: { }
+    #secret:
+    #  secretName: maven-settings
   - name: sonar-settings
     secret:
       secretName: sonar-settings

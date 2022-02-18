@@ -84,8 +84,8 @@ spec:
     workspaces:
       - name: source
         workspace: app
-#      - name: maven-settings
-#        workspace: maven-settings
+      - name: maven-settings
+        workspace: maven-settings
 
   - name: build-container-image
     params:
@@ -137,11 +137,11 @@ spec:
       Workspace to checkout the application this workflow is for and set as the working directory
       for the step executions.
     name: app
-#  - description: |
-#      Workspace for the Maven settings directory (.m2). Useful for adding files like settings.xml.
-#      You can use a ConfigMap to inject files. See https://github.com/tektoncd/catalog/tree/main/task/maven/0.2
-#      for usage.
-#    name: maven-settings
+  - description: |
+      Workspace for the Maven settings directory (.m2). Useful for adding files like settings.xml.
+      You can use a ConfigMap or Secret to inject files like settings.xml.
+      See https://github.com/tektoncd/catalog/tree/main/task/maven/0.2 for usage.
+    name: maven-settings
   - description: |
       Used to pass a json configuration file with authentication information for container registries.
     name: container-auth
