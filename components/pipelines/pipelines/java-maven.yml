@@ -111,30 +111,6 @@ spec:
 #    - name: container-auth
 #      workspace: container-auth
 
-  - name: push-container-image
-    params:
-      - name: verbose
-        value: $(params.verbose)
-      - name: imagePullPolicy
-        value: $(params.workflowWorkersImagePullPolicy)
-      - name: localImageTag
-        value: $(params.appImage)
-      - name: remoteImageTag
-        value: $(params.targetRegistry)/$(params.appImage)
-      - name: pauseForDebugBeforeStepRun
-        value: "false"
-    runAfter:
-     - build-container-image
-    taskRef:
-      name: push-container-image
-    workspaces:
-    - name: home
-      workspace: home
-    - name: app
-      workspace: app
-    - name: container-auth
-      workspace: container-auth
-
   workspaces:
   - description: |
       Workspace for the container users home directory.
