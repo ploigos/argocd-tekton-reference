@@ -73,7 +73,7 @@ spec:
   - name: build-application
     params:
       - name: GOALS
-        value: ["$(params.mvnArgs[*]"]
+        value: ["$(params.mvnArgs[*])"]
     runAfter:
       - clone-application
     taskRef:
