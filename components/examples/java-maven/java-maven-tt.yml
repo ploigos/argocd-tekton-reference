@@ -25,25 +25,24 @@ spec:
     spec:
       params:
       - name: mvnArgs
-        value: --no-transfer-progress -DskipITs -f getting-started/ package
-      - name: verbose
-        value: "true"
+        value:
+          - "--no-transfer-progress"
+          - "-DskipITs"
+          - "-f"
+          - "getting-started/"
+          - "package"
       - name: appRepoUrl
-        value: https://github.com/quarkusio/quarkus-quickstarts.git
+        value: https://github.com/dwinchell/quarkus-quickstarts.git
+      - name: appImage
+        value: quarkus-quickstart-examples/java-maven:latest
       - name: appRepoRef
         value: main
-      - name: appImage
-        value: ploigos-quickstart-examples/java-maven:latest
-      - name: targetRegistry
-        value: image-registry.openshift-image-registry.svc
-      - name: tlsVerify
-        value: "true"
       - name: containerBuildContext
-        value: .getting-started/
+        value: getting-started/
       - name: containerfile
         value: src/main/docker/Dockerfile.jvm
-      - name: workflowWorkersImagePullPolicy
-        value: IfNotPresent
+      - name: verbose
+        value: 'true'
       pipelineRef:
         name: java-maven
       resources: []
