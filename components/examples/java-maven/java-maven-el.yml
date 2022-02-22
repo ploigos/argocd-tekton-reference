@@ -1,17 +1,15 @@
-apiVersion: v1
-items:
-- apiVersion: triggers.tekton.dev/v1beta1
-  kind: EventListener
-  metadata:
-    name: java-maven
-    namespace: ploigos-quickstart-examples
-  spec:
-    namespaceSelector: {}
-    resources: {}
-    serviceAccountName: pipeline
-    triggers:
-    - bindings:
-      - kind: ClusterTriggerBinding
-        ref: github-push
-      template:
-        ref: java-maven
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: java-maven
+  namespace: ploigos-quickstart-examples
+spec:
+  namespaceSelector: {}
+  resources: {}
+  serviceAccountName: pipeline
+  triggers:
+  - bindings:
+    - kind: ClusterTriggerBinding
+      ref: github-push
+    template:
+      ref: java-maven
