@@ -3,3 +3,4 @@ kind: Kustomization
 
 resources:
 - subscription-openshift-gitops.yaml
+- cluster-rbac/
