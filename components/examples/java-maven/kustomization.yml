@@ -4,4 +4,5 @@ kind: Kustomization
 resources:
   - java-maven-el.yml
   - java-maven-el-route.yml
+  - java-maven-pipeline.yml
   - java-maven-tt.yml
