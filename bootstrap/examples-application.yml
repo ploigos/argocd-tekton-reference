@@ -10,7 +10,7 @@ spec:
   project: default
 
   source:
-    path: components/examples
+    path: components/examples/
     repoURL: https://github.com/ploigos/ploigos-quickstart.git
 
   destination:

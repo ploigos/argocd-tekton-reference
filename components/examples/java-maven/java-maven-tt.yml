@@ -1,12 +1,8 @@
 apiVersion: triggers.tekton.dev/v1beta1
 kind: TriggerTemplate
 metadata:
-  creationTimestamp: "2022-02-22T19:43:07Z"
-  generation: 1
-  name: trigger-template-java-maven-5ccybf
-  namespace: ploigos-quickstart
-  resourceVersion: "60413"
-  uid: e118c7ce-549a-47c2-8277-4500c8e3f729
+  name: java-maven
+  namespace: ploigos-quickstart-examples
 spec:
   params:
   - name: git-revision
@@ -25,7 +21,7 @@ spec:
       labels:
         app.kubernetes.io/instance: ploigos-quickstart
         tekton.dev/pipeline: java-maven
-      namespace: ploigos-quickstart
+      namespace: ploigos-quickstart-examples
     spec:
       params:
       - name: mvnArgs
@@ -37,7 +33,7 @@ spec:
       - name: appRepoRef
         value: main
       - name: appImage
-        value: quarkus-quickstarts/getting-started:latest
+        value: ploigos-quickstart-examples/java-maven:latest
       - name: targetRegistry
         value: image-registry.openshift-image-registry.svc
       - name: tlsVerify
