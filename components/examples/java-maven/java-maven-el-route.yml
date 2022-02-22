@@ -1,0 +1,16 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  namespace: ploigos-quickstart-examples
+  name: java-maven-el
+spec:
+  port:
+    targetPort: 8080
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: el-java-maven
+    weight: 100
+  wildcardPolicy: None
