@@ -108,8 +108,6 @@ spec:
     workspaces:
     - name: source
       workspace: app
-#    - name: container-auth
-#      workspace: container-auth
 
   workspaces:
   - description: |
