@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: buildah-and-oc
+  name: sonarqube
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,18 +10,17 @@ spec:
   project: default
 
   source:
-    path: components/examples/pipeline-tutorial
+    path: components/third-party/sonarqube/
     repoURL: https://github.com/ploigos/ploigos-quickstart.git
-    targetRevision: pipeline-tutorial
 
   destination:
-    namespace: quickstart-buildah-and-oc
+    namespace: quickstart-sonarqube
     server: https://kubernetes.default.svc
 
   syncPolicy:
 
     automated:
-      prune: false
+      prune: true
       selfHeal: true
 
     syncOptions:
