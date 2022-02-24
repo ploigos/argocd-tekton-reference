@@ -15,7 +15,6 @@ A quickstart to get you up and running quickly with Red Hat OpenShift Pipelines 
 5. Install any extras that interest you, examples:
    * To install *all* of the extras - `oc create -k bootstrap/extras/`
    * To install individual extras, use the -f switch and specify individual files in the bootstrap directory:
-     * `oc create -f bootstrap/extras/example-apps/java-maven.yml`
      * `oc create -f bootstrap/extras/third-party-services/sonarqube.yml`
    * To install all extras in a subdirectory, use the -k switch and specify a subdirectory of `bootstrap/extras/`:
      * `oc create -k bootstrap/extras/third-party-services/`
