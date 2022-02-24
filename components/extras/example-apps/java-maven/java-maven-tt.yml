@@ -20,7 +20,7 @@ spec:
       labels:
         app.kubernetes.io/instance: ploigos-quickstart
         tekton.dev/pipeline: java-maven
-      namespace: quickstart-java-maven
+      namespace: quickstart-app-java-maven
     spec:
       params:
       - name: mvnArgs
