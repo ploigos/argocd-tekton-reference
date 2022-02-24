@@ -7,9 +7,6 @@ metadata:
     app.kubernetes.io/instance: sonarqube
   name: sonarqube
 spec:
-  clusterIP: 10.217.4.249
-  clusterIPs:
-  - 10.217.4.249
   internalTrafficPolicy: Cluster
   ipFamilies:
   - IPv4
