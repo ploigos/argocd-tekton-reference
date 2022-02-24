@@ -12,6 +12,7 @@ spec:
   source:
     path: components/examples/
     repoURL: https://github.com/ploigos/ploigos-quickstart.git
+    targetRevision: pipeline-tutorial
 
   destination:
     namespace: ploigos-quickstart-examples
