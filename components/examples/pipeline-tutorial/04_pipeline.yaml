@@ -22,7 +22,7 @@ spec:
   - name: TLSVERIFY
     type: string
     description: Whether buildah should use TLS verification for interacting with container registries
-    default: true
+    default: "true"
   tasks:
   - name: fetch-repository
     taskRef:
