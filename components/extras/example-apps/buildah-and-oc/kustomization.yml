@@ -8,3 +8,4 @@ resources:
   - update_deployment_task.yaml
   - event_listener.yaml
   - pipeline.yaml
+  - trigger.yml
