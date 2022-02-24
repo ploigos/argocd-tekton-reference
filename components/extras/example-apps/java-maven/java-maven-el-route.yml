@@ -1,7 +1,6 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  namespace: ploigos-quickstart-examples
   name: java-maven-el
 spec:
   port:

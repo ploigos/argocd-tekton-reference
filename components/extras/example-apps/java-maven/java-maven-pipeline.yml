@@ -2,7 +2,6 @@ apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: java-maven
-  namespace: ploigos-quickstart-examples
 spec:
 
   params:

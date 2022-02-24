@@ -13,7 +13,7 @@ A quickstart to get you up and running quickly with Red Hat OpenShift Pipelines 
    * `oc create -k bootstrap/core/`
    * This will install the OpenShift Pipelines Operator and some reusable Tekton custom resources (Pipelines and Tasks).
 5. Install any extras that interest you, examples:
-   * To install *all* of the extras - `oc create -k boostrap/extras/`
+   * To install *all* of the extras - `oc create -k bootstrap/extras/`
    * To install individual extras, use the -f switch and specify individual files in the bootstrap directory:
      * `oc create -f bootstrap/extras/example-apps/java-maven.yml`
      * `oc create -f bootstrap/extras/third-party-services/sonarqube.yml`
