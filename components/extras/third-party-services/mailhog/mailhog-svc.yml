@@ -7,9 +7,6 @@ metadata:
     app.kubernetes.io/instance: mailhog
   name: mailhog
 spec:
-  clusterIP: 10.217.4.113
-  clusterIPs:
-  - 10.217.4.113
   internalTrafficPolicy: Cluster
   ipFamilies:
   - IPv4
