@@ -10,7 +10,7 @@ spec:
   project: default
 
   source:
-    path: components/shared-tekton-crs
+    path: components/core/shared-tekton-crs
     repoURL: https://github.com/ploigos/ploigos-quickstart.git
 
   destination:

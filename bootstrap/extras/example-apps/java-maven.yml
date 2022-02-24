@@ -10,7 +10,7 @@ spec:
   project: default
 
   source:
-    path: components/example-apps/java-maven
+    path: components/extras/example-apps/java-maven
     repoURL: https://github.com/ploigos/ploigos-quickstart.git
     targetRevision: main
 

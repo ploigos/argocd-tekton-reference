@@ -10,7 +10,7 @@ spec:
   project: default
 
   source:
-    path: components/third-party/mailhog/
+    path: components/extras/third-party-services/mailhog/
     repoURL: https://github.com/ploigos/ploigos-quickstart.git
 
   destination:

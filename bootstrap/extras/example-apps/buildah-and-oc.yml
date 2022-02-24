@@ -10,7 +10,7 @@ spec:
   project: default
 
   source:
-    path: components/example-apps/buildah-and-oc
+    path: components/extras/example-apps/buildah-and-oc
     repoURL: https://github.com/ploigos/ploigos-quickstart.git
     targetRevision: main
 
