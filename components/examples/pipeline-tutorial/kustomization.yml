@@ -7,3 +7,4 @@ resources:
   - 04_pipeline.yaml
   - 01_apply_manifest_task.yaml
   - 02_template.yaml
+  - 04_event_listener.yaml
