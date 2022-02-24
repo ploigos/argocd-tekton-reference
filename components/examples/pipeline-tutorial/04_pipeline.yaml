@@ -19,6 +19,10 @@ spec:
   - name: IMAGE
     type: string
     description: image to be build from the code
+  - name: TLSVERIFY
+    type: string
+    description: Whether buildah should use TLS verification for interacting with container registries
+    default: true
   tasks:
   - name: fetch-repository
     taskRef:
@@ -43,6 +47,8 @@ spec:
     params:
     - name: IMAGE
       value: $(params.IMAGE)
+    - name: TLSVERIFY
+      value: $(params.TLSVERIFY)
     workspaces:
     - name: source
       workspace: shared-workspace
