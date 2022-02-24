@@ -1,8 +1,0 @@
-FROM registry.redhat.io/rhel8/go-toolset:1.16
-RUN go get github.com/mikefarah/yq/v4
-
-USER root
-RUN cp /opt/app-root/src/go/bin/yq /usr/local/bin/yq
-USER 1001
-
-CMD yq
