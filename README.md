@@ -4,17 +4,14 @@ A quickstart to get you up and running quickly with Red Hat OpenShift Pipelines 
 
 ## Getting Started
 1. Install OpenShift GitOps and configure relevant RBAC settings.
-   * `oc create -k bootstrap/openshift-gitops/`
+   * `oc create -k bootstrap/`
 2. Wait for the OpenShift operator to be installed and start ArgoCD. This may take a few minutes,
    depending on your cluster. Wait until you are able to browse to the ArgoCD landing page and log in successfully.
-3. From this point on, everything is installed by creating on one or more ArgoCD Applications.
-   These Applications configure OpenShift GitOps to deploy resource manifests placed in the `components/` directory.
-4. Install the minimum additional requirements to make the quickstart work.
-   * `oc create -k bootstrap/core/`
-   * This will install the OpenShift Pipelines Operator and some reusable Tekton custom resources (Pipelines and Tasks).
-5. Install any extras that interest you, examples:
-   * To install *all* of the extras - `oc create -k bootstrap/extras/`
-   * To install individual extras, use the -f switch and specify individual files in the bootstrap directory:
-     * `oc create -f bootstrap/extras/third-party-services/sonarqube.yml`
-   * To install all extras in a subdirectory, use the -k switch and specify a subdirectory of `bootstrap/extras/`:
-     * `oc create -k bootstrap/extras/third-party-services/`
+3. Install *ONLY ONE* of the "app-of-apps" ArgoCD Applications:
+   * To install everything: `oc create -f argo-cd-apps/app-of-apps/everything.yml`
+   * -OR- To install only the minimum components: `oc create -f argo-cd-apps/app-of-apps/minimal.yml`
+4. The "app-of-apps" Application will create other Applications, which will create some or all of the resources in the
+   'components/' directory.
+5. (Optional) If you installed the `minimum` app-of-apps, you can now choose to install other applications à la carte.
+   * Example: `oc create -k argo-cd-apps/base/third-party-services/sonarqube/` will install SonarQube.
+   * Example: `oc create -k argo-cd-apps/base/example-apps/java-maven-cd/` will install an example pipeline that deploys a java application.

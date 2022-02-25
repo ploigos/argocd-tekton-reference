@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: quickstart-app-buildah-and-oc
+  name: openshift-pipelines
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,18 +10,17 @@ spec:
   project: default
 
   source:
-    path: components/extras/example-apps/buildah-and-oc
+    path: components/openshift-pipelines
     repoURL: https://github.com/ploigos/ploigos-quickstart.git
-    targetRevision: main
 
   destination:
-    namespace: quickstart-app-buildah-and-oc
+    namespace: openshift-operators
     server: https://kubernetes.default.svc
 
   syncPolicy:
 
     automated:
-      prune: false
+      prune: true
       selfHeal: true
 
     syncOptions:

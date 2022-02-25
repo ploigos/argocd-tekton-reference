@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: quickstart-sonarqube
+  name: quickstart-app-java-maven-cd
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,11 +10,12 @@ spec:
   project: default
 
   source:
-    path: components/extras/third-party-services/sonarqube/
+    path: components/example-apps/java-maven-cd
     repoURL: https://github.com/ploigos/ploigos-quickstart.git
+    targetRevision: main
 
   destination:
-    namespace: quickstart-sonarqube
+    namespace: quickstart-app-java-maven-cd
     server: https://kubernetes.default.svc
 
   syncPolicy:

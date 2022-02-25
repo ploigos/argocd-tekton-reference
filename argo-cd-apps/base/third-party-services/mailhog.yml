@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: quickstart-shared-tekton-crs
+  name: quickstart-mailhog
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,11 +10,11 @@ spec:
   project: default
 
   source:
-    path: components/core/shared-tekton-crs
+    path: components/third-party-services/mailhog/
     repoURL: https://github.com/ploigos/ploigos-quickstart.git
 
   destination:
-    namespace: quickstart-shared-tekton-crs
+    namespace: quickstart-mailhog
     server: https://kubernetes.default.svc
 
   syncPolicy:

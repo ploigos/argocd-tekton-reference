@@ -1,0 +1,8 @@
+resources:
+  - ../../base/openshift-pipelines
+  - ../../base/shared-tekton-crs
+
+namespace: openshift-gitops
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
