@@ -2,7 +2,7 @@
 set -ex
 
 IMAGE_REGISTRY=quay.io
-IMAGE_REGISTRY_USER=dwinchell_redhat
+IMAGE_REGISTRY_USER=tssc
 IMAGE_TAG=latest
 BUNDLES_DIR=bundles
 
