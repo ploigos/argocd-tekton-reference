@@ -10,6 +10,6 @@ spec:
     termination: edge
   to:
     kind: Service
-    name: el-java-maven-cd
+    name: el-java-maven-cd-bundle
     weight: 100
   wildcardPolicy: None
