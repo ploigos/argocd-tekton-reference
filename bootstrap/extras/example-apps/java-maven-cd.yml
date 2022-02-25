@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: quickstart-app-java-maven
+  name: quickstart-app-java-maven-cd
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
