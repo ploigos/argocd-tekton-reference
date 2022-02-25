@@ -5,7 +5,6 @@ metadata:
     app: java-maven
   name: java-maven
 spec:
-  host: java-maven-quickstart-app-java-maven-cd-bundle.apps.cluster-75zmj.75zmj.sandbox383.opentlc.com
   port:
     targetPort: 8080-tcp
   to:
