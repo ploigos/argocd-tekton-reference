@@ -1,7 +1,7 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: java-maven-el
+  name: java-maven-ci-el
 spec:
   port:
     targetPort: 8080
@@ -10,6 +10,6 @@ spec:
     termination: edge
   to:
     kind: Service
-    name: el-java-maven
+    name: el-java-maven-ci
     weight: 100
   wildcardPolicy: None

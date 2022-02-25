@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: quickstart-app-java-maven
+  name: quickstart-app-java-maven-ci
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,12 +10,12 @@ spec:
   project: default
 
   source:
-    path: components/example-apps/java-maven
+    path: components/example-apps/java-maven-ci
     repoURL: https://github.com/ploigos/ploigos-quickstart.git
     targetRevision: main
 
   destination:
-    namespace: quickstart-app-java-maven
+    namespace: quickstart-app-java-maven-ci
     server: https://kubernetes.default.svc
 
   syncPolicy:

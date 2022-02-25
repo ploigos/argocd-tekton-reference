@@ -43,7 +43,7 @@ spec:
                 - name: appRepoUrl
                   value: https://github.com/dwinchell/quarkus-quickstarts.git
                 - name: appImage
-                  value: quickstart-app-java-maven/java-maven:latest
+                  value: quickstart-app-java-maven-ci/java-maven-ci:latest
                 - name: appRepoRef
                   value: main
                 - name: containerBuildContext
@@ -53,7 +53,7 @@ spec:
                 - name: verbose
                   value: 'true'
               pipelineRef:
-                name: java-maven
+                name: java-maven-ci
               resources: []
               status: null
               workspaces:
