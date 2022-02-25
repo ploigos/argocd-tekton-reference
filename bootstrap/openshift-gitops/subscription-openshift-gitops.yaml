@@ -10,4 +10,3 @@ spec:
   source: redhat-operators
   sourceNamespace: openshift-marketplace
   startingCSV: openshift-gitops-operator.v1.4.2
-
