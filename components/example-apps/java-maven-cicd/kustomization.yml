@@ -5,6 +5,6 @@ resources:
   - app-deployment.yml
   - app-route.yml
   - app-svc.yml
-  - java-maven-cd-el.yml
-  - java-maven-cd-el-route.yml
-  - java-maven-cd-pipeline.yml
+  - eventlistener.yml
+  - eventlistener-route.yml
+  - pipeline.yml

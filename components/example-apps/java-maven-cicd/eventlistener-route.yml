@@ -1,7 +1,7 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: java-maven-cd-el
+  name: java-maven-cicd-el
 spec:
   port:
     targetPort: 8080

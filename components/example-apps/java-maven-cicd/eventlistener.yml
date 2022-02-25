@@ -1,7 +1,7 @@
 apiVersion: triggers.tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: java-maven-cd
+  name: java-maven-cicd
 spec:
   namespaceSelector: {}
   resources: {}
@@ -28,9 +28,9 @@ spec:
                 argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               generateName: java-maven-cd-
               labels:
-                app.kubernetes.io/instance: java-maven-cd
-                tekton.dev/pipeline: java-maven-cd
-              namespace: quickstart-app-java-maven-cd
+                app.kubernetes.io/instance: java-maven-cicd
+                tekton.dev/pipeline: java-maven-cicd
+              namespace: quickstart-app-java-maven-cicd
             spec:
               params:
                 - name: mvnArgs
@@ -43,7 +43,7 @@ spec:
                 - name: appRepoUrl
                   value: https://github.com/dwinchell/quarkus-quickstarts.git
                 - name: appImage
-                  value: image-registry.openshift-image-registry.svc:5000/quickstart-app-java-maven-cd/java-maven:latest
+                  value: image-registry.openshift-image-registry.svc:5000/quickstart-app-java-maven-cicd/java-maven:latest
                 - name: appRepoRef
                   value: main
                 - name: containerBuildContext
@@ -55,7 +55,7 @@ spec:
                 - name: verbose
                   value: 'true'
               pipelineRef:
-                name: java-maven-cd
+                name: java-maven-cicd
               resources: []
               status: null
               workspaces:
