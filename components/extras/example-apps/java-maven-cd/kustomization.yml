@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - java-maven-cd-el.yml
+  - java-maven-cd-el-route.yml
+  - java-maven-cd-pipeline.yml
+  - java-maven-cd-tt.yml
