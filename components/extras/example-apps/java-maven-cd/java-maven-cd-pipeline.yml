@@ -26,6 +26,11 @@ spec:
     name: appImage
     type: string
   - description: |
+      Restart this deployment after building the image. This will cause the Pod to restart. It will pull and use the
+      newly built image after every build.
+    name: restartDeployment
+    type: string
+  - description: |
       The container registry to push the image to.
     name: targetRegistry
     default: image-registry.openshift-image-registry.svc
@@ -44,12 +49,6 @@ spec:
     description: |
       The path to the application's Containerfile or Dockerfile relative to the root of the source repository.
     name: containerfile
-    type: string
-  - default: IfNotPresent
-    description: |
-      Policy for pulling new versions of the imageTag for the CI worker images
-      when running this pipeline.
-    name: workflowWorkersImagePullPolicy
     type: string
 
   tasks:
@@ -108,6 +107,21 @@ spec:
     workspaces:
     - name: source
       workspace: source
+
+
+  - name: deploy-latest
+    params:
+      - name: SCRIPT
+        value: $(params.rollout-deployment)
+
+    runAfter:
+      - build-application
+    taskRef:
+      kind: ClusterTask
+      name: buildah
+    workspaces:
+      - name: source
+        workspace: source
 
   workspaces:
   - description: |

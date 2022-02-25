@@ -50,6 +50,8 @@ spec:
                   value: getting-started/
                 - name: containerfile
                   value: src/main/docker/Dockerfile.jvm
+                - name: restartDeployment
+                  value: java-maven
                 - name: verbose
                   value: 'true'
               pipelineRef:
