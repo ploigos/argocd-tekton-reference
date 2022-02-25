@@ -2,6 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - java-maven-el.yml
-  - java-maven-el-route.yml
-  - java-maven-pipeline.yml
+  - eventlistener.yml
+  - eventlistener-route.yml
+  - pipeline
