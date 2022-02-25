@@ -28,8 +28,8 @@ spec:
                 argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
               generateName: java-maven-cd-
               labels:
-                app.kubernetes.io/instance: ploigos-quickstart
-                tekton.dev/pipeline: java-maven
+                app.kubernetes.io/instance: java-maven-cd
+                tekton.dev/pipeline: java-maven-cd
               namespace: quickstart-app-java-maven
             spec:
               params:
