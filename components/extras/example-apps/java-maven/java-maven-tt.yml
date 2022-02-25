@@ -47,17 +47,7 @@ spec:
       resources: []
       status: null
       workspaces:
-      - name: home
-        volumeClaimTemplate:
-          spec:
-            accessModes:
-            - ReadWriteOnce
-            resources:
-              requests:
-                storage: 1Gi
-            storageClassName: gp2
-            volumeMode: Filesystem
-      - name: app
+      - name: source
         volumeClaimTemplate:
           spec:
             accessModes:

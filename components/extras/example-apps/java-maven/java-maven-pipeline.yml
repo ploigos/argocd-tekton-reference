@@ -73,7 +73,7 @@ spec:
       name: git-clone
     workspaces:
     - name: output
-      workspace: app
+      workspace: source
 
   - name: build-application
     params:
@@ -86,7 +86,7 @@ spec:
       name: maven
     workspaces:
       - name: source
-        workspace: app
+        workspace: source
       - name: maven-settings
         workspace: maven-settings
 
@@ -107,16 +107,12 @@ spec:
       name: buildah
     workspaces:
     - name: source
-      workspace: app
+      workspace: source
 
   workspaces:
   - description: |
-      Workspace for the container users home directory.
-    name: home
-  - description: |
-      Workspace to checkout the application this workflow is for and set as the working directory
-      for the step executions.
-    name: app
+     Holds the application source code.
+    name: source
   - description: |
       Workspace for the Maven settings directory (.m2). Useful for adding files like settings.xml.
       You can use a ConfigMap or Secret to inject files like settings.xml.
