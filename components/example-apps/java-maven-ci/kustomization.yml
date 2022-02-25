@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - eventlistener.yml
   - eventlistener-route.yml
-  - pipeline
+  - pipeline.yml
