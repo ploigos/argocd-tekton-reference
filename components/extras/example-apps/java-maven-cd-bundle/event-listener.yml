@@ -55,7 +55,8 @@ spec:
                 - name: verbose
                   value: 'true'
               pipelineRef:
-                bundle: quay.io/dwinchell_redhat/java-maven-cd-pipeline-task-bundle
+                name: java-maven-cd
+                bundle: quay.io/dwinchell_redhat/java-maven-cd-pipeline-task-bundle:latest
               resources: []
               status: null
               workspaces:
