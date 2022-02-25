@@ -89,10 +89,10 @@ spec:
       - name: maven-settings
         workspace: maven-settings
 
-  - name: ci-static-code-analysis
+  - name: sonarqube-scan
     params:
     runAfter:
-      - ci-package-application
+      - build-application
     taskRef:
       kind: ClusterTask
       name: sonarqube-scanner
