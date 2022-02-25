@@ -94,6 +94,7 @@ spec:
     runAfter:
       - ci-package-application
     taskRef:
+      kind: ClusterTask
       name: sonarqube-scanner
     when:
       - input: $(tasks.ci-stage-gate.results.matches)
