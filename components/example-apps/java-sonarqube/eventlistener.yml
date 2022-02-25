@@ -1,0 +1,75 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: java-maven-cd
+spec:
+  namespaceSelector: {}
+  resources: {}
+  serviceAccountName: pipeline
+  triggers:
+  - name: java-maven-cd
+    bindings:
+    - kind: ClusterTriggerBinding
+      ref: github-push
+    template:
+      spec:
+        params:
+          - name: git-revision
+          - name: git-commit-message
+          - name: git-repo-url
+          - name: git-repo-name
+          - name: content-type
+          - name: pusher-name
+        resourcetemplates:
+          - apiVersion: tekton.dev/v1beta1
+            kind: PipelineRun
+            metadata:
+              annotations:
+                argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+              generateName: java-maven-cd-
+              labels:
+                app.kubernetes.io/instance: java-maven-cd
+                tekton.dev/pipeline: java-maven-cd
+              namespace: quickstart-app-java-maven-cd
+            spec:
+              params:
+                - name: mvnArgs
+                  value:
+                    - "--no-transfer-progress"
+                    - "-DskipITs"
+                    - "-f"
+                    - "getting-started/"
+                    - "package"
+                - name: appRepoUrl
+                  value: https://github.com/dwinchell/quarkus-quickstarts.git
+                - name: appImage
+                  value: image-registry.openshift-image-registry.svc:5000/quickstart-app-java-maven-cd/java-maven:latest
+                - name: appRepoRef
+                  value: main
+                - name: containerBuildContext
+                  value: getting-started/
+                - name: containerfile
+                  value: src/main/docker/Dockerfile.jvm
+                - name: rolloutDeployment
+                  value: java-maven
+                - name: verbose
+                  value: 'true'
+              pipelineRef:
+                name: java-maven-cd
+              resources: []
+              status: null
+              workspaces:
+                - name: source
+                  volumeClaimTemplate:
+                    spec:
+                      accessModes:
+                        - ReadWriteOnce
+                      resources:
+                        requests:
+                          storage: 1Gi
+                      storageClassName: gp2
+                      volumeMode: Filesystem
+                - emptyDir: {}
+                  name: maven-settings
+                - emptyDir: {}
+                  name: container-auth
