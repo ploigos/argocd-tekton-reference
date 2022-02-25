@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - image: image-registry.openshift-image-registry.svc:5000/quickstart-app-java-maven-cd-bundle/java-maven
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: java-maven
         ports:
         - containerPort: 8080
