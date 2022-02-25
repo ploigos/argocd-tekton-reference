@@ -73,4 +73,3 @@ spec:
                   name: maven-settings
                 - emptyDir: {}
                   name: container-auth
-

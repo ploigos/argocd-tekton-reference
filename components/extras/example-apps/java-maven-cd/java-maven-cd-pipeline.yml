@@ -113,15 +113,11 @@ spec:
     params:
       - name: SCRIPT
         value: $(params.rollout-deployment)
-
     runAfter:
-      - build-application
+      - build-container-image
     taskRef:
       kind: ClusterTask
-      name: buildah
-    workspaces:
-      - name: source
-        workspace: source
+      name: openshift-client
 
   workspaces:
   - description: |
