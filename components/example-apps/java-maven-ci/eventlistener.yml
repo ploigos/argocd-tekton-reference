@@ -30,7 +30,7 @@ spec:
               labels:
                 app.kubernetes.io/instance: java-maven
                 tekton.dev/pipeline: java-maven
-              namespace: quickstart-app-java-maven
+              namespace: quickstart-app-java-maven-ci
             spec:
               params:
                 - name: mvnArgs
