@@ -1,7 +1,7 @@
 apiVersion: triggers.tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: java-maven
+  name: java-maven-ci
 spec:
   namespaceSelector: {}
   resources: {}

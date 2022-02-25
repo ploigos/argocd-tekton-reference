@@ -37,13 +37,11 @@ spec:
                   value:
                     - "--no-transfer-progress"
                     - "-DskipITs"
-                    - "-f"
-                    - "getting-started/"
                     - "package"
                 - name: appRepoUrl
-                  value: https://github.com/dwinchell/quarkus-quickstarts.git
+                  value: https://github.com/dwinchell/reference-quarkus-mvn/
                 - name: appImage
-                  value: image-registry.openshift-image-registry.svc:5000/quickstart-app-java-maven-cd/java-maven:latest
+                  value: image-registry.openshift-image-registry.svc:5000/quickstart-app-java-sonarqube/reference-quarkus-maven:latest
                 - name: appRepoRef
                   value: main
                 - name: containerBuildContext
