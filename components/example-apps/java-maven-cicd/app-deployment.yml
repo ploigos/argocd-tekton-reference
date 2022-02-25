@@ -22,7 +22,7 @@ spec:
         deployment: java-maven
     spec:
       containers:
-      - image: image-registry.openshift-image-registry.svc:5000/quickstart-app-java-maven-cd/java-maven
+      - image: image-registry.openshift-image-registry.svc:5000/quickstart-app-java-maven-cicd/java-maven
         imagePullPolicy: Always
         name: java-maven
         ports:
