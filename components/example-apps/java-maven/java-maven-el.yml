@@ -43,7 +43,7 @@ spec:
                 - name: appRepoUrl
                   value: https://github.com/dwinchell/quarkus-quickstarts.git
                 - name: appImage
-                  value: image-registry.openshift-image-registry.svc:5000/quickstart-app-java-maven/java-maven:latest
+                  value: quickstart-app-java-maven/java-maven:latest
                 - name: appRepoRef
                   value: main
                 - name: containerBuildContext

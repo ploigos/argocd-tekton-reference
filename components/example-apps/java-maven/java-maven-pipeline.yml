@@ -21,6 +21,7 @@ spec:
       Git reference (tag, branch) of the application repository to run the pipeline for.
     name: appRepoRef
     type: string
+    default: main
   - description: |
       The pipeline will build and push an application image with this tag.
     name: appImage
@@ -28,7 +29,7 @@ spec:
   - description: |
       The container registry to push the image to.
     name: targetRegistry
-    default: image-registry.openshift-image-registry.svc
+    default: image-registry.openshift-image-registry.svc:5000
   - default: "true"
     description: |
       If this is "false", no tasks will use TLS verification. Leave it "true" in production. If you want to turn
@@ -44,12 +45,6 @@ spec:
     description: |
       The path to the application's Containerfile or Dockerfile relative to the root of the source repository.
     name: containerfile
-    type: string
-  - default: IfNotPresent
-    description: |
-      Policy for pulling new versions of the imageTag for the CI worker images
-      when running this pipeline.
-    name: workflowWorkersImagePullPolicy
     type: string
 
   tasks:
@@ -93,7 +88,7 @@ spec:
   - name: build-container-image
     params:
       - name: IMAGE
-        value: $(params.appImage)
+        value: $(params.targetRegistry)/$(params.appImage)
       - name: CONTEXT
         value: $(params.containerBuildContext)
       - name: DOCKERFILE
