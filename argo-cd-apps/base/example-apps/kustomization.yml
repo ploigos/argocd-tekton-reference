@@ -6,3 +6,4 @@ resources:
   - java-maven-bundle.yml
   - java-maven-ci.yml
   - java-maven-cicd.yml
+  - java-maven-sonarqube.yml
