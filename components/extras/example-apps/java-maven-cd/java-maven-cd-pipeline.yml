@@ -26,9 +26,9 @@ spec:
     name: appImage
     type: string
   - description: |
-      Restart this deployment after building the image. This will cause the Pod to restart. It will pull and use the
-      newly built image after every build.
-    name: restartDeployment
+      Rollout the deployment with this name after building the image. This will cause the Pod to restart. It will pull
+      and use the newly built image after every build.
+    name: rolloutDeployment
     type: string
   - description: |
       The container registry to push the image to.
@@ -112,7 +112,7 @@ spec:
   - name: deploy-latest
     params:
       - name: SCRIPT
-        value: $(params.rollout-deployment)
+        value: oc rollout restart deployment $(params.rolloutDeployment)
     runAfter:
       - build-container-image
     taskRef:
