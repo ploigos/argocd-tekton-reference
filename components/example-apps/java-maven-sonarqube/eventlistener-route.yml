@@ -1,7 +1,7 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: java-maven-cd-el
+  name: java-maven-sonarqube
 spec:
   port:
     targetPort: 8080
@@ -10,6 +10,6 @@ spec:
     termination: edge
   to:
     kind: Service
-    name: el-java-maven-cd
+    name: el-java-maven-sonarqube
     weight: 100
   wildcardPolicy: None

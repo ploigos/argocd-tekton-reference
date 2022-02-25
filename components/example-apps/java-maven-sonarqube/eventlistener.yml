@@ -1,7 +1,7 @@
 apiVersion: triggers.tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: java-maven-cd
+  name: java-maven-sonarqube
 spec:
   namespaceSelector: {}
   resources: {}
@@ -26,11 +26,11 @@ spec:
             metadata:
               annotations:
                 argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-              generateName: java-maven-cd-
+              generateName: java-maven-sonarqube-
               labels:
                 app.kubernetes.io/instance: java-maven-cd
                 tekton.dev/pipeline: java-maven-cd
-              namespace: quickstart-app-java-maven-cd
+              namespace: quickstart-app-java-maven-sonarqube
             spec:
               params:
                 - name: mvnArgs
@@ -53,7 +53,7 @@ spec:
                 - name: verbose
                   value: 'true'
               pipelineRef:
-                name: java-maven-cd
+                name: java-maven-sonarqube
               resources: []
               status: null
               workspaces:
