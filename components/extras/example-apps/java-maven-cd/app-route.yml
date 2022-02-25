@@ -1,0 +1,15 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: java-maven
+  name: java-maven
+spec:
+  host: java-maven-quickstart-app-java-maven-cd.apps.cluster-75zmj.75zmj.sandbox383.opentlc.com
+  port:
+    targetPort: 8080-tcp
+  to:
+    kind: Service
+    name: java-maven
+    weight: 100
+  wildcardPolicy: None
