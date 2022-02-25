@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
   - buildah-and-oc/
+  - java-maven-bundle/
   - java-maven-ci/
   - java-maven-cicd/
-  - java-maven-cicd-bundle/
-

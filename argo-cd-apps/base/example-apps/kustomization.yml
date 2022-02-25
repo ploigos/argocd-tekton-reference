@@ -3,6 +3,6 @@ kind: Kustomization
 
 resources:
   - buildah-and-oc.yml
-  - java-maven.yml
-  - java-maven-cd.yml
-  - java-maven-cd-bundle.yml
+  - java-maven-bundle.yml
+  - java-maven-ci.yml
+  - java-maven-cicd.yml
