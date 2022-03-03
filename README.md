@@ -30,7 +30,6 @@ A quickstart to get you up and running quickly with Red Hat OpenShift Pipelines 
 **TODO**
 
 ## What is Included?
-**TODO**
 
 ### Example Apps
 
@@ -40,4 +39,10 @@ Each one is in a directory under `components/example-apps/`.
 * **poc-starter** - The easiest way to get started. When you want to onboard a workload to OpenShift and you are doing a proof of concept, start here.
 * **production-starter** - **COMING SOON** -  When you want to onboard an application to OpenShift and it has to be production-ready or will be actively maintained by a development team, start here.
 * **reusable-pipeline** - Shows how to use Tekton Bundles to reuse the same pipeline definition for multiple workloads.
-* **sonarqube-scan** - Shows how to add a code quality scan to a pipeline using SonarQube. Requires sonarqube to be installed. See third-party-services/sonarqube/.
+* **sonarqube-scan** - Shows how to add a code quality scan to a pipeline using SonarQube. Requires sonarqube to be installed. See `third-party-services/sonarqube/`.
+
+### Third Party Services
+**TODO**
+
+### Third Party Tasks
+**TODO**
