@@ -3,5 +3,4 @@ kind: Kustomization
 
 resources:
   - example-apps/
-  - third-party-services/
   - openshift-pipelines.yml

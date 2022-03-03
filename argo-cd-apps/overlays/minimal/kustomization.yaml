@@ -1,6 +1,5 @@
 resources:
   - ../../base/openshift-pipelines
-  - ../../base/third-party-tasks
 
 namespace: openshift-gitops
 
