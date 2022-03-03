@@ -5,4 +5,3 @@ resources:
   - example-apps/
   - third-party-services/
   - openshift-pipelines.yml
-  - shared-tekton-crs.yml

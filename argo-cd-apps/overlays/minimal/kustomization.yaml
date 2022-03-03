@@ -1,6 +1,6 @@
 resources:
   - ../../base/openshift-pipelines
-  - ../../base/shared-tekton-crs
+  - ../../base/third-party-tasks
 
 namespace: openshift-gitops
 
