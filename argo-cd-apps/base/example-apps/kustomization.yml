@@ -2,8 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - buildah-and-oc.yml
   - java-maven-bundle.yml
-  - java-maven-ci.yml
   - java-maven-cicd.yml
   - java-maven-sonarqube.yml
