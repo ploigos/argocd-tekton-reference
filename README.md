@@ -21,27 +21,6 @@ A quickstart to get you up and running quickly with Red Hat OpenShift Pipelines 
 8. Monitor the progress of the pipeline run in the OpenShift development web console at Pipelines -> PipelineRuns, or with the cli command `tkn pipelinerun describe --last` 
 9. Check out the newly built application - **TODO LINK**
 
-## Customizing
-
-### Forking this Git Repo
-**TODO**
-
-#### (Optional) Triggering an ArgoCD Sync when the GitOps Repo Changes
-If your fork is on GitHub, go to Settings -> Webhooks -> Add Webhook.
-* `Payload URL` - Enter the *ArgoCD* webhook URL for your cluster. This is *NOT* the Tekton EventListener webhook URL. You can get the correct value with `oc get route openshift-gitops-server -n openshift-gitops -o wide`. The URL should look like https://openshift-gitops-server-openshift-gitops.[your.cluster.com]/api/webhook
-* `Content Type` - application/json
-* `SSL verification` - If your OpenShift cluster is using TLS certificates that GitHub does not trust, you will have to select SSL verification -> Disable. To avoid this when using github.com, you have to configure OpenShift with TLS certs signed by a well known certificate authority.
-
-### Forking the Example Application Repo
-The poc-starter example builds https://github.com/dwinchell/quarkus-quickstarts.git. You might want to fork that repository in order to set up webhooks or hack on the application code. In GitHub, you can follow that link and then use the "Fork" button at the top of the page.
-Then edit `components/example-apps/poc-starter/eventlistener.yml`. Commit that change and push it to your fork of the `openshift-pipelines-quickstart` repo. After that, the pipeline will clone and build your fork of the application code.
-
-#### (Optional) Triggering Pipeline Runs when the Application Code Changes
-If your fork is on GitHub, go to Settings -> Webhooks -> Add Webhook.
-* `Payload URL` - Enter the Tekton *EventListener* webhook URL for your cluster. This is *NOT* the ArgoCD webhook URL. You can get the correct value with `oc get route -n quickstart-poc-starter -o wide`. The URL should look like https://quickstart-poc-starter-el-quickstart-poc-starter.[your.cluster.com]/
-* `Content Type` - application/json
-* `SSL verification` - If your OpenShift cluster is using TLS certificates that GitHub does not trust, you will have to select SSL verification -> Disable. To avoid this when using github.com, you have to configure OpenShift with TLS certs signed by a well known certificate authority. 
-
 ## What is Included?
 
 ### Example Apps
@@ -59,3 +38,24 @@ Each one is in a directory under `components/example-apps/`.
 
 ### Third Party Tasks
 **TODO**
+
+## Customizing the Quickstart
+
+### Forking this Git Repo
+**TODO**
+
+#### (Optional) Triggering an ArgoCD Sync when the GitOps Repo Changes
+If your fork is on GitHub, go to Settings -> Webhooks -> Add Webhook.
+* `Payload URL` - Enter the *ArgoCD* webhook URL for your cluster. This is *NOT* the Tekton EventListener webhook URL. You can get the correct value with `oc get route openshift-gitops-server -n openshift-gitops -o wide`. The URL should look like https://openshift-gitops-server-openshift-gitops.[your.cluster.com]/api/webhook
+* `Content Type` - application/json
+* `SSL verification` - If your OpenShift cluster is using TLS certificates that GitHub does not trust, you will have to select SSL verification -> Disable. To avoid this when using github.com, you have to configure OpenShift with TLS certs signed by a well known certificate authority.
+
+### Forking the Example Application
+The poc-starter example builds https://github.com/dwinchell/quarkus-quickstarts.git. You might want to fork that repository in order to set up webhooks or hack on the application code. In GitHub, you can follow that link and then use the "Fork" button at the top of the page.
+Then edit `components/example-apps/poc-starter/eventlistener.yml`. Commit that change and push it to your fork of the `openshift-pipelines-quickstart` repo. After that, the pipeline will clone and build your fork of the application code.
+
+#### (Optional) Triggering Pipeline Runs when the Application Code Changes
+If your fork is on GitHub, go to Settings -> Webhooks -> Add Webhook.
+* `Payload URL` - Enter the Tekton *EventListener* webhook URL for your cluster. This is *NOT* the ArgoCD webhook URL. You can get the correct value with `oc get route -n quickstart-poc-starter -o wide`. The URL should look like https://quickstart-poc-starter-el-quickstart-poc-starter.[your.cluster.com]/
+* `Content Type` - application/json
+* `SSL verification` - If your OpenShift cluster is using TLS certificates that GitHub does not trust, you will have to select SSL verification -> Disable. To avoid this when using github.com, you have to configure OpenShift with TLS certs signed by a well known certificate authority. 
