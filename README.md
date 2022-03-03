@@ -15,3 +15,16 @@ A quickstart to get you up and running quickly with Red Hat OpenShift Pipelines 
 5. (Optional) If you installed the `minimum` app-of-apps, you can now choose to install other applications à la carte.
    * Example: `oc create -k argo-cd-apps/base/third-party-services/sonarqube/` will install SonarQube.
    * Example: `oc create -k argo-cd-apps/base/example-apps/java-maven-cd/` will install an example pipeline that deploys a java application.
+6. Look at all the stuff you installed! Browse to https://openshift-gitops-server-openshift-gitops.<<<your.cluster.com>>>/ or use the
+   menu option at the top of the OpenShift web console to open the ArgoCD console.
+7. 
+
+## Example Apps
+
+The quickstart includes several examples of how to use the technology stack to build and deploy user facing applications.
+Each one is in a directory under `components/example-apps/`.
+
+* **poc-starter** - The easiest way to get started. When you want to onboard a workload to OpenShift and you are doing a proof of concept, start here.
+* **production-starter** - **COMING SOON** -  When you want to onboard an application to OpenShift and it has to be production-ready or will be actively maintained by a development team, start here.
+* **reusable-pipeline** - Shows how to use Tekton Bundles to reuse the same pipeline definition for multiple workloads.
+* **sonarqube-scan** - Shows how to add a code quality scan to a pipeline using SonarQube. Requires sonarqube to be installed. See third-party-services/sonarqube/.
