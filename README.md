@@ -3,6 +3,8 @@
 A quickstart to get you up and running quickly with Red Hat OpenShift Pipelines and Red Hat OpenShift GitOps.
 
 ## Getting Started
+
+### Installation
 1. Install OpenShift GitOps and configure relevant RBAC settings.
    * `oc create -k bootstrap/`
 2. Wait for the OpenShift operator to be installed and start ArgoCD. This may take a few minutes,
@@ -17,9 +19,20 @@ A quickstart to get you up and running quickly with Red Hat OpenShift Pipelines 
    * Example: `oc create -k argo-cd-apps/base/example-apps/java-maven-cd/` will install an example pipeline that deploys a java application.
 6. Look at all the stuff you installed! Browse to https://openshift-gitops-server-openshift-gitops.<<<your.cluster.com>>>/ or use the
    menu option at the top of the OpenShift web console to open the ArgoCD console.
-7. 
+7. Try running a pipeline manually - `oc create -f ./test/pipelineruns/poc-starter.yml`
+8. Monitor the progress of the pipeine run in the OpenShift development web console at Pipelines -> PipelineRuns, or with the cli command `tkn pipelinerun describe --last` 
+9. Check out the newly built application - **TODO LINK**
 
-## Example Apps
+### Forking ths Git Repo
+**TODO**
+
+### Forking the Example Application Repo
+**TODO**
+
+## What is Included?
+**TODO**
+
+### Example Apps
 
 The quickstart includes several examples of how to use the technology stack to build and deploy user facing applications.
 Each one is in a directory under `components/example-apps/`.
