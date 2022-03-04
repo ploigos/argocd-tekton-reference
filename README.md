@@ -28,8 +28,8 @@ A quickstart to get you up and running quickly with Red Hat OpenShift Pipelines 
 The quickstart includes several examples of how to use the technology stack to build and deploy user facing applications.
 Each one is in a directory under `components/example-apps/`.
 
-* **poc-starter** - The easiest way to get started. When you want to onboard a workload to OpenShift and you are doing a proof of concept, start here.
-* **production-starter** - **COMING SOON** -  When you want to onboard an application to OpenShift and it has to be production-ready or will be actively maintained by a development team, start here.
+* **easy-mode** - Start here. It demonstrates the basics and works great for *non-production* proof of concepts, including demonstrations of onboarding new workloads.
+* **advanced-mode** - **COMING SOON** -  When you need more than easy-mode, use this.
 * **reusable-pipeline** - **COMING SOON** - Shows how to use Tekton Bundles to reuse the same pipeline definition for multiple workloads.
 * **sonarqube-scan** - **COMING SOON** - Shows how to add a code quality scan to a pipeline using SonarQube. Requires sonarqube to be installed. See `third-party-services/sonarqube/`.
 
@@ -39,7 +39,9 @@ Each one is in a directory under `components/example-apps/`.
 ### Third Party Tasks
 **TODO**
 
-## Customizing the Quickstart
+## Using Example Applications as Templates
+The example applications can be used as templates to onboard new applications to OpenShift. In some cases this is as easy as copying a directory and making a few simple edits.
+The README for each example application has instructions for this.
 
 ### Forking this Git Repo
 **TODO**
