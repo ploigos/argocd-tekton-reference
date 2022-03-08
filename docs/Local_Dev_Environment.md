@@ -13,11 +13,12 @@ You can use [Red Hat CodeReady Containers](https://developers.redhat.com/product
 # Instructions
 
 1. [Install CRC](https://developers.redhat.com/download-manager/link/3868678)
-2. **Do step this BEFORE you run crc start**. Configure CRC with enough resources to run the quickstart:
+2. `crc setup`
+3. **Do step this BEFORE you run crc start**. Configure CRC with enough resources to run the quickstart:
    1. `crc config set memory 24576`
    2. `crc config set cpus 7`
-3. `crc start`
-4. Login to OpenShift as kubeadmin using the `oc` cli. Refer to the output of `crc console --credentials`
-5. Run `crc console` to open the OpenShift web console.
-6. Login to the web console as kubeadmin (see the `crc console --credentials` output for the password).
-7. You can now proceed with the [Getting Started section of the quickstart README](../README.md#Getting Started).
+4. `crc start`
+5. Login to OpenShift as kubeadmin using the `oc` cli. Refer to the output of `crc console --credentials`
+6. Run `crc console` to open the OpenShift web console.
+7. Login to the web console as kubeadmin (see the `crc console --credentials` output for the password).
+8. You can now proceed with the [Getting Started section of the quickstart README](../README.md#Getting Started).
