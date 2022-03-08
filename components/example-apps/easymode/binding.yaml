@@ -1,7 +1,7 @@
 apiVersion: triggers.tekton.dev/v1beta1
 kind: TriggerBinding
 metadata:
-  name: vote-app
+  name: easymode
 spec:
   params:
   - name: git-repo-url

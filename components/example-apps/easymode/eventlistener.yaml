@@ -1,8 +1,8 @@
 apiVersion: triggers.tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: vote-app
+  name: easymode
 spec:
   serviceAccountName: pipeline
   triggers:
-    - triggerRef: vote-trigger
+    - triggerRef: easymode

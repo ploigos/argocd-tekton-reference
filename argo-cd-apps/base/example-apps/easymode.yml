@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: quickstart-app-poc-starter
+  name: quickstart-app-easymode
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,7 +10,7 @@ spec:
   project: default
 
   source:
-    path: components/example-apps/buildah-and-oc
+    path: components/example-apps/easymode
     repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
     targetRevision: main
 
