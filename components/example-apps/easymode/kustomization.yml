@@ -2,9 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - apply-manifest-task.yaml
-  - binding.yaml
-  - eventlistener.yaml
-  - pipeline.yaml
-  - template.yaml
-  - update-deployment-task.yaml
+  - apply-manifest-task.yml
+  - eventlistener.yml
+  - pipeline.yml
+  - update-deployment-task.yml
