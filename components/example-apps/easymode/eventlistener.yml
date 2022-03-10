@@ -19,30 +19,30 @@ spec:
               default: pipelines-1.6
             - name: git-repo-name
               description: The name of the deployment to be created / patched
-            resourcetemplates:
-              - apiVersion: tekton.dev/v1beta1
-                kind: PipelineRun
-                metadata:
-                  generateName: easymode-$(tt.params.git-repo-name)-
-                spec:
-                  serviceAccountName: pipeline
-                  pipelineRef:
-                    name: easymode
-                  params:
-                    - name: deployment-name
-                      value: $(tt.params.git-repo-name)
-                    - name: git-url
-                      value: $(tt.params.git-repo-url)
-                    - name: git-revision
-                      value: $(tt.params.git-revision)
-                    - name: IMAGE
-                      value: image-registry.openshift-image-registry.svc:5000/pipelines-tutorial/$(tt.params.git-repo-name)
-                  workspaces:
-                    - name: shared-workspace
-                      volumeClaimTemplate:
-                        spec:
-                          accessModes:
-                            - ReadWriteOnce
-                          resources:
-                            requests:
-                              storage: 500Mi
+          resourcetemplates:
+            - apiVersion: tekton.dev/v1beta1
+              kind: PipelineRun
+              metadata:
+                generateName: easymode-$(tt.params.git-repo-name)-
+              spec:
+                serviceAccountName: pipeline
+                pipelineRef:
+                  name: easymode
+                params:
+                  - name: deployment-name
+                    value: $(tt.params.git-repo-name)
+                  - name: git-url
+                    value: $(tt.params.git-repo-url)
+                  - name: git-revision
+                    value: $(tt.params.git-revision)
+                  - name: IMAGE
+                    value: image-registry.openshift-image-registry.svc:5000/pipelines-tutorial/$(tt.params.git-repo-name)
+                workspaces:
+                  - name: shared-workspace
+                    volumeClaimTemplate:
+                      spec:
+                        accessModes:
+                          - ReadWriteOnce
+                        resources:
+                          requests:
+                            storage: 500Mi
