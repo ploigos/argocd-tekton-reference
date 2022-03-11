@@ -31,7 +31,7 @@ See [the local dev environment instructions](Local_Dev_Environment.md) if you wa
     4. Use `kubeadmin` as the user and the same password you used to login to the OpenShift Admin Console.
     5. If prompted with a screen that says "Authorize Access" Select "Allow Selected permissions".
 
-# Create the app-of-apps ArgoCD Application
+## Create the app-of-apps ArgoCD Application
 The quickstart uses ArgoCD (installed by the Red Hat Gitops Operator) to install everything else that is included:
 Tekton tasks, example applications, etc. To start the rest of the install, create an ArgoCD-specific custom resource
 specifying what to install.
