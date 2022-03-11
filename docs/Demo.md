@@ -14,7 +14,9 @@ See [the local dev environment instructions](Local_Dev_Environment.md) if you wa
    1. If you are using CRC, the URL is https://console-openshift-console.apps-crc.testing/
    2. Login as a user with ClusterAdmin. If you are using CRC, the user is `kubeadmin` and get the password with `crc console --credentials`
 2. Install the GitOps operator.
-   1. Operators -> Operator Hub -> Search "gitops" -> OpenShift GitOps -> Default Options
+   1. Operators -> Operator Hub -> Search "gitops" -> Choose "Red Hat OpenShift GitOps" -> Install
+   2. Use the default options
+   3. Select "Install"
 3. Create RBAC objects for ArgoCD
     1. Click the (+) icon at the top of the Admin Console to create a resource.
     2. Copy and paste the contents of [openshift-gitops-clusterroles.yml](../bootstrap/openshift-gitops-clusterroles.yml).
