@@ -20,7 +20,8 @@ See [the local dev environment instructions](Local_Dev_Environment.md) if you wa
 3. Create RBAC objects for ArgoCD
     1. Click the (+) icon at the top of the Admin Console to create a resource.
     2. Copy and paste the contents of [openshift-gitops-clusterroles.yml](../bootstrap/openshift-gitops-clusterroles.yml).
-    3. This allows ArgoCD to create operators and **disallows the user from making manual changes using the ArgoCD UI**.
+    3. Select "Create"
+    4. (This allows ArgoCD to create operators and **disallows the user from making manual changes using the ArgoCD UI**.)
 4. Open the ArgoCD web UI
    1. Wait for the GitOps operator to install and start its workload. This may take a few minutes. You can monitor the 
       progress of 1) the operator in the Operator Hub screen, and then 2) the pod deployments in the openshift-gitops project.
