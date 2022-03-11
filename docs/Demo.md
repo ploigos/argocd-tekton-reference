@@ -38,7 +38,7 @@ specifying what to install.
 1. Open the OpenShift Admin Console
 2. Create the ArgoCD Application CR
    1. Click the (+) icon at the top of the Admin Console to create a resource.
-   2. Copy and paste the contents of [everything.yml](../app-of-apps/everything.yml).
+   2. Copy and paste the contents of [everything.yml](../argo-cd-apps/app-of-apps/everything.yml).
 
 # Run a Pipeline
 6. Start the easymode pipeline
