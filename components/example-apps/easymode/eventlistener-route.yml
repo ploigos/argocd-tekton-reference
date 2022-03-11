@@ -10,6 +10,6 @@ spec:
     termination: edge
   to:
     kind: Service
-    name: easymode
+    name: el-easymode
     weight: 100
   wildcardPolicy: None
