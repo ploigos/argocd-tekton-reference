@@ -1,0 +1,33 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: easymode-mtges4
+spec:
+  params:
+  - name: deployment-name
+    value: pipelines-vote-api
+  - name: git-url
+    value: https://github.com/ploigos-reference-apps/pipelines-vote-api
+  - name: git-revision
+    value: main
+  - name: IMAGE
+    value: image-registry.openshift-image-registry.svc:5000/quickstart-app-easymode/pipelines-vote-api
+  - name: TLSVERIFY
+    value: "true"
+  pipelineRef:
+    name: easymode
+  serviceAccountName: pipeline
+  timeout: 1h0m0s
+  workspaces:
+  - name: shared-workspace
+    volumeClaimTemplate:
+      metadata:
+        creationTimestamp: null
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: gp2
+        volumeMode: Filesystem
