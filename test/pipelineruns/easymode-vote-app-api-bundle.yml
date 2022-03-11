@@ -16,6 +16,7 @@ spec:
     value: "true"
   pipelineRef:
     name: easymode
+    bundle: quay.io/dwinchell_redhat/easymode-bundle.yml
   serviceAccountName: pipeline
   timeout: 1h0m0s
   workspaces:
