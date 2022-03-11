@@ -5,5 +5,4 @@ resources:
   - apply-manifest-task.yml
   - eventlistener.yml
   - eventlistener-route.yml
-  - pipeline.yml
   - update-deployment-task.yml
