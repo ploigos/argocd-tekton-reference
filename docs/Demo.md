@@ -19,12 +19,13 @@ See [the local dev environment instructions](Local_Dev_Environment.md) if you wa
    1. Operators -> Operator Hub -> Search "gitops" -> Choose "Red Hat OpenShift GitOps" -> Install
    2. Use the default options
    3. Select "Install"
-3. Create RBAC objects for ArgoCD
+3. View the installed Operator ... **TODO**
+4. Create RBAC objects for ArgoCD
     1. Click the (+) icon at the top of the Admin Console to create a resource.
     2. Copy and paste the contents of [openshift-gitops-clusterroles.yml](../bootstrap/openshift-gitops-clusterroles.yml).
     3. Select "Create"
     4. (This allows ArgoCD to create operators and **disallows the user from making manual changes using the ArgoCD UI**.)
-4. Open the ArgoCD web UI
+5. Open the ArgoCD web UI
     1. Click the grid icon at the top of the Admin UI and select the link for the ArgoCD console.
     2. If the UI does not show up yet, wait for a few minutes and refresh your browser.
     3. "LOGIN VIA OpenShift"
@@ -37,8 +38,10 @@ Tekton tasks, example applications, etc. To start the rest of the install, creat
 specifying what to install.
 1. Open the OpenShift Admin Console
 2. Create the ArgoCD Application CR
-   1. Click the (+) icon at the top of the Admin Console to create a resource.
+   1. Click the (+) icon at the top of the OpenShift Admin Console to create a resource.
    2. Copy and paste the contents of [everything.yml](../argo-cd-apps/app-of-apps/everything.yml).
+3. Open the ArgoCD console to verify that the app-of-apps application and dependent applications were created.
+4. Open the "Installed Operators" view in the OpenShift Admin Console to verify that OpenShift Pipelines Operator was installed.
 
 # Run a Pipeline
 6. Start the easymode pipeline
