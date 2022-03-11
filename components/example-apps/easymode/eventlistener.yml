@@ -28,6 +28,7 @@ spec:
                 serviceAccountName: pipeline
                 pipelineRef:
                   name: easymode
+                  bundle: quay.io/dwinchell_redhat/easymode-pipeline-bundle:latest
                 params:
                   - name: deployment-name
                     value: $(tt.params.git-repo-name)
