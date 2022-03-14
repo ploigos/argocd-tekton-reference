@@ -123,6 +123,10 @@ An ***Application Archetype*** refers to the programming language and building a
 ***
  
 ### First, Setup A New Pipeline as a Service
+
+What we need to do
+1) show the easy-mode pipeline and how it is set up 
+2) create a new pipeline service for the
  
 1. Start the easy-mode pipeline
   1. **TODO**
