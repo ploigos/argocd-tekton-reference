@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  generateName: java-maven-minimal-app1-
+  generateName: java-maven-minimal-app2-
   namespace: pipelines-minimal
 spec:
   pipelineRef:
@@ -13,9 +13,9 @@ spec:
         - "-DskipITs"
         - "package"
     - name: appRepoUrl
-      value: https://github.com/ploigos-reference-apps/demo-app1.git
+      value: https://github.com/ploigos-reference-apps/demo-app2.git
     - name: appImage
-      value: pipelines-minimal/demo-app1:latest
+      value: pipelines-minimal/demo-app2:latest
     - name: appRepoRef
       value: main
     - name: verbose

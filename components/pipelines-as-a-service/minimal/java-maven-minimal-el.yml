@@ -37,8 +37,6 @@ spec:
                   value:
                     - "--no-transfer-progress"
                     - "-DskipITs"
-                    - "-f"
-                    - "getting-started/"
                     - "package"
                 - name: appRepoUrl
                   value: $(tt.params.git-repo-url)
@@ -47,9 +45,9 @@ spec:
                 - name: appRepoRef
                   value: main
                 - name: containerBuildContext
-                  value: getting-started/
+                  value: .
                 - name: containerfile
-                  value: src/main/docker/Dockerfile.jvm
+                  value: Containerfile
                 - name: rolloutDeployment
                   value: $(tt.params.git-repo-name)
                 - name: verbose

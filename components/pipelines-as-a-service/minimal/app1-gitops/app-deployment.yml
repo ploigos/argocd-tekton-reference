@@ -19,10 +19,10 @@ spec:
   template:
     metadata:
       labels:
-        deployment: java-maven
+        deployment: demo-app1
     spec:
       containers:
-      - image: image-registry.openshift-image-registry.svc:5000/quickstart-app-java-maven-cicd/java-maven
+      - image: image-registry.openshift-image-registry.svc:5000/pipelines-minimal/demo-app1
         imagePullPolicy: Always
         name: java-maven
         ports:
