@@ -12,11 +12,11 @@ spec:
   source:
     path: components/pipelines-as-a-service/easymode
     repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
+    targetRevision: demo
 
   destination:
     namespace: pipelines-easymode
     server: https://kubernetes.default.svc
-    targetRevision: demo
 
   syncPolicy:
 

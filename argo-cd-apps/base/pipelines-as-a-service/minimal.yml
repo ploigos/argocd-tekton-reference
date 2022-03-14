@@ -12,11 +12,11 @@ spec:
   source:
     path: components/pipelines-as-a-service/minimal
     repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
+    targetRevision: demo
 
   destination:
     namespace: pipelines-minimal
     server: https://kubernetes.default.svc
-    targetRevision: demo
 
   syncPolicy:
 
