@@ -2,8 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: java-maven
-  name: java-maven
+    app: demo-app1
+  name: demo-app1
 spec:
   internalTrafficPolicy: Cluster
   ipFamilies:
@@ -15,6 +15,6 @@ spec:
     protocol: TCP
     targetPort: 8080
   selector:
-    deployment: java-maven
+    deployment: demo-app1
   sessionAffinity: None
   type: ClusterIP

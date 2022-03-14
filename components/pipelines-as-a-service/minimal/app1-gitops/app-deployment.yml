@@ -2,15 +2,15 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: java-maven
-  name: java-maven
+    app: demo-app1
+  name: demo-app1
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      deployment: java-maven
+      deployment: demo-app1
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -19,12 +19,12 @@ spec:
   template:
     metadata:
       labels:
-        deployment: java-maven
+        deployment: demo-app1
     spec:
       containers:
-      - image: image-registry.openshift-image-registry.svc:5000/quickstart-app-java-maven-cicd/java-maven
+      - image: image-registry.openshift-image-registry.svc:5000/pipelines-minimal/demo-app1
         imagePullPolicy: Always
-        name: java-maven
+        name: demo-app1
         ports:
         - containerPort: 8080
           protocol: TCP

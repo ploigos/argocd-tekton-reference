@@ -1,0 +1,17 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: mailhog
+    app.kubernetes.io/component: mailhog
+    app.kubernetes.io/instance: mailhog
+  name: mailhog-smtp
+spec:
+  port:
+    targetPort: 1025-tcp
+  to:
+    kind: Service
+    name: mailhog
+    weight: 100
+  wildcardPolicy: None
+

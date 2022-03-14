@@ -1,0 +1,42 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: java-maven-minimal-app2-
+  namespace: pipelines-minimal
+spec:
+  pipelineRef:
+    name: java-maven-minimal
+  params:
+    - name: mvnArgs
+      value:
+        - "--no-transfer-progress"
+        - "-DskipITs"
+        - "package"
+    - name: appRepoUrl
+      value: https://github.com/ploigos-reference-apps/demo-app2.git
+    - name: appImage
+      value: pipelines-minimal/demo-app2:latest
+    - name: appRepoRef
+      value: main
+    - name: rolloutDeployment
+      value: demo-app2
+    - name: verbose
+      value: 'true'
+  workspaces:
+  - name: source
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        volumeMode: Filesystem
+  - name: maven-settings
+    emptyDir: { }
+    #secret:
+    #  secretName: maven-settings
+  - name: container-auth
+    emptyDir: { }
+#    secret:
+#      secretName: container-auth
