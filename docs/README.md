@@ -2,7 +2,7 @@
  
 This document explains how to demonstrate the setup and features of this quickstart using primarily web UIs.
  
-The [README](permalink: ../README.md) has instructions for getting started quickly and repeatably with the CLI. This guide uses
+The [README](../README.md) has instructions for getting started quickly and repeatably with the CLI. This guide uses
 web UIs to help an audience quickly understand with minimal background.
  
 You will need an OpenShift cluster for the Demo. It must be able to install the GitOps and Pipelines Operators from the Red Hat Marketplace.
