@@ -2,7 +2,7 @@
  
 This document explains how to demonstrate the setup and features of this quickstart using primarily web UIs.
  
-The [README](../README.md) has instructions for getting started quickly and repeatably with the CLI. This guide uses
+The [README](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/README.md) has instructions for getting started quickly and repeatably with the CLI. This guide uses
 web UIs to help an audience quickly understand with minimal background.
  
 You will need an OpenShift cluster for the Demo. It must be able to install the GitOps and Pipelines Operators from the Red Hat Marketplace.
@@ -133,7 +133,7 @@ Each of these components consists of many differing kubernets resourecs.  They i
 1. Open the OpenShift Admin Console
 2. Create the ArgoCD Application CR
    1. Click the (+) icon at the top of the OpenShift Admin Console to create a resource.
-   2. Copy and paste the contents of [everything.yml]({{site.baseurl}}/argo-cd-apps/app-of-apps/everything.yml).
+   2. Copy and paste the contents of [everything.yml](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/argo-cd-apps/app-of-apps/everything.yml).
 3. Open the ArgoCD console to verify that the app-of-apps application and dependent applications were created.
 4. Open the "Installed Operators" view in the OpenShift Admin Console to verify that OpenShift Pipelines Operator was installed.
  
