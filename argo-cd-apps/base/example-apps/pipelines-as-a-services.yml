@@ -17,6 +17,7 @@ spec:
   destination:
     namespace: pipelines-as-a-service
     server: https://kubernetes.default.svc
+    targetRevision: demo
 
   syncPolicy:
 
