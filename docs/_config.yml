@@ -1,1 +1,6 @@
+title: OpenShift Pipelines Quickstart
 theme: jekyll-theme-cayman
+url: https://github.com
+baseurl: ploigos/openshift-pipelines-quickstart/docs
+
+permalink: pretty
