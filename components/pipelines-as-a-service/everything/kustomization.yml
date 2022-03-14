@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - app1-gitops/
+  - java-maven-everything.yml
+  - java-maven-everything-el.yml
+  - java-maven-everything-el-route.yml

@@ -1,0 +1,133 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: java-maven-minimal
+spec:
+
+  params:
+  - default: ['package']
+    description: Arguments including goals, passed to the mvn command.
+    name: mvnArgs
+    type: array
+  - default: "false"
+    description: Log any sh commands used during execution.
+    name: verbose
+    type: string
+  - description: |
+      URL to the application repository to run the pipeline for.
+    name: appRepoUrl
+    type: string
+  - description: |
+      Git reference (tag, branch) of the application repository to run the pipeline for.
+    name: appRepoRef
+    type: string
+  - description: |
+      The pipeline will build and push an application image with this tag.
+    name: appImage
+    type: string
+  - description: |
+      Rollout the deployment with this name after building the image. This will cause the Pod to restart. It will pull
+      and use the newly built image after every build.
+    name: rolloutDeployment
+    type: string
+  - description: |
+      The container registry to push the image to.
+    name: targetRegistry
+    default: image-registry.openshift-image-registry.svc
+  - default: "true"
+    description: |
+      If this is "false", no tasks will use TLS verification. Leave it "true" in production. If you want to turn
+      off verification for only some tasks, fork the pipeline and add pipeline parameters.
+    name: tlsVerify
+    type: string
+  - default: .
+    description:
+      The context path for building the container. I.e. the directory from which you would run a docker build or buildah
+      bud command.
+    name: containerBuildContext
+  - default: ./Containerfile
+    description: |
+      The path to the application's Containerfile or Dockerfile relative to the root of the source repository.
+    name: containerfile
+    type: string
+
+  tasks:
+
+  - name: clone-application
+    params:
+    - name: verbose
+      value: $(params.verbose)
+    - name: url
+      value: $(params.appRepoUrl)
+    - name: revision
+      value: $(params.appRepoRef)
+    - name: deleteExisting
+      value: "true"
+    - name: sslVerify
+      value: $(params.tlsVerify)
+    - name: refspec
+      value: +refs/heads/$(params.appRepoRef):$(params.appRepoRef)
+    taskRef:
+      kind: ClusterTask
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: source
+
+  - name: build-application
+    params:
+      - name: GOALS
+        value: ["$(params.mvnArgs[*])"]
+    runAfter:
+      - clone-application
+    taskRef:
+      kind: ClusterTask
+      name: maven
+    workspaces:
+      - name: source
+        workspace: source
+      - name: maven-settings
+        workspace: maven-settings
+
+  - name: build-container-image
+    params:
+      - name: IMAGE
+        value: $(params.appImage)
+      - name: CONTEXT
+        value: $(params.containerBuildContext)
+      - name: DOCKERFILE
+        value: $(params.containerfile)
+      - name: TLSVERIFY
+        value: $(params.tlsVerify)
+    runAfter:
+    - build-application
+    taskRef:
+      kind: ClusterTask
+      name: buildah
+    workspaces:
+    - name: source
+      workspace: source
+
+
+  - name: deploy-latest
+    params:
+      - name: SCRIPT
+        value: oc rollout restart deployment $(params.rolloutDeployment)
+    runAfter:
+      - build-container-image
+    taskRef:
+      kind: ClusterTask
+      name: openshift-client
+
+  workspaces:
+  - description: |
+     Holds the application source code.
+    name: source
+  - description: |
+      Workspace for the Maven settings directory (.m2). Useful for adding files like settings.xml.
+      You can use a ConfigMap or Secret to inject files like settings.xml.
+      See https://github.com/tektoncd/catalog/tree/main/task/maven/0.2 for usage.
+    name: maven-settings
+  - description: |
+      Used to pass a json configuration file with authentication information for container registries.
+    name: container-auth

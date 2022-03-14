@@ -1,0 +1,71 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: java-maven-minimal
+spec:
+  namespaceSelector: {}
+  resources: {}
+  serviceAccountName: pipeline
+  triggers:
+  - name: java-maven-everything
+    bindings:
+    - kind: ClusterTriggerBinding
+      ref: github-push
+    template:
+      spec:
+        params:
+          - name: git-revision
+          - name: git-commit-message
+          - name: git-repo-url
+          - name: git-repo-name
+          - name: content-type
+          - name: pusher-name
+        resourcetemplates:
+          - apiVersion: tekton.dev/v1beta1
+            kind: PipelineRun
+            metadata:
+              annotations:
+                argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+              generateName: java-maven-everything-
+              labels:
+                app.kubernetes.io/instance: java-maven-everything
+                tekton.dev/pipeline: java-maven-everything
+              namespace: pipelines-everything
+            spec:
+              params:
+                - name: mvnArgs
+                  value:
+                    - "--no-transfer-progress"
+                    - "-DskipITs"
+                    - "package"
+                - name: appRepoUrl
+                  value: $(tt.params.git-repo-url)
+                - name: appImage
+                  value: image-registry.openshift-image-registry.svc:5000/pipelines-everything/$(tt.params.git-repo-name)
+                - name: appRepoRef
+                  value: main
+                - name: containerBuildContext
+                  value: .
+                - name: containerfile
+                  value: Containerfile
+                - name: rolloutDeployment
+                  value: $(tt.params.git-repo-name)
+                - name: verbose
+                  value: 'true'
+              pipelineRef:
+                name: java-maven-everything
+              workspaces:
+                - name: source
+                  volumeClaimTemplate:
+                    spec:
+                      accessModes:
+                        - ReadWriteOnce
+                      resources:
+                        requests:
+                          storage: 1Gi
+                      storageClassName: gp2
+                      volumeMode: Filesystem
+                - emptyDir: {}
+                  name: maven-settings
+                - emptyDir: {}
+                  name: container-auth
