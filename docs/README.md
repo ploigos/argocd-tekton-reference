@@ -201,5 +201,3 @@ In our source code repo, go to **Settings** -> **Webhooks** -> ***Add Webhook***
  #### Tekton - Ad
 
   ***TODO***
-
-{{ site.github }}
