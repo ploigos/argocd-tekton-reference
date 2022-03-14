@@ -37,6 +37,8 @@ You need to fork the following repositories to be successful with this demo.  If
 * [OpenShift Pipelines Quickstart](https://github.com/ploigos/openshift-pipelines-quickstart)
 * [Pipelines Vote API](https://github.com/ploigos-reference-apps/pipelines-vote-api)
 * [Pipelines Vote UI](https://github.com/ploigos-reference-apps/pipelines-vote-ui)
+* [Demo App 2 - JMM ](https://github.com/ploigos-reference-apps/demo-app1)
+* [Demo App 1 - JMM ](https://github.com/ploigos-reference-apps/demo-app2)
  
 ---
  
