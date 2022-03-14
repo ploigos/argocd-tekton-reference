@@ -3,6 +3,6 @@ kind: Kustomization
 
 resources:
   - app1-gitops/
-  - eventlistener.yml
-  - eventlistener-route.yml
-  - pipeline.yml
+  - minimal-el.yml
+  - minimal-el-route.yml
+  - java-maven-minimal.yml
