@@ -103,7 +103,7 @@ The platform consist of all the integration and deployment tooling & services re
 3. View the installed Operator ... **TODO**
 4. Create RBAC objects for ArgoCD
    1. Click the (+) icon at the top of the Admin Console to create a resource.
-   2. Copy and paste the contents of [openshift-gitops-clusterroles.yml](../bootstrap/openshift-gitops-clusterroles.yml).
+   2. Copy and paste the contents of [openshift-gitops-clusterroles.yml]({{ site.baseurl }}/bootstrap/openshift-gitops-clusterroles.yml).
    3. Select "Create"
    4. (This allows ArgoCD to create operators and **disallows the user from making manual changes using the ArgoCD UI**.)
 5. Open the ArgoCD web UI
@@ -133,7 +133,7 @@ Each of these components consists of many differing kubernets resourecs.  They i
 1. Open the OpenShift Admin Console
 2. Create the ArgoCD Application CR
    1. Click the (+) icon at the top of the OpenShift Admin Console to create a resource.
-   2. Copy and paste the contents of [everything.yml](../argo-cd-apps/app-of-apps/everything.yml).
+   2. Copy and paste the contents of [everything.yml]({{site.baseurl}}/argo-cd-apps/app-of-apps/everything.yml).
 3. Open the ArgoCD console to verify that the app-of-apps application and dependent applications were created.
 4. Open the "Installed Operators" view in the OpenShift Admin Console to verify that OpenShift Pipelines Operator was installed.
  
