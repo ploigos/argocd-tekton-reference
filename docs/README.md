@@ -112,12 +112,22 @@ The platform consist of all the integration and deployment tooling & services re
    5. If prompted with a screen that says "Authorize Access" Select "Allow Selected permissions"
  
 ### Second, Create the app-of-apps ArgoCD Application
- 
-The quickstart uses ArgoCD (installed by the Red Hat Gitops Operator) to install the following:
- 
-Tekton tasks, sample applications, etc. To start the rest of the installation, create an ArgoCD-specific custom resource
-specifying what to install.
- 
+
+#### Overview
+
+The ***App of Apps*** approach allows ArgoCD to install and manage differing tools, services, and resouces. The tools, services, and resouces being installed for this demo are:
+
+* Services
+  * OpenShift Pipelines (Tekton)
+* Piplienes as a Service Demonstration
+  * EasyMode
+
+Each of these components consists of many differing kubernets resourecs.  They include, but are not limied to: 
+
+* Tekton triggers, tasks, and pipelines
+
+#### Actions to Take
+
 1. Open the OpenShift Admin Console
 2. Create the ArgoCD Application CR
    1. Click the (+) icon at the top of the OpenShift Admin Console to create a resource.
@@ -145,13 +155,48 @@ An ***Application Archetype*** refers to the programming language and building a
  
 ***
  
-### First, Setup A New Pipeline as a Service
+### First, Create A New Pipeline as a Service
+
+#### Overview ####
+
+***TODO***
+
+#### Actions To Take ####
+
+***TODO***
 
 What we need to do
 1) show the easy-mode pipeline and how it is set up 
 2) create a new pipeline service for the
+3) Add a new service
  
 1. Start the easy-mode pipeline
   1. **TODO**
- 
+
+ ### Second, Onboard A New Application
+
+ Onboarding a new applicaiton for a given pipeline service archetype requires two steps:
+
+ 1. Create a git repo
+ 2. Register the pipeline service trigger as a webhook for the git repo
+
+We assume you know how to crate a new repo.  Our examples will be using GitHub.  Once the repo is created, you can register the webook.
+
+##### GitHub - Tekton WebHook Registration
+
+In our source code repo, go to **Settings** -> **Webhooks** -> ***Add Webhook***.
+
+* `Payload URL`
+  * Enter the Tekton *EventListener* webhook URL for your cluster. 
+  * This is *NOT* the ArgoCD webhook URL. You can get the correct value with `oc get route -n quickstart-app-easymode -o wide`. 
+  * The URL should look like https://[EventListner Route].[your.cluster.com]/
+* `Content Type`
+  * Select ***application/json***
+* `SSL verification`
+   * If your OpenShift cluster is using TLS certificates that GitHub does not trust, you will have to select **SSL verification** -> ***Disable***. 
+   * To avoid this when using github.com, you have to configure OpenShift with TLS certs signed by a well known certificate authority. 
+
+ #### Tekton - Ad
+
+  ***TODO***
 
