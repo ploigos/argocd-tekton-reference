@@ -5,6 +5,3 @@ resources:
   - app-deployment.yml
   - app-route.yml
   - app-svc.yml
-  - eventlistener.yml
-  - eventlistener-route.yml
-  - pipeline.yml
