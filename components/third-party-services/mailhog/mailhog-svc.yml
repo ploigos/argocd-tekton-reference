@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mailhog
+    app.kubernetes.io/component: mailhog
+    app.kubernetes.io/instance: mailhog
+  name: mailhog
+spec:
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: 1025-tcp
+    port: 1025
+    protocol: TCP
+    targetPort: 1025
+  - name: 8025-tcp
+    port: 8025
+    protocol: TCP
+    targetPort: 8025
+  selector:
+    deployment: mailhog
+  sessionAffinity: None
+  type: ClusterIP
