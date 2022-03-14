@@ -1,0 +1,46 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: java-maven-minimal-app1-
+  namespace: pipelines-minimal
+spec:
+  pipelineRef:
+    name: java-maven-minimal
+  params:
+    - name: mvnArgs
+      value:
+        - "--no-transfer-progress"
+        - "-DskipITs"
+        - "-f"
+        - "getting-started/"
+        - "package"
+    - name: appRepoUrl
+      value: https://github.com/dwinchell/quarkus-quickstarts.git
+    - name: appImage
+      value: pipelines-minimal/quarkus-quickstarts:latest
+    - name: appRepoRef
+      value: main
+    - name: containerBuildContext
+      value: getting-started/
+    - name: containerfile
+      value: src/main/docker/Dockerfile.jvm
+    - name: verbose
+      value: 'true'
+  workspaces:
+  - name: source
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        volumeMode: Filesystem
+  - name: maven-settings
+    emptyDir: { }
+    #secret:
+    #  secretName: maven-settings
+  - name: container-auth
+    emptyDir: { }
+#    secret:
+#      secretName: container-auth
