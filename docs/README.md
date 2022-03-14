@@ -202,4 +202,4 @@ In our source code repo, go to **Settings** -> **Webhooks** -> ***Add Webhook***
 
   ***TODO***
 
-{{ site.github.source.branch }}
+{{ site.github }}
