@@ -12,7 +12,7 @@ spec:
   source:
     path: components/sonarqube
     repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
-    targetRevision: demo
+    targetRevision: main
 
   destination:
     namespace: sonarqube
