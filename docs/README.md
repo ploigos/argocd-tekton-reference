@@ -2,25 +2,25 @@
  
 This document explains how to demonstrate the setup and features of this quickstart using primarily web UIs.
  
-The [README](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/README.md) has instructions for getting started quickly and repeatably with the CLI. This guide uses
+The [README](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/README.md){:target="_blank"} has instructions for getting started quickly and repeatably with the CLI. This guide uses
 web UIs to help an audience quickly understand with minimal background.
  
 You will need an OpenShift cluster for the Demo. It must be able to install the GitOps and Pipelines Operators from the Red Hat Marketplace.
-See [the local dev environment instructions](Local_Dev_Environment.md) if you want to set that up on your local machine.
+See [the local dev environment instructions](Local_Dev_Environment.md){:target="_blank"} if you want to set that up on your local machine.
  
 ## Important Constructs - Day 0, 1, 2
  
-The day 0, 1, and 2 concepts are critical to understanding the operations of any software system. Within the context of Ploigos, the following is how we define Day 1, 2, and 3. We used a [DZone Day-2 Operations Article][/dzone.com/articles/defining-day-2-operations] as inspiration:
+The day 0, 1, and 2 concepts are critical to understanding the operations of any software system. Within the context of Ploigos, the following is how we define Day 1, 2, and 3. We used a [DZone Day-2 Operations Article][/dzone.com/articles/defining-day-2-operations]{:target="_blank"} as inspiration:
  
 * **Day 0** - The first phase of any software system consists of requirements engineering, design, and architecture.
   * Ploigos provides a Day 0 opinion provides 100% design solution for getting started.
   * This opinion provides a pre-designed & architected solution with extension points.
-  * This Day 0 can be found one the [Ploigos Workflows](https://ploigos.github.io/ploigos-docs/#_cicd_process_workflow).
+  * This Day 0 can be found one the [Ploigos Workflows](https://ploigos.github.io/ploigos-docs/#_cicd_process_workflow){:target="_blank"}.
   * This design distills the most common concepts for differing integration and deployment approach.
 * **Day 1** - Installation, setup, and configuration of the system
-  * The installation, setup, and configuration of the tooling is handled via the (Argo CD Apps)[../argo-cd-apps/app-of-apps].
+  * The installation, setup, and configuration of the tooling is handled via the (Argo CD Apps)[https://github.com/ploigos/openshift-pipelines-quickstart/blob/main//argo-cd-apps/app-of-apps]{:target="_blank"}.
   * We  use an App of Apps approach where we delcare all required applications for a given workflow, then use Argo to manage the installation and confiugration.
-  * This is a true (GitOps)[https://www.redhat.com/en/topics/devops/what-is-gitops] approach to managing a software delivery platform.
+  * This is a true (GitOps)[https://www.redhat.com/en/topics/devops/what-is-gitops]{:target="_blank"} approach to managing a software delivery platform.
 * **Day 2** - Continuous Operations of the system.  Such as peroidc tasks (houlry, daily, weekly, monthly, etc..), maintenance, and optimization
   * Onboarding new applications
   * Adding pipelines for new application archetypes
@@ -32,13 +32,13 @@ This demo walks you through getting-to-day-two within minutes.
  
 ## Forking Requirments
  
-You need to fork the following repositories to be successful with this demo.  If you have a lot of existing repositories, it may be easiers to temporarily [create a new GitHub Organization](https://docs.githubeasier/organizations/collaborating-with-groups-in-organizations/creating-a-new-organization-from-scratch) to store the forks.
+You need to fork the following repositories to be successful with this demo.  If you have a lot of existing repositories, it may be easiers to temporarily [create a new GitHub Organization](https://docs.githubeasier/organizations/collaborating-with-groups-in-organizations/creating-a-new-organization-from-scratch){:target="_blank"} to store the forks.
  
-* [OpenShift Pipelines Quickstart](https://github.com/ploigos/openshift-pipelines-quickstart)
-* [Pipelines Vote API](https://github.com/ploigos-reference-apps/pipelines-vote-api)
-* [Pipelines Vote UI](https://github.com/ploigos-reference-apps/pipelines-vote-ui)
-* [Demo App 2 - JMM ](https://github.com/ploigos-reference-apps/demo-app1)
-* [Demo App 1 - JMM ](https://github.com/ploigos-reference-apps/demo-app2)
+* [OpenShift Pipelines Quickstart](https://github.com/ploigos/openshift-pipelines-quickstart){:target="_blank"}
+* [Pipelines Vote API](https://github.com/ploigos-reference-apps/pipelines-vote-api){:target="_blank"}
+* [Pipelines Vote UI](https://github.com/ploigos-reference-apps/pipelines-vote-ui){:target="_blank"}
+* [Demo App 2 - JMM ](https://github.com/ploigos-reference-apps/demo-app1){:target="_blank"}
+* [Demo App 1 - JMM ](https://github.com/ploigos-reference-apps/demo-app2){:target="_blank"}
  
 ---
  
@@ -58,9 +58,9 @@ We are amid porting logic from the Ploigos Step Runner into this new Tekton-nati
 
 ### Overview
 
-The Day 0 design is povided via the [Ploigos Workflows](https://ploigos.github.io/ploigos-docs/#_cicd_process_workflow) and the [Ploigos Workflow Tools](https://ploigos.github.io/ploigos-docs/#ploigos-workflow-tools).
+The Day 0 design is povided via the [Ploigos Workflows](https://ploigos.github.io/ploigos-docs/#_cicd_process_workflow){:target="_blank"} and the [Ploigos Workflow Tools](https://ploigos.github.io/ploigos-docs/#ploigos-workflow-tools){:target="_blank"}.
  
-This demo will implement the [Minimal Workflow](https://ploigos.github.io/ploigos-docs/#_minimum_workflow).
+This demo will implement the [Minimal Workflow](https://ploigos.github.io/ploigos-docs/#_minimum_workflow){:target="_blank"}.
  
 ## Day 1 - Installation, Setup, and Configuration
  
@@ -103,7 +103,7 @@ The platform consist of all the integration and deployment tooling & services re
 3. View the installed Operator ... **TODO**
 4. Create RBAC objects for ArgoCD
    1. Click the (+) icon at the top of the Admin Console to create a resource.
-   2. Copy and paste the contents of [openshift-gitops-clusterroles.yml](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/bootstrap/openshift-gitops-clusterroles.yml){:target="_blank"}.
+   2. Copy and paste the contents of [openshift-gitops-clusterroles.yml](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/bootstrap/openshift-gitops-clusterroles.yml)]{:target="_blank"}{:target="_blank"}.
    3. Select "Create"
    4. (This allows ArgoCD to create operators and **disallows the user from making manual changes using the ArgoCD UI**.)
 5. Open the ArgoCD web UI
@@ -133,7 +133,7 @@ Each of these components consists of many differing kubernets resourecs.  They i
 1. Open the OpenShift Admin Console
 2. Create the ArgoCD Application CR
    1. Click the (+) icon at the top of the OpenShift Admin Console to create a resource.
-   2. Copy and paste the contents of [everything.yml](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/argo-cd-apps/app-of-apps/everything.yml).
+   2. Copy and paste the contents of [everything.yml](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/argo-cd-apps/app-of-apps/everything.yml)]{:target="_blank"}.
 3. Open the ArgoCD console to verify that the app-of-apps application and dependent applications were created.
 4. Open the "Installed Operators" view in the OpenShift Admin Console to verify that OpenShift Pipelines Operator was installed.
  
