@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - pipelines-as-a-service/
   - mailhog.yml
+  - nexus.yml
   - openshift-pipelines.yml
   - sonarqube.yml

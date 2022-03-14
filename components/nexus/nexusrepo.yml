@@ -1,0 +1,75 @@
+apiVersion: sonatype.com/v1alpha1
+kind: NexusRepo
+metadata:
+  name: nexus
+spec:
+  config:
+    enabled: false
+    mountPath: /sonatype-nexus-conf
+  deployment:
+    annotations: {}
+    terminationGracePeriodSeconds: 120
+  route:
+    enabled: false
+    name: docker
+    portName: docker
+  secret:
+    enabled: false
+    mountPath: /etc/secret-volume
+    readOnly: true
+  ingress:
+    annotations: {}
+    enabled: false
+    path: /
+    tls:
+      enabled: true
+      secretName: nexus-tls
+  service:
+    annotations: {}
+    enabled: false
+    labels: {}
+    ports:
+      - name: nexus-service
+        port: 80
+        targetPort: 80
+  statefulset:
+    enabled: false
+  replicaCount: 1
+  deploymentStrategy: {}
+  nexusProxyRoute:
+    enabled: false
+  tolerations: []
+  persistence:
+    accessMode: ReadWriteOnce
+    enabled: true
+    storageSize: 8Gi
+  nexus:
+    nexusPort: 8081
+    dockerPort: 5003
+    resources: {}
+    imageName: >-
+      registry.connect.redhat.com/sonatype/nexus-repository-manager@sha256:da873c10bf45e58b51d98fe0681bfe50815be7d2887c423c33ec1506f4d54d20
+    readinessProbe:
+      failureThreshold: 6
+      initialDelaySeconds: 30
+      path: /
+      periodSeconds: 30
+    livenessProbe:
+      failureThreshold: 6
+      initialDelaySeconds: 30
+      path: /
+      periodSeconds: 30
+    env:
+      - name: install4jAddVmParams
+        value: >-
+          -Xms1200M -Xmx1200M -XX:MaxDirectMemorySize=2G
+          -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
+      - name: NEXUS_SECURITY_RANDOMPASSWORD
+        value: 'false'
+    securityContext: {}
+    imagePullSecret: ''
+    imagePullPolicy: IfNotPresent
+    service:
+      type: NodePort
+    hostAliases: []
+    podAnnotations: {}

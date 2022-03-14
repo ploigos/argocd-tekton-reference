@@ -49,7 +49,7 @@ The README for each example application has instructions for this.
 
 #### (Optional) Triggering an ArgoCD Sync when the GitOps Repo Changes
 If your fork is on GitHub, go to Settings -> Webhooks -> Add Webhook.
-* `Payload URL` - Enter the *ArgoCD* webhook URL for your cluster. This is *NOT* the Tekton EventListener webhook URL. You can get the correct value with `oc get route openshift-gitops-server -n openshift-gitops -o wide`. The URL should look like https://openshift-gitops-server-openshift-gitops.[your.cluster.com]/api/webhook
+* `Payload URL` - Enter the *ArgoCD* webhook URL for your cluster. This is *NOT* the Tekton EventListener webhook URL. You can get the first part of the value with `echo "https://$(oc get route openshift-gitops-server -n openshift-gitops -o jsonpath --template='{.spec.host}')/api/webhook"`. The URL should look like https://openshift-gitops-server-openshift-gitops.[your.cluster.com]/api/webhook
 * `Content Type` - application/json
 * `SSL verification` - If your OpenShift cluster is using TLS certificates that GitHub does not trust, you will have to select SSL verification -> Disable. To avoid this when using github.com, you have to configure OpenShift with TLS certs signed by a well known certificate authority.
 
