@@ -3,6 +3,6 @@ kind: Kustomization
 
 resources:
   - app1-gitops/
-  - minimal-el.yml
-  - minimal-el-route.yml
   - java-maven-minimal.yml
+  - java-maven-minimal-el.yml
+  - java-maven-minimal-el-route.yml
