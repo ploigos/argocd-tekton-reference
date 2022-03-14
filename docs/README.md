@@ -64,9 +64,32 @@ This demo will implement the [Minimal Workflow](https://ploigos.github.io/ploigo
  
 ### Overview
  
-TODO - Describe how Ago listens to the app of apps and rectifies the tools
+We take a 100% GitOps approach to managing not just the software you biuld.  This includes all the integration and deployment tooling & services required.
+
+To accomplish all day 1 tasks, you need to complete the following high-level tasks:
+
+1. Bootstrap OpenShift GitOps
+2. Install the platform
+
+#### Terminology
+
+The follow terms will be used interchangable:
+
+* OpenShift GitOps & ArgoCD
+* OpenShift Pipelines & Tekton
+
+#### Boostrap OpenShift GitOps
+
+The bootstrapping process is not automated.  You'll need to do some click-click next to kick off the process.  The only component we bootstrap manually is OpenShift GitOps. OpenShift GitOps is the Red Hat supported version of ArgoCD.  
+
+#### Install the platform
+
+The platform consist of all the integration and deployment tooling & services required.  For this demo, we will use ArgoCD to install the following components: 
+
+* OpenShift Pipelines Tekton
+
  
-### First, Install the OpenShift GitOps Operator
+### First, Install the OpenShift GitOps Operator (ArgoCD Bootstrapping)
  
 1. Open the OpenShift Admin Console.
    1. If you are using CRC, the URL is https://console-openshift-console.apps-crc.testing/
