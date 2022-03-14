@@ -26,11 +26,9 @@ The day 0, 1, and 2 concepts are critical to understanding the operations of any
   * Adding pipelines for new application archetypes
  
  
-# Demo Execution - Day 0, 1, 2
+# The Demo
  
-This demo walks you through getting-to-day-two within minutes.  The Day 0 design is povided via the [Ploigos Workflows](https://ploigos.github.io/ploigos-docs/#_cicd_process_workflow) and the [Ploigos Workflow Tools](https://ploigos.github.io/ploigos-docs/#ploigos-workflow-tools).
- 
-This demo will implement the [Minimal Workflow](https://ploigos.github.io/ploigos-docs/#_minimum_workflow).
+This demo walks you through getting-to-day-two within minutes.
  
 ## Forking Requirments
  
@@ -53,10 +51,18 @@ We are amid porting logic from the Ploigos Step Runner into this new Tekton-nati
    * Generate Metadata
  
 ---
+
+## Day 0 - Requirements, Design, and Architecture
+
+### Overview
+
+The Day 0 design is povided via the [Ploigos Workflows](https://ploigos.github.io/ploigos-docs/#_cicd_process_workflow) and the [Ploigos Workflow Tools](https://ploigos.github.io/ploigos-docs/#ploigos-workflow-tools).
+ 
+This demo will implement the [Minimal Workflow](https://ploigos.github.io/ploigos-docs/#_minimum_workflow).
  
 ## Day 1 - Installation, Setup, and Configuration
  
-## Overview
+### Overview
  
 TODO - Describe how Ago listens to the app of apps and rectifies the tools
  
@@ -103,7 +109,7 @@ specifying what to install.
  
 This demo focus on providing an x-as-a-service model for software delivery.  This is achieved by providing a REST endpoint for each application archetype.  This endpoint is consumed as a webook via a GitRepo and triggered via a push to some branch. It does not matter if the output artifact is a runtime (Quarkus) or a simple shared library.
  
-The following are possible application archetypes
+The following are possible application archetypes:
 * Java Maven - A Java-based application that uses the Maven build, test, and package tool. 
 * Java Gradle - A Java-based application uses the Gradle build, test, and package tool.
 * JavaScript NPM - A JavaScript application that uses the Node Package Manager (NPM) as the interface for the build, test, and package tool(s).
