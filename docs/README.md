@@ -103,7 +103,7 @@ The platform consist of all the integration and deployment tooling & services re
 3. View the installed Operator ... **TODO**
 4. Create RBAC objects for ArgoCD
    1. Click the (+) icon at the top of the Admin Console to create a resource.
-   2. Copy and paste the contents of [openshift-gitops-clusterroles.yml]({{ site.github.source.branch }}/bootstrap/openshift-gitops-clusterroles.yml){:target="_blank"}.
+   2. Copy and paste the contents of [openshift-gitops-clusterroles.yml](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/bootstrap/openshift-gitops-clusterroles.yml){:target="_blank"}.
    3. Select "Create"
    4. (This allows ArgoCD to create operators and **disallows the user from making manual changes using the ArgoCD UI**.)
 5. Open the ArgoCD web UI
