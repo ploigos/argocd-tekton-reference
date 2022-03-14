@@ -1,0 +1,12 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: sonarqube
+spec:
+  port:
+    targetPort: 9000-tcp
+  to:
+    kind: Service
+    name: sonarqube
+    weight: 100
+  wildcardPolicy: None
