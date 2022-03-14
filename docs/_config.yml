@@ -1,3 +1,4 @@
-baseurl: https://github.com/ploigos/openshift-pipelines-quickstart/blob/main
+url: "https://github.com/ploigos"
+baseurl: /openshift-pipelines-quickstart/blob/main
 
 theme: jekyll-theme-cayman
