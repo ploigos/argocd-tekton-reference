@@ -18,6 +18,8 @@ spec:
       value: pipelines-minimal/demo-app2:latest
     - name: appRepoRef
       value: main
+    - name: rolloutDeployment
+      value: demo-app2
     - name: verbose
       value: 'true'
   workspaces:
