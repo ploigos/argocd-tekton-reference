@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: quickstart-app-easymode
+  name: pipelines-minimal
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,13 +10,13 @@ spec:
   project: default
 
   source:
-    path: components/example-apps/easymode
+    path: components/pipelines-as-a-service/minimal
     repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
-    targetRevision: main
 
   destination:
-    namespace: quickstart-app-easymode
+    namespace: pipelines-minimal
     server: https://kubernetes.default.svc
+    targetRevision: demo
 
   syncPolicy:
 
