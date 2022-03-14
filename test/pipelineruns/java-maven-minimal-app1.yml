@@ -15,7 +15,7 @@ spec:
     - name: appRepoUrl
       value: https://github.com/ploigos-reference-apps/demo-app1.git
     - name: appImage
-      value: pipelines-minimal/demo-app1:latest
+      value: image-registry.openshift-image-registry.svc:5000/pipelines-minimal/demo-app1:latest
     - name: appRepoRef
       value: main
     - name: rolloutDeployment
