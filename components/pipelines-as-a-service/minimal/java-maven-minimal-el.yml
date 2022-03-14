@@ -1,13 +1,13 @@
 apiVersion: triggers.tekton.dev/v1beta1
 kind: EventListener
 metadata:
-  name: java-maven-cicd
+  name: java-maven-minimal
 spec:
   namespaceSelector: {}
   resources: {}
   serviceAccountName: pipeline
   triggers:
-  - name: java-maven-cd
+  - name: java-maven-minimal
     bindings:
     - kind: ClusterTriggerBinding
       ref: github-push
@@ -26,11 +26,11 @@ spec:
             metadata:
               annotations:
                 argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
-              generateName: java-maven-cd-
+              generateName: java-maven-minimal-
               labels:
-                app.kubernetes.io/instance: java-maven-cicd
-                tekton.dev/pipeline: java-maven-cicd
-              namespace: quickstart-app-java-maven-cicd
+                app.kubernetes.io/instance: java-maven-minimal
+                tekton.dev/pipeline: java-maven-minimal
+              namespace: pipelines-minimal
             spec:
               params:
                 - name: mvnArgs
@@ -41,9 +41,9 @@ spec:
                     - "getting-started/"
                     - "package"
                 - name: appRepoUrl
-                  value: https://github.com/dwinchell/quarkus-quickstarts.git
+                  value: $(tt.params.git-repo-url)
                 - name: appImage
-                  value: image-registry.openshift-image-registry.svc:5000/quickstart-app-easymode/pipelines-vote-api
+                  value: image-registry.openshift-image-registry.svc:5000/pipelines-minimal/$(tt.params.git-repo-name)
                 - name: appRepoRef
                   value: main
                 - name: containerBuildContext
@@ -51,7 +51,7 @@ spec:
                 - name: containerfile
                   value: src/main/docker/Dockerfile.jvm
                 - name: rolloutDeployment
-                  value: java-maven
+                  value: $(tt.params.git-repo-name)
                 - name: verbose
                   value: 'true'
               pipelineRef:
