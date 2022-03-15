@@ -12,7 +12,7 @@ spec:
   source:
     path: components/nexus
     repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
-    targetRevision: main
+    targetRevision: nexus
 
   destination:
     namespace: nexus

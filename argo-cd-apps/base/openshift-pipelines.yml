@@ -12,6 +12,7 @@ spec:
   source:
     path: components/openshift-pipelines
     repoURL: https://github.com/ploigos/ploigos-quickstart.git
+    targetRevision: nexus
 
   destination:
     namespace: openshift-operators
