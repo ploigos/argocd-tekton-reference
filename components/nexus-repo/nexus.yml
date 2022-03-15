@@ -1,0 +1,6 @@
+apiVersion: redhatgov.io/v1alpha1
+kind: Nexus
+metadata:
+  name: nexus
+spec:
+  persistent: true
