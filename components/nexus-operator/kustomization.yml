@@ -3,5 +3,3 @@ kind: Kustomization
 
 resources:
   - nexus-subscription.yml
-  - nexus-route.yml
-  - nexusrepo.yml

@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: nexus
+  name: nexus-repo
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,7 +10,7 @@ spec:
   project: default
 
   source:
-    path: components/nexus
+    path: components/nexus-repo
     repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
     targetRevision: nexus
 
