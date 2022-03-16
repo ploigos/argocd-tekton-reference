@@ -3,4 +3,4 @@ kind: Kustomization
 
 resources:
   - nexus-route.yml
-  - nexusrepo.yml
+  - nexus.yml
