@@ -15,7 +15,7 @@ spec:
     targetRevision: nexus
 
   destination:
-    namespace: openshift-gitops
+    namespace: openshift-operators
     server: https://kubernetes.default.svc
 
   syncPolicy:
