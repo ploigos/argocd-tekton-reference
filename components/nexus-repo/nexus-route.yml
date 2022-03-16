@@ -3,11 +3,12 @@ kind: Route
 metadata:
   name: nexus
 spec:
-  host: nexus-sonatype-nexus-service-nexus.apps.cluster-8dsnq.8dsnq.sandbox959.opentlc.com
   port:
-    targetPort: application
+    targetPort: 8081
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
   to:
     kind: Service
-    name: nexus-sonatype-nexus-service
+    name: nexus
     weight: 100
-  wildcardPolicy: None
