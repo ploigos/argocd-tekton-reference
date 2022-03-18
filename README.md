@@ -18,47 +18,26 @@ A quickstart to get you up and running quickly with Red Hat OpenShift Pipelines 
    * Example: `oc create -k argo-cd-apps/base/example-apps/java-maven-cd/` will install an example pipeline that deploys a java application.
 7. Look at all the stuff you installed! Browse to https://openshift-gitops-server-openshift-gitops.<<<your.cluster.com>>>/ or use the
    menu option at the top of the OpenShift web console to open the ArgoCD console.
-8. Try running a pipeline manually - `oc create -f ./test/pipelineruns/poc-starter.yml`
+8. Try building an example application by manually running the 'easy-mode' pipeline - `oc create -f ./test/pipelineruns/easymode-vote-app-api.yml`
 9. Monitor the progress of the pipeline run in the OpenShift development web console at Pipelines -> PipelineRuns, or with the cli command `tkn pipelinerun describe --last` 
-10. Check out the newly built application - **TODO LINK**
+10. View the the newly deployed application. Browse to the URL returned by `oc get route -o wide -n pipelines-easymode`.
 
-## What is Included?
+## Example Pipelines
 
-### Example Apps
-
-The quickstart includes several examples of how to use the technology stack to build and deploy user facing applications.
-Each one is in a directory under `components/example-apps/`.
+The quickstart includes several examples of pipelines.
+Each one is in a directory under `components/pipelines-as-a-service/`.
 
 * **easy-mode** - Start here. It demonstrates the basics and works great for *non-production* proof of concepts, including demonstrations of onboarding new workloads.
-* **advanced-mode** - **COMING SOON** -  When you need more than easy-mode, use this.
-* **reusable-pipeline** - **COMING SOON** - Shows how to use Tekton Bundles to reuse the same pipeline definition for multiple workloads.
-* **sonarqube-scan** - **COMING SOON** - Shows how to add a code quality scan to a pipeline using SonarQube. Requires sonarqube to be installed. See `third-party-services/sonarqube/`.
+* **minimal** - Implements the Ploigos "minimal" standard workflow.
 
-### Third Party Services
-**TODO**
-
-### Third Party Tasks
-**TODO**
-
-## Using Example Applications as Templates
-The example applications can be used as templates to onboard new applications to OpenShift. In some cases this is as easy as copying a directory and making a few simple edits.
-The README for each example application has instructions for this.
-
-### Forking this Git Repo
-**TODO**
-
-#### (Optional) Triggering an ArgoCD Sync when the GitOps Repo Changes
-If your fork is on GitHub, go to Settings -> Webhooks -> Add Webhook.
-* `Payload URL` - Enter the *ArgoCD* webhook URL for your cluster. This is *NOT* the Tekton EventListener webhook URL. You can get the first part of the value with `echo "https://$(oc get route openshift-gitops-server -n openshift-gitops -o jsonpath --template='{.spec.host}')/api/webhook"`. The URL should look like https://openshift-gitops-server-openshift-gitops.[your.cluster.com]/api/webhook
-* `Content Type` - application/json
-* `SSL verification` - If your OpenShift cluster is using TLS certificates that GitHub does not trust, you will have to select SSL verification -> Disable. To avoid this when using github.com, you have to configure OpenShift with TLS certs signed by a well known certificate authority.
-
-### Forking the Example Application
-The poc-starter example builds https://github.com/dwinchell/quarkus-quickstarts.git. You might want to fork that repository in order to set up webhooks or hack on the application code. In GitHub, you can follow that link and then use the "Fork" button at the top of the page.
-Then edit `components/example-apps/poc-starter/eventlistener.yml`. Commit that change and push it to your fork of the `openshift-pipelines-quickstart` repo. After that, the pipeline will clone and build your fork of the application code.
-
-#### (Optional) Triggering Pipeline Runs when the Application Code Changes
-If your fork is on GitHub, go to Settings -> Webhooks -> Add Webhook.
+## Configuring GitHub to start your Pipeline when the App Code Changes
+In the GitHub repository for your application, go to Settings -> Webhooks -> Add Webhook.
 * `Payload URL` - Enter the Tekton *EventListener* webhook URL for your cluster. This is *NOT* the ArgoCD webhook URL. You can get the correct value with `oc get route -n pipelines-easymode -o wide`. The URL should look like https://easymode-pipelines-easymode.[your.cluster.com]/
 * `Content Type` - application/json
 * `SSL verification` - If your OpenShift cluster is using TLS certificates that GitHub does not trust, you will have to select SSL verification -> Disable. To avoid this when using github.com, you have to configure OpenShift with TLS certs signed by a well known certificate authority. 
+
+## (Optional) Triggering an ArgoCD Sync when your GitOps Repo Changes
+In your fork of this quickstart repository go to Settings -> Webhooks -> Add Webhook.
+* `Payload URL` - Enter the *ArgoCD* webhook URL for your cluster. This is *NOT* the Tekton EventListener webhook URL. You can get the first part of the value with `echo "https://$(oc get route openshift-gitops-server -n openshift-gitops -o jsonpath --template='{.spec.host}')/api/webhook"`. The URL should look like https://openshift-gitops-server-openshift-gitops.[your.cluster.com]/api/webhook
+* `Content Type` - application/json
+* `SSL verification` - If your OpenShift cluster is using TLS certificates that GitHub does not trust, you will have to select SSL verification -> Disable. To avoid this when using github.com, you have to configure OpenShift with TLS certs signed by a well known certificate authority.
