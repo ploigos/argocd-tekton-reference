@@ -12,7 +12,7 @@ spec:
   source:
     path: components/sigstore
     repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
-    targetRevision: rekor
+    targetRevision: main
 
   destination:
     namespace: sigstore
