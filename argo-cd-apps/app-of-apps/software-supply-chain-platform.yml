@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-of-apps-software-supply-chain
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+
+  source:
+    path: argo-cd-apps/overlays/software-supply-chain-platform
+    repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
+    targetRevision: main
+
+  destination:
+    namespace: openshift-gitops
+    server: https://kubernetes.default.svc
+
+  syncPolicy:
+
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true
