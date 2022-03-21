@@ -12,7 +12,7 @@ spec:
   source:
     chart: rekor
     repoURL: https://sigstore.github.io/helm-charts
-    targetRevision: 0.2.12
+    targetRevision: main
     helm:
       releaseName: rekor-0.2.12
 
