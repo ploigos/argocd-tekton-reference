@@ -17,9 +17,7 @@ spec:
       values: |
         server:
           ingress:
-            annotations:
-              route.openshift.io/termination: "edge"
-            hostname: rekor.apps.cluster-pp5xc.pp5xc.sandbox173.opentlc.com
+            enabled: false
 
   destination:
     namespace: sigstore
