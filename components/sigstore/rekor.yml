@@ -14,7 +14,12 @@ spec:
     repoURL: https://sigstore.github.io/helm-charts
     targetRevision: 0.2.12
     helm:
-      releaseName: rekor-0.2.12
+      values: |
+        server:
+          ingress:
+            annotations:
+              route.openshift.io/termination: "edge"
+            hostname: rekor.apps.cluster-pp5xc.pp5xc.sandbox173.opentlc.com
 
   destination:
     namespace: sigstore
