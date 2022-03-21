@@ -15,7 +15,7 @@ spec:
     targetRevision: main
 
   destination:
-    namespace: mailhog
+    namespace: sigstore
     server: https://kubernetes.default.svc
 
   syncPolicy:
