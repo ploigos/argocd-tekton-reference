@@ -18,11 +18,7 @@ spec:
 
   destination:
     namespace: sigstore
-    server:
-      ingress:
-        annotations:
-          route.openshift.io/termination: "edge"
-        hostname: rekor.apps.cluster-pp5xc.pp5xc.sandbox173.opentlc.com
+    server: https://kubernetes.default.svc
 
   syncPolicy:
 
