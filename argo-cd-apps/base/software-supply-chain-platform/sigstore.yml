@@ -5,6 +5,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
+  project: default
   source:
     path: components/sigstore
     repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
