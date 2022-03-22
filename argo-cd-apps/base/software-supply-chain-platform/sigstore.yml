@@ -2,8 +2,23 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: sigstore
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   source:
     path: components/sigstore
     repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
     targetRevision: rekor
+  destination:
+    namespace: sigstore
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 15s
