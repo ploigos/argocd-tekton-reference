@@ -1,16 +1,14 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base/software-supply-chain-platform
 metadata:
-  name: app-of-apps-software-supply-chain
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  project: default
   source:
-    path: argo-cd-apps/overlays/software-supply-chain-platform/[PROVIDE ENV HERE]
-    repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
-    targetRevision: rekor
+    project: default
   destination:
     namespace: sigstore
     server: https://kubernetes.default.svc
@@ -24,3 +22,4 @@ spec:
       limit: 5
       backoff:
         duration: 15s
+
