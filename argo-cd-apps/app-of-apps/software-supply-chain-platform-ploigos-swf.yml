@@ -12,7 +12,7 @@ spec:
   source:
     path: argo-cd-apps/overlays/software-supply-chain-platform/devsecops
     repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
-    targetRevision: rekor
+    targetRevision: main
 
   destination:
     namespace: devsecops
