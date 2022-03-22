@@ -15,7 +15,7 @@ spec:
     targetRevision: rekor
 
   destination:
-    namespace: sigstore
+    namespace: openshift-gitops
     server: https://kubernetes.default.svc
 
   syncPolicy:
