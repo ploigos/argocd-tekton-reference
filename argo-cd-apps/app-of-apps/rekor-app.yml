@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: rekor
-  namespace: openshift-gitops
+  namespace: devsecops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
