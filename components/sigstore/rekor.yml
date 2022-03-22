@@ -4,8 +4,10 @@ metadata:
   name: rekor
   finalizers:
     - resources-finalizer.argocd.argoproj.io
+
 spec:
   project: default
+
   source:
     chart: rekor
     repoURL: https://sigstore.github.io/helm-charts
@@ -15,15 +17,20 @@ spec:
         server:
           ingress:
             enabled: false
+
   destination:
     namespace: sigstore
     server: https://kubernetes.default.svc
+
   syncPolicy:
+
     automated:
       prune: true
       selfHeal: true
+
     syncOptions:
       - CreateNamespace=true
+      
     retry:
       limit: 5
       backoff:
