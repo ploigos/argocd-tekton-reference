@@ -3,20 +3,3 @@ kind: Kustomization
 resources:
   - ../../base/software-supply-chain-platform
 namespace: openshift-gitops
-spec:
-  source:
-    project: default
-  destination:
-    namespace: sigstore
-    server: https://kubernetes.default.svc
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-    retry:
-      limit: 5
-      backoff:
-        duration: 15s
-
