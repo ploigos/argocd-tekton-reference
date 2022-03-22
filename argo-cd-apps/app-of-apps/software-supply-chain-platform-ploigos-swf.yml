@@ -1,7 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: sigstore
+  name: app-of-apps-software-supply-chain
+  namespace: devsecops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 
@@ -9,7 +10,7 @@ spec:
   project: default
 
   source:
-    path: components/sigstore
+    path: argo-cd-apps/overlays/software-supply-chain-platform/devsecops
     repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
     targetRevision: rekor
 
@@ -25,8 +26,3 @@ spec:
 
     syncOptions:
       - CreateNamespace=true
-      
-    retry:
-      limit: 5
-      backoff:
-        duration: 15s
