@@ -10,7 +10,7 @@ spec:
   project: default
 
   source:
-    path: argo-cd-apps/overlays/software-supply-chain-platform/devsecops
+    path: argo-cd-apps/overlays/software-supply-chain-platform/ploigos-software-factory-operator
     repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
     targetRevision: main
 
