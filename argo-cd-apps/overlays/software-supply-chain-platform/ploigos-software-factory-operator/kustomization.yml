@@ -1,6 +1,7 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-namespace: devsecops
 resources:
   - ../../../base/software-supply-chain-platform
 
+namespace: devsecops
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
