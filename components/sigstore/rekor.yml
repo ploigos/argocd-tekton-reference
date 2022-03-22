@@ -5,8 +5,8 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
+  project: default
   source:
-    project: default
     chart: rekor
     repoURL: https://sigstore.github.io/helm-charts
     targetRevision: 0.2.12
