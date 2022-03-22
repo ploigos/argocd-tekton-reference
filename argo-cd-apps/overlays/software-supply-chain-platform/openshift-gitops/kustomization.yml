@@ -1,5 +1,5 @@
 resources:
-  - ../../base/software-supply-chain-platform
+  - ../../../base/software-supply-chain-platform
 
 namespace: openshift-gitops
 
