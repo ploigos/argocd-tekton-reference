@@ -13,6 +13,11 @@ spec:
     chart: vault
     repoURL: https://helm.releases.hashicorp.com
     targetRevision: v0.19.0
+    helm:
+      #same as values.yaml, but take precedence
+      parameters:
+        - name: "global.openshift"
+          value: "true"
 
   destination:
     namespace: vault
