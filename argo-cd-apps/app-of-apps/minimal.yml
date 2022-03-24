@@ -1,8 +1,8 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: app-of-apps-everything
-  namespace: openshift-gitops
+  name: app-of-apps-minimal
+  namespace: devsecops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 
@@ -15,7 +15,7 @@ spec:
     targetRevision: main
 
   destination:
-    namespace: openshift-gitops
+    namespace: devsecops
     server: https://kubernetes.default.svc
 
   syncPolicy:
