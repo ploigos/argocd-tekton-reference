@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: pipelines-easymode
+  name: vault
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,12 +10,12 @@ spec:
   project: default
 
   source:
-    path: components/pipelines-as-a-service/easymode
-    repoURL: https://github.com/twling/openshift-pipelines-quickstart.git
-    targetRevision: vault
+    chart: vault
+    repoURL: https://helm.releases.hashicorp.com
+    targetRevision: v0.19.0
 
   destination:
-    namespace: pipelines-easymode
+    namespace: vault
     server: https://kubernetes.default.svc
 
   syncPolicy:

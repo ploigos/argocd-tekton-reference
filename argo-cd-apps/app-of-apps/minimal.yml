@@ -11,8 +11,8 @@ spec:
 
   source:
     path: argo-cd-apps/overlays/minimal
-    repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
-    targetRevision: main
+    repoURL: https://github.com/twling/openshift-pipelines-quickstart.git
+    targetRevision: vault
 
   destination:
     namespace: openshift-gitops
