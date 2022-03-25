@@ -22,9 +22,9 @@ These instructions assume you are installing in OpenShift and want to use the CL
 6. Watch the pipeline run!
    * In the OpenShift console, Pipelines (left navigation) -> Pipelines 
 
-## (Optional) Triggering an ArgoCD Sync when your GitOps Repo Changes
-In your fork of this quickstart repository go to Settings -> Webhooks -> Add Webhook.
-* `Payload URL` - Enter the *ArgoCD* webhook URL for your cluster. This is *NOT* the Tekton EventListener webhook URL. You can get the first part of the value with `echo "https://$(oc get route openshift-gitops-server -n openshift-gitops -o jsonpath --template='{.spec.host}')/api/webhook"`. The URL should look like https://openshift-gitops-server-openshift-gitops.[your.cluster.com]/api/webhook
+## How to Trigger an ArgoCD Sync when your GitOps Repo Changes
+Fork of this git repository navigate to Settings -> Webhooks -> Add Webhook.
+* `Payload URL` - Enter the *ArgoCD* webhook URL for your cluster. This is *NOT* the Tekton EventListener webhook URL. You can get the first part of the value with `echo "https://$(oc get route openshift-gitops-server -n openshift-gitops -o jsonpath --template='{.spec.host}')/api/webhook"`. The URL will look like https://openshift-gitops-server-openshift-gitops.[your.cluster.com]/api/webhook
 * `Content Type` - application/json
 * `SSL verification` - If your OpenShift cluster is using TLS certificates that GitHub does not trust, you will have to select SSL verification -> Disable. To avoid this when using github.com, you have to configure OpenShift with TLS certs signed by a well known certificate authority.
 
