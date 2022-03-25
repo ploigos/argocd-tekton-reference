@@ -1,8 +1,8 @@
 # ArgoCD Tekton Reference Implementation
 
-A quickstart to get you up and running quickly with Red Hat OpenShift Pipelines and Red Hat OpenShift GitOps.
+A reference implementation for using ArgoCD and Tekton together to implement gitops and deployment pipelines.
 
-## Getting Started
+## Quick Setup
 1. (Optional) Set up your [local development environment](./docs/Local_Dev_Environment.md) using CRC
 2. Install OpenShift GitOps and create the relevant RBAC resources.
    * `oc create -k bootstrap/`
