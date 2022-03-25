@@ -1,4 +1,4 @@
-# ArgoCD Tekton Reference Implemntation - Getting Started Demo
+# Getting Started Tutorial
  
 This document explains how to demonstrate the setup and features of this reference implementation using primarily web UIs.
  
