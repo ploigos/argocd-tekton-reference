@@ -7,7 +7,7 @@ A reference implementation for using ArgoCD and Tekton together to implement git
 * [Local Development Environment Setup](https://github.com/ploigos/argocd-tekton-reference/blob/main/docs/Local_Dev_Environment.md) - Set up a local development environment using CodeReady Containers.
 
 ## Quick Setup
-These instructions assume you are installing in OpenShift and want to use the CLI. The [Getting Started Tutorial](https://ploigos.github.io/argocd-tekton-reference/) has alternate setup instructions that use the web consoles.
+If you have done this sort of thing before and are using OpenShift, these instructions will get you up and running quickly. The [Getting Started Tutorial](https://ploigos.github.io/argocd-tekton-reference/) includes alternate setup instructions that use graphical interfaces.
 1. Install the OpenShift GitOps Operator and grant it RBAC permissions to install the remaining resources.
    * `oc create -k bootstrap/`
 2. Wait for the operator to start ArgoCD. This may take a few minutes. You can monitor progress by looking at the Pods in the openshift-gitops project.
