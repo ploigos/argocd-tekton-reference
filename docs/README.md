@@ -1,6 +1,6 @@
-# Demo Overview
+# ArgoCD Tekton Reference Implemntation - Getting Started Demo
  
-This document explains how to demonstrate the setup and features of this quickstart using primarily web UIs.
+This document explains how to demonstrate the setup and features of this reference implementation using primarily web UIs.
  
 The [README](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/README.md){:target="_blank"} has instructions for getting started quickly and repeatably with the CLI. This guide uses
 web UIs to help an audience quickly understand with minimal background.
