@@ -8,6 +8,7 @@ A reference implementation for using ArgoCD and Tekton together to implement git
 
 ## Quick Setup
 These instructions assume you are installing in OpenShift and want to use the CLI. The [Getting Started Tutorial](https://ploigos.github.io/argocd-tekton-reference/) has alternate setup instructions that use the web consoles.
+1. Install the OpenShift GitOps Operator and grant it RBAC permissions to install the remaining resources.
    * `oc create -k bootstrap/`
 2. Wait for the operator to start ArgoCD. This may take a few minutes. You can monitor progress by looking at the Pods in the openshift-gitops project.
 3. Install the "everything" ArgoCD Application.
@@ -15,7 +16,7 @@ These instructions assume you are installing in OpenShift and want to use the CL
 4. Fork the [example application](https://github.com/ploigos-reference-apps/pipelines-vote-api) on GitHub.
 5. Configure your fork in  GitHub to start your Pipeline when the Application source code canges.
    * Settings -> Webhooks -> Add Webhook.
-   * `Payload URL` - Enter the Tekton *EventListener* webhook URL for your cluster. This is *NOT* the ArgoCD webhook URL. You can get the correct value with `oc get route -n pipelines-easymode -o wide`. The URL should look like https://easymode-pipelines-easymode.[your.cluster.com]/
+   * `Payload URL` - Enter the URL for the "easymode" EventListener Route that Tekton is listening on. You can get the correct value with `oc get route -n pipelines-easymode -o wide`.
    * `Content Type` - application/json
    * `SSL verification` - If your OpenShift cluster is using TLS certificates that GitHub does not trust, you will have to select SSL verification -> Disable. To avoid this when using github.com, you have to configure OpenShift with TLS certs signed by a well known certificate authority.
 6. Watch the pipeline run!
