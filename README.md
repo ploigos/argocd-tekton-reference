@@ -13,15 +13,12 @@ A quickstart to get you up and running quickly with Red Hat OpenShift Pipelines 
    * -OR- To install only the minimum components: `oc create -f argo-cd-apps/app-of-apps/minimal.yml`
 5. The "app-of-apps" Application will create other Applications, which will create some or all of the resources in the
    'components/' directory.
-6. (Optional) If you installed the `minimum` app-of-apps, you can now choose to install other applications à la carte.
-   * Example: `oc create -k argo-cd-apps/base/third-party-services/sonarqube/` will install SonarQube.
-   * Example: `oc create -k argo-cd-apps/base/example-apps/java-maven-cd/` will install an example pipeline that deploys a java application.
-7. Look at all the stuff you installed! Browse to https://openshift-gitops-server-openshift-gitops.<<<your.cluster.com>>>/ or use the
+6. Look at all the stuff you installed! Browse to https://openshift-gitops-server-openshift-gitops.<<<your.cluster.com>>>/ or use the
    menu option at the top of the OpenShift web console to open the ArgoCD console.
-8. Try building an [example application](https://github.com/ploigos-reference-apps/pipelines-vote-api) by manually running the 'easy-mode' pipeline - `oc create -f ./test/pipelineruns/easymode-vote-app-api.yml`
-9. Monitor the progress of the pipeline run in the OpenShift development web console at Pipelines -> PipelineRuns, or with the cli command `tkn pipelinerun describe --last` 
-10. View the the newly deployed application. Browse to the URL returned by `oc get route -o wide -n pipelines-easymode`.
-11. Follow the next section to start the pipeline automatically when the application source code changes. To get started, can fork the [example application](https://github.com/ploigos-reference-apps/pipelines-vote-api) and edit the settings of your fork.
+7. Try building an [example application](https://github.com/ploigos-reference-apps/pipelines-vote-api) by manually running the 'easy-mode' pipeline - `oc create -f ./test/pipelineruns/easymode-vote-app-api.yml`
+8. Monitor the progress of the pipeline run in the OpenShift development web console at Pipelines -> PipelineRuns, or with the cli command `tkn pipelinerun describe --last` 
+9. View the the newly deployed application. Browse to the URL returned by `oc get route -o wide -n pipelines-easymode`.
+10. Follow the next section to start the pipeline automatically when the application source code changes. To get started, can fork the [example application](https://github.com/ploigos-reference-apps/pipelines-vote-api) and edit the settings of your fork.
 
 ## Configuring GitHub to start your Pipeline when the Application Source Code Changes
 In the GitHub repository for your application, go to Settings -> Webhooks -> Add Webhook.
