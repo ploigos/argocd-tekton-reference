@@ -16,10 +16,10 @@ spec:
     helm:
       values: |
         global:
-          openshift: "true"
+          openshift: true
         server:
           route:
-            enabled: "true"
+            enabled: true
           tls:
             termination: "reencrypt"
           # Mount a configmap containing custom script for bootstrap
