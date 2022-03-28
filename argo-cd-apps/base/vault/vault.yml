@@ -29,8 +29,8 @@ spec:
                 name: vault-bootstrap
                 defaultMode: 0420
           volumeMounts:
-            - mountPath: /vault/userconfig/
-              name: vault-bootstrap-mount
+            - mountPath: "/vault/userconfig/"
+              name: "vault-bootstrap-mount"
               readOnly: false
           # Configure readiness probe to report "ready" even if Vault is uninitialized and sealed.
           # Useful when bootstrapping Vault for the first time.
