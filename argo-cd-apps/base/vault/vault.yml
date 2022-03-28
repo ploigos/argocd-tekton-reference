@@ -48,7 +48,7 @@ spec:
                 name: vault-secret
           volumeMounts:
             - mountPath: "/vault/userconfig/script"
-              name: "vault-bootstrap-mount"
+              name: "vault-bootstrap"
               readOnly: false
             - mountPath: "/vault/userconfig/vault-secret"
               name: "vault-tls-secret"
