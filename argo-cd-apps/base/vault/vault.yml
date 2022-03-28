@@ -17,9 +17,22 @@ spec:
       values: |
         global:
           openshift: true
+        #openshift images
+        injector:
+          image:
+            repository: "registry.connect.redhat.com/hashicorp/vault-k8s"
+            tag: "0.14.2-ubi"
+          agentImage:
+            repository: "registry.connect.redhat.com/hashicorp/vault"
+            tag: "1.9.3-ubi"
+
         server:
+          image:
+            repository: "registry.connect.redhat.com/hashicorp/vault"
+            tag: "1.9.3-ubi"
           route:
             enabled: true
+            host: vault.apps.cluster-hnqmc.hnqmc.sandbox1776.opentlc.com
           tls:
             termination: "reencrypt"
           # Mount a configmap containing custom script for bootstrap
