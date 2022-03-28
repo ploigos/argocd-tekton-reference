@@ -17,6 +17,8 @@ spec:
       values: |
         global:
           openshift: true
+        ui:
+          enabled: true
         #openshift images
         injector:
           image:
@@ -41,19 +43,33 @@ spec:
               configMap:
                 name: vault-bootstrap
                 defaultMode: 0420
+            - name: vault-secret
+              secret:
+                name: vault-secret
           volumeMounts:
-            - mountPath: "/vault/userconfig/"
+            - mountPath: "/vault/userconfig/script"
               name: "vault-bootstrap-mount"
+              readOnly: false
+            - mountPath: "/vault/userconfig/vault-secret"
+              name: "vault-tls-secret"
               readOnly: false
           # Configure readiness probe to report "ready" even if Vault is uninitialized and sealed.
           # Useful when bootstrapping Vault for the first time.
           readinessProbe:
             path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
-          #Run post start config to init/unseal vault
+
+          extraEnvironmentVars:
+            VAULT_CAPATH: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
+            VAULT_ADDR: vault-internal.hashicorp.svc.cluster.local:8200
+          service:
+            enabled: true
+            annotations:
+              service.beta.openshift.io/serving-cert-secret-name: vault-secret
+        #Run post start config to init/unseal vault
         postStart:
           - "/bin/sh"
           - "-c"
-          - "/vault/userconfig/vault-init/bootstrap.sh"
+          - "/vault/userconfig/script/vault-init/bootstrap.sh"
 
           
 
