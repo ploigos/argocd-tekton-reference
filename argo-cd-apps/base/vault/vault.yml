@@ -48,10 +48,10 @@ spec:
                 name: vault-secret
           volumeMounts:
             - mountPath: "/vault/userconfig/script"
-              name: "vault-bootstrap"
+              name: "vault-init"
               readOnly: false
             - mountPath: "/vault/userconfig/vault-secret"
-              name: "vault-tls-secret"
+              name: "vault-secret"
               readOnly: false
           # Configure readiness probe to report "ready" even if Vault is uninitialized and sealed.
           # Useful when bootstrapping Vault for the first time.
