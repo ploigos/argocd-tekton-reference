@@ -14,10 +14,35 @@ spec:
     repoURL: https://helm.releases.hashicorp.com
     targetRevision: v0.19.0
     helm:
-      #same as values.yaml, but take precedence
-      parameters:
-        - name: "global.openshift"
-          value: "true"
+      values: |
+        global:
+          openshift: "true"
+        server:
+          route:
+            enabled: "true"
+          tls:
+            termination: "reencrypt"
+          # Mount a configmap containing custom script for bootstrap
+          volumes:
+            - name: vault-init
+              configMap:
+                name: vault-bootstrap
+                defaultMode: 0420
+          volumeMounts:
+            - mountPath: /vault/userconfig/
+              name: vault-bootstrap-mount
+              readOnly: false
+          # Configure readiness probe to report "ready" even if Vault is uninitialized and sealed.
+          # Useful when bootstrapping Vault for the first time.
+          readinessProbe:
+            path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
+          #Run post start config to init/unseal vault
+        postStart:
+          - "/bin/sh"
+          - "-c"
+          - "/vault/userconfig/vault-init/bootstrap.sh"
+
+          
 
   destination:
     namespace: vault
@@ -33,6 +58,6 @@ spec:
       - CreateNamespace=true
 
     retry:
-      limit: 50 # number of failed sync attempt retries; unlimited number of attempts if less than 0
+      limit: 5 # number of failed sync attempt retries; unlimited number of attempts if less than 0
       backoff:
         duration: 15s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")
