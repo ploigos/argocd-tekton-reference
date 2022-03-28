@@ -45,7 +45,7 @@ spec:
                 defaultMode: 0420
             - name: vault-secret
               secret:
-                name: vault-secret
+                secretName: vault-secret
           volumeMounts:
             - mountPath: "/vault/userconfig/script"
               name: "vault-init"
