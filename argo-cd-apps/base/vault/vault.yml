@@ -34,7 +34,7 @@ spec:
             tag: "1.9.3-ubi"
           route:
             enabled: true
-            host: vault.apps.cluster-x9ffw.x9ffw.sandbox305.opentlc.com/
+            host: vault.apps.cluster-x9ffw.x9ffw.sandbox305.opentlc.com
           tls:
             termination: "reencrypt"
           # Mount a configmap containing custom script for bootstrap
