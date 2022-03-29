@@ -23,15 +23,15 @@ spec:
         injector:
           image:
             repository: "registry.connect.redhat.com/hashicorp/vault-k8s"
-            tag: "0.14.2-ubi"
+            tag: "0.15.0-ubi"
           agentImage:
             repository: "registry.connect.redhat.com/hashicorp/vault"
-            tag: "1.9.3-ubi"
+            tag: "1.10.0-ubi"
 
         server:
           image:
             repository: "registry.connect.redhat.com/hashicorp/vault"
-            tag: "1.9.3-ubi"
+            tag: "1.10.0-ubi"
           route:
             enabled: true
             host: vault.apps.cluster-x9ffw.x9ffw.sandbox305.opentlc.com
@@ -43,15 +43,15 @@ spec:
               configMap:
                 name: vault-bootstrap
                 defaultMode: 0420
-            - name: vault-secret
+            - name: vault-certs
               secret:
-                secretName: vault-secret
+                secretName: vault-certs
           volumeMounts:
             - mountPath: "/vault/userconfig/script"
               name: "vault-init"
               readOnly: false
-            - mountPath: "/vault/userconfig/vault-secret"
-              name: "vault-secret"
+            - mountPath: "/vault/userconfig/vault-certs"
+              name: "vault-certs"
               readOnly: false
           # Configure readiness probe to report "ready" even if Vault is uninitialized and sealed.
           # Useful when bootstrapping Vault for the first time.
@@ -60,16 +60,17 @@ spec:
 
           extraEnvironmentVars:
             VAULT_CAPATH: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
-            VAULT_ADDR: vault-internal.hashicorp.svc.cluster.local:8200
+            VAULT_ADDR: vault-internal.vault.svc.cluster.local:8200
           service:
             enabled: true
             annotations:
-              service.beta.openshift.io/serving-cert-secret-name: vault-secret
+              #utilize OCP service-ca for certs
+              service.beta.openshift.io/serving-cert-secret-name: vault-certs
         #Run post start config to init/unseal vault
         postStart:
           - "/bin/sh"
           - "-c"
-          - "/vault/userconfig/script/vault-init/bootstrap.sh"
+          - "/vault/userconfig/script/bootstrap.sh"
 
           
 
