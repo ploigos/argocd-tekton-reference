@@ -73,6 +73,8 @@ spec:
               ui = true
               listener "tcp" {
                 tls_disable = 0
+                tls_cert_file = "/vault/userconfig/vault-server-tls/tls.crt"
+                tls_key_file = "/vault/userconfig/vault-server-tls/tls.key"
                 address = "[::]:8200"
                 cluster_address = "[::]:8201"
               }
