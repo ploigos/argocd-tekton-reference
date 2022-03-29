@@ -51,8 +51,8 @@ spec:
             - mountPath: "/vault/userconfig/script"
               name: "vault-init"
               readOnly: false
-            - mountPath: "/vault/userconfig/vault-certs"
-              name: "vault-certs"
+            - mountPath: "/vault/userconfig/vault-server-tls"
+              name: "vault-server-tls"
               readOnly: false
           # Configure readiness probe to report "ready" even if Vault is uninitialized and sealed.
           # Useful when bootstrapping Vault for the first time.
