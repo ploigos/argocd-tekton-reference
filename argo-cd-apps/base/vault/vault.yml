@@ -43,7 +43,7 @@ spec:
             - name: vault-init
               configMap:
                 name: vault-bootstrap
-                defaultMode: 0420
+                defaultMode: 0755
             - name: vault-server-tls
               secret:
                 secretName: vault-server-tls
@@ -60,8 +60,8 @@ spec:
             path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
 
           extraEnvironmentVars:
-            VAULT_CAPATH: /var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
-            VAULT_ADDR: vault-internal.vault.svc.cluster.local:8200
+            VAULT_CAPATH: "/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt"
+            VAULT_ADDR: "https://vault-internal.vault.svc.cluster.local:8200"
           service:
             enabled: true
             annotations:
