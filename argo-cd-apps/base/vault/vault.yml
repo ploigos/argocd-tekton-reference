@@ -36,8 +36,8 @@ spec:
           route:
             enabled: true
             host: vault.apps.cluster-x9ffw.x9ffw.sandbox305.opentlc.com
-          tls:
-            termination: "reencrypt"
+            tls:
+              termination: "reencrypt"
           # Mount a configmap containing custom script for bootstrap
           volumes:
             - name: vault-init
