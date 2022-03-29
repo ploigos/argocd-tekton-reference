@@ -1,7 +1,7 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: rekor-server
+  name: rekor-server-route
   namespace: sigstore
 spec:
   port:
