@@ -2,7 +2,7 @@
  
 This document explains the setup and features of this reference implementation.
  
-The [README](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/README.md) has instructions for getting started quickly and repeatably with the CLI. This guide uses web UIs to help an audience quickly understand with minimal background.
+The tutorial uses web UIs to help an audience quickly understand with minimal background. There is different [README](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/README.md) with instructions for getting started quickly and repeatably with the CLI. 
  
 You will need an OpenShift cluster for this tutorial. It must be able to install the GitOps and Pipelines Operators from the Red Hat Marketplace.
 See [the local development environment instructions](Local_Dev_Environment.md) if you want to set that up on your local machine.
@@ -123,8 +123,8 @@ Each of these components consists of many differing kubernets resourecs.  They i
 
 #### Actions to Take
 
-1. Open the OpenShift Admin Console
-2. Create the ArgoCD Application CR
+1. Open the OpenShift Admin Console.
+2. Create the ArgoCD Application CR.
    1. Click the (+) icon at the top of the OpenShift Admin Console to create a resource.
    2. Copy and paste the contents of [everything.yml](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/argo-cd-apps/app-of-apps/everything.yml).
 3. Open the ArgoCD console to verify that the app-of-apps application and dependent applications were created.
@@ -135,7 +135,7 @@ Each of these components consists of many differing kubernets resourecs.  They i
  
 ### Overview
  
-This tutorial focus on providing an x-as-a-service model for software delivery.  This is achieved by providing a REST endpoint for each application archetype.  This endpoint is consumed as a webook via a GitRepo and triggered via a push to some branch. It does not matter if the output artifact is a runtime (Quarkus) or a simple shared library.
+This tutorial focuses on providing an x-as-a-service model for software delivery.  This is achieved by providing a REST endpoint for each application archetype.  This endpoint is consumed as a webook via a GitRepo and triggered via a push to some branch. It does not matter if the output artifact is a runtime (Quarkus) or a simple shared library.
  
 The following are possible application archetypes:
 * Java Maven - A Java-based application that uses the Maven build, test, and package tool. 
@@ -163,8 +163,8 @@ ArgoCD created many Tekton objects when we installed the App of Apps. That inclu
 
 Onboarding a new application for a given pipeline service archetype requires two steps:
 
- 1. Create a git repo
- 2. Register the pipeline service trigger as a webhook for the git repo
+ 1. Create a Git repo.
+ 2. Register the pipeline service trigger as a webhook for the git repo.
 
 We assume you know how to crate a new repo.  Our examples will be using GitHub.  Once the repo is created, you can register the webhook.
 
