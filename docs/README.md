@@ -60,7 +60,7 @@ This tutorial will implement the [Minimal Workflow](https://ploigos.github.io/pl
  
 ### Overview
  
-We take a 100% GitOps approach to managing not just the software you build.  This includes all the integration and deployment tooling & services required.
+We follow a GitOps approach. That means using ArgoCD to deploy all required tools and services (including Tekton). Then we use those tools and services to build new software, which we also deploy using ArgoCD. 
 
 To accomplish all Day 1 tasks, you need to complete the following high-level tasks:
 
