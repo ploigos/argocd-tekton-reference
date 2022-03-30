@@ -154,7 +154,7 @@ An ***Application Archetype*** refers to the programming language and building a
 
 ArgoCD created many Tekton objects when we installed the App of Apps. That includes a Pipeline, EventListener, and Route named "easymode". Together these resources implement a Pipeline as a Service.
 
-1. View the easy-mode Tekton pipeline in the UI
+1. View the easy-mode Tekton pipeline in the UI.
    1. Pipelines -> Pipelines -> Select the "pipelines-easymode" project.
 2. Start the pipeline manually to build and deploy an example application.
    1. Actions -> Start -> Keep the default values -> Start
