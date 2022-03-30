@@ -1,6 +1,6 @@
 # Getting Started Tutorial
  
-This document explains the setup and features of this reference implementation .
+This document explains the setup and features of this reference implementation.
  
 The [README](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/README.md) has instructions for getting started quickly and repeatably with the CLI. This guide uses web UIs to help an audience quickly understand with minimal background.
  
