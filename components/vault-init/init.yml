@@ -7,15 +7,9 @@ data:
   bootstrap.sh: |
     #!/bin/sh
 
-    OUTPUT=/tmp/output.txt
+    OUTPUT=/vault/data/init.log
 
     vault operator init -n 1 -t 1 >> ${OUTPUT?}
-
-    if [ $? -gt 0 ]
-    then
-      echo "Vault already initialized"
-      exit 0
-    fi
 
     unseal=$(cat ${OUTPUT?} | grep "Unseal Key 1:" | sed -e "s/Unseal Key 1: //g")
     root=$(cat ${OUTPUT?} | grep "Initial Root Token:" | sed -e "s/Initial Root Token: //g")
