@@ -37,23 +37,32 @@ spec:
             enabled: true
             host: vault.apps.cluster-x9ffw.x9ffw.sandbox305.opentlc.com
             tls:
-              termination: "reencrypt"
+              termination: "passthrough"
+          #Deploy init container for vault init/unseal
+          extraInitContainers:
+           - name: vault-init
+             image: "registry.connect.redhat.com/hashicorp/vault:1.10.0-ubi"
+             command: [sh, -c]
+             args:
+               - cd /tmp &&
+                 wget https://raw.githubusercontent.com/twling/openshift-pipelines-quickstart/vault/components/vault-init/bootstrap.sh &&
+                 chmod +x bootstrap.sh &&
+                 /tmp/bootstrap.sh
+             volumeMounts:
+               - name: config
+                 mountPath: /vault/config 
+               - name: data
+                 mountPath: /vault/data
           # Mount a configmap containing custom script for bootstrap
           volumes:
-            - name: vault-init
-              configMap:
-                name: vault-bootstrap
-                defaultMode: 0755
-            - name: vault-server-tls
-              secret:
-                secretName: vault-server-tls
+            #  - name: vault-init
+            #  configMap:
+            #    name: vault-bootstrap
+            #    defaultMode: 0755
           volumeMounts:
-            - mountPath: "/vault/userconfig/script"
-              name: "vault-init"
-              readOnly: false
-            - mountPath: "/vault/userconfig/vault-server-tls"
-              name: "vault-server-tls"
-              readOnly: false
+            #- mountPath: "/vault/userconfig/script"
+            # name: "vault-init"
+            #  readOnly: false
           # Configure readiness probe to report "ready" even if Vault is uninitialized and sealed.
           # Useful when bootstrapping Vault for the first time.
           readinessProbe:
@@ -73,8 +82,8 @@ spec:
               ui = true
               listener "tcp" {
                 tls_disable = 0
-                tls_cert_file = "/vault/userconfig/vault-server-tls/tls.crt"
-                tls_key_file = "/vault/userconfig/vault-server-tls/tls.key"
+                tls_cert_file = "/var/run/secrets/kubernetes.io/certs/tls.crt"
+                tls_key_file = "/var/run/secrets/kubernetes.io/certs/tls.key"
                 address = "[::]:8200"
                 cluster_address = "[::]:8201"
               }
@@ -82,10 +91,10 @@ spec:
                 path = "/vault/data"
               }
           #Run post start config to init/unseal vault
-          postStart:
-            - "/bin/sh"
-            - "-c"
-            - "/vault/userconfig/script/bootstrap.sh"
+          #postStart:
+          #  - "/bin/sh"
+          #  - "-c"
+          #  - "/vault/userconfig/script/bootstrap.sh"
 
           
 
