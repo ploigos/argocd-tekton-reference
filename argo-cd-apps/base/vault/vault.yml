@@ -44,7 +44,8 @@ spec:
              image: "registry.connect.redhat.com/hashicorp/vault:1.10.0-ubi"
              command: [sh, -c]
              args:
-               - cd /tmp &&
+               - /usr/local/bin/docker-entrypoint.sh vault server &&  
+                 cd /tmp &&
                  wget https://raw.githubusercontent.com/twling/openshift-pipelines-quickstart/vault/components/vault-init/bootstrap.sh &&
                  chmod +x bootstrap.sh &&
                  /tmp/bootstrap.sh
