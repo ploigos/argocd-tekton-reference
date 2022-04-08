@@ -112,8 +112,22 @@ spec:
     taskRef:
       name: yq-git
     params:
-      - name: new-value2
-        value: frompipeline
+      - name: gitName
+        value: CI Pipeline
+      - name: gitEmail
+        value: tekton@example.com
+      - name: gitRepo
+        value: "https://github.com/dwinchell/reference-quarkus-mvn-ops.git"
+      - name: commitMessage
+        value: Deployment
+      - name: branch
+        value: main
+      - name: file
+        value: charts/reference-quarkus-mvn-deploy/values-DEV.yaml
+      - name: yqPath
+        value: .image.tag
+      - name: value
+        value: newsha1
     runAfter:
       - build-container-image
     workspaces:
