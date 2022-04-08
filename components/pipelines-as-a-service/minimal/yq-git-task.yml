@@ -1,0 +1,67 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: yq-git
+spec:
+  workspaces:
+  params:
+    - name: gitRepo
+      description: URL for the git repository
+    - name: file
+      description: Path to the file to update within the repo
+      type: string
+    - name: yqPath
+      description: "yq-style path specification to the value within the file. Example: '.my.property'"
+      type: string
+    - name: value
+      description: Set this value at the specified path in the target file
+      type: string
+    - name: gitName
+      description: The human readable name for the git user that will show up in the git log. This is NOT the username used to authenticate. Equivalent to git config user.name"
+      type: string
+    - name: gitEmail
+      description: The email for the git user that will show up in the git log. Equivalent to git config user.email"
+      type: string
+    - name: commitMessage
+      description: Message for the git commit log
+      type: string
+    - name: branch
+      description: Checkout and commit to this branch. It must already exist.
+      type: string
+  results:
+    - name: commitHash
+      description: The hash of the new git commit that this task created, if one was created.
+  steps:
+    - name: yq-git
+      image: quay.io/dwinchell_redhat/yq-git-ubi8:latest
+      workingDir: /workspace/clone
+      env:
+        - name: GIT_REPO
+          value: $(params.gitRepo)
+        - name: FILE
+          value: $(params.file)
+        - name: YQ_PATH
+          value: $(params.yqPath)
+        - name: VALUE
+          value: $(params.value)
+        - name: GIT_NAME
+          value: $(params.gitName)
+        - name: GIT_EMAIL
+          value: $(params.gitEmail)
+        - name: COMMIT_MESSAGE
+          value: $(params.commitMessage)
+        - name: COMMIT_HASH_RESULT_PATH
+          value: $(results.commitHash.path)
+        - name: BRANCH
+          value: $(params.branch)
+      script: |
+        #!/usr/bin/sh
+        set -euxo pipefail
+        git clone -b ${BRANCH} ${GIT_REPO} .
+        yq --inplace "${YQ_PATH} = \"${VALUE}\"" ${FILE}
+        git config --global user.email ${GIT_EMAIL}
+        git config --global user.name ${GIT_NAME}
+        git add ${FILE}
+        git commit -am "${COMMIT_MESSAGE}" || echo "No changes"
+        git push origin ${BRANCH}
+        git rev-parse HEAD > ${COMMIT_HASH_RESULT_PATH}
