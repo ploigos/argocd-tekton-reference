@@ -108,16 +108,17 @@ spec:
     - name: source
       workspace: source
 
-
   - name: deploy-latest
+    taskRef:
+      name: yq-git
     params:
-      - name: SCRIPT
-        value: oc rollout restart deployment $(params.rolloutDeployment)
+      - name: new-value
+        value: frompipeline
     runAfter:
       - build-container-image
-    taskRef:
-      kind: ClusterTask
-      name: openshift-client
+    workspaces:
+      - name: clone
+        workspace: gitops-repo-clone
 
   workspaces:
   - description: |
@@ -131,3 +132,9 @@ spec:
   - description: |
       Used to pass a json configuration file with authentication information for container registries.
     name: container-auth
+  - description: |
+      Used to pass a json configuration file with authentication information for container registries.
+    name: container-auth
+  - description: |
+      Location to git clone the gitops repository for the application.
+    name: gitops-repo-clone
