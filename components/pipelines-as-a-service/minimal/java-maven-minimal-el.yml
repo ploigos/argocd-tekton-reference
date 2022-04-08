@@ -69,3 +69,5 @@ spec:
                   name: maven-settings
                 - emptyDir: {}
                   name: container-auth
+                - emptyDir: { }
+                  name: gitops-repo-clone
