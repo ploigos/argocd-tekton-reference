@@ -112,7 +112,7 @@ spec:
     taskRef:
       name: yq-git
     params:
-      - name: new-value
+      - name: new-value2
         value: frompipeline
     runAfter:
       - build-container-image
