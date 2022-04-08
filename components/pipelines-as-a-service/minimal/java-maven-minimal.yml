@@ -133,8 +133,5 @@ spec:
       Used to pass a json configuration file with authentication information for container registries.
     name: container-auth
   - description: |
-      Used to pass a json configuration file with authentication information for container registries.
-    name: container-auth
-  - description: |
       Location to git clone the gitops repository for the application.
     name: gitops-repo-clone
