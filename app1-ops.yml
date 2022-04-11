@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app1
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+
+  source:
+    path: charts/reference-quarkus-mvn-deploy
+    repoURL: https://github.com/dwinchell/reference-quarkus-mvn-ops.git
+    targetRevision: main
+
+  destination:
+    namespace: app1
+    server: https://kubernetes.default.svc
+
+  syncPolicy:
+
+    automated:
+      prune: false
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true
