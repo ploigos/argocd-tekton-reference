@@ -34,3 +34,4 @@ Each one is in a directory under `components/pipelines-as-a-service/`.
 
 * **easy-mode** - Start here. It demonstrates the basics and works great for *non-production* proof of concepts, including demonstrations of onboarding new workloads.
 * **minimal** - Implements the Ploigos "minimal" standard workflow.
+test
