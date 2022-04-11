@@ -3,7 +3,6 @@ kind: Task
 metadata:
   name: yq-git
 spec:
-  workspaces:
   params:
     - name: gitRepo
       description: URL for the git repository
@@ -31,6 +30,8 @@ spec:
   results:
     - name: commitHash
       description: The hash of the new git commit that this task created, if one was created.
+  workspaces:
+    - name: clone
   steps:
     - name: yq-git
       image: quay.io/dwinchell_redhat/yq-git-ubi8:latest
