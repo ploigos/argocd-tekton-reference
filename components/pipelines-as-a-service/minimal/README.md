@@ -15,7 +15,6 @@
 * Access to add an ssh key for the GitHub user.
 * Credentials for registry.redhat.io.
 
-
 ## Setup
 * Install the Openshift GitOps Operator, which will install ArgoCD.
   * `oc create -k bootstrap/`
@@ -25,8 +24,9 @@
 * Create a docker pull secret to allow the pipeline to pull the base image from registry.redhat.com
 ```shell
   podman login registry.redhat.io
-  oc create secret generic docker-redhat-auth --from-file=.dockerconfigjson=$XDG_RUNTIME_DIR/containers/auth.json -n pipelines-minimal
-  oc secret link pipeline docker-redhat-auth -n pipelines-minimal
+  PIPELINES_NAMESPACE=pipelines-minimal # ArgoCD creates this namespace. Change it here if you customized the deployment.
+  oc create secret generic docker-redhat-auth --from-file=.dockerconfigjson=${XDG_RUNTIME_DIR}/containers/auth.json -n ${PIPELINES_NAMESPACE} # If your podman install places auth.json somewhere else (unlikely) then you may have to change the path
+  oc secret link pipeline docker-redhat-auth -n ${PIPELINES_NAMESPACE}
 ```
 * Configure SSH authentication for the pipeline's GitHub user
 ```shell
@@ -34,14 +34,15 @@
   ssh-keygen -f pipeline_rsa -N ''
   
   # Create a secret to store the private key and then delete the private key file
-  oc create secret generic github-auth --type=kubernetes.io/ssh-auth --from-file=ssh-privatekey=pipeline_rsa
-  oc patch secret github-auth -p '{"metadata":{"annotations":{"tekton-dev/git-0":"github.com"}}}'
+  PIPELINES_NAMESPACE=pipelines-minimal # ArgoCD creates this namespace. Change it here if you customized the deployment.
+  oc create secret generic github-auth --type=kubernetes.io/ssh-auth --from-file=ssh-privatekey=pipeline_rsa -n ${PIPELINES_NAMESPACE}
+  oc patch secret github-auth -p '{"metadata":{"annotations":{"tekton-dev/git-0":"github.com"}}}' -n ${PIPELINES_NAMESPACE}
+  oc secret link pipeline github-auth -n ${PIPELINES_NAMESPACE}
   rm pipeline_rsa
 
   # Upload public key to GitHub and then delete the public key file
-  gh auth login github.com -s admin:public_key
+  gh auth login -s admin:public_key -h github.com
   gh ssh-key add -t "Tekton pipeline access" pipeline_rsa.pub
-  oc patch secret github-auth -p '{"metadata":{"annotations":{"tekton-dev/git-0":"github.com"}}}'
   rm pipeline_rsa.pub
 ```
 
