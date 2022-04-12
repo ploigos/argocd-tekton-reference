@@ -21,7 +21,7 @@ spec:
   syncPolicy:
 
     automated:
-      prune: true
+      prune: false # The easymode pipeline isn't fully gitops friendly. The minimal pipeline is though!
       selfHeal: true
 
     syncOptions:
