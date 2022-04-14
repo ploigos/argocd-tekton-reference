@@ -28,6 +28,15 @@ spec:
           agentImage:
             repository: "registry.connect.redhat.com/hashicorp/vault"
             tag: "1.10.0-ubi"
+          certs:
+            secretName: vault-agent-injector-tls
+            #caBundle: "/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt"
+            certName: tls.crt
+            keyName: tls.key
+          service:
+            annotations:
+              #utilize OCP service-ca for certs
+              service.beta.openshift.io/serving-cert-secret-name: vault-agent-injector-tls
         #server config
         server:
           image:
