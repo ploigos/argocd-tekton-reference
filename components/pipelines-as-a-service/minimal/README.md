@@ -26,7 +26,7 @@
   podman login registry.redhat.io
   PIPELINES_NAMESPACE=pipelines-minimal # ArgoCD creates this namespace. Change it here if you customized the deployment.
   oc create secret generic docker-redhat-auth --from-file=.dockerconfigjson=${XDG_RUNTIME_DIR}/containers/auth.json -n ${PIPELINES_NAMESPACE} # If your podman install places auth.json somewhere else (unlikely) then you may have to change the path
-  oc secret link pipeline docker-redhat-auth -n ${PIPELINES_NAMESPACE}
+  oc secret link pipeline docker-redhat-auth -n ${PIPELINES_NAMESPACE} --for=pull
 ```
 * Configure SSH authentication for the pipeline's GitHub user
 ```shell
