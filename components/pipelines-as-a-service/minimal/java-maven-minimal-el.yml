@@ -9,8 +9,8 @@ spec:
   triggers:
   - name: java-maven-minimal
     bindings:
-    - kind: ClusterTriggerBinding
-      ref: github-push
+    - kind: TriggerBinding
+      ref: github-push-ssh
     template:
       spec:
         params:
