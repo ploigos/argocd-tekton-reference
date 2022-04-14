@@ -21,7 +21,7 @@ spec:
   - name: IMAGE
     type: string
     description: image to be build from the code
-    default: "image-registry.openshift-image-registry.svc:5000/quickstart-app-easymode/pipelines-vote-api"
+    default: "image-registry.openshift-image-registry.svc:5000/pipelines-easymode/pipelines-vote-api"
   - name: TLSVERIFY
     type: string
     description: Whether buildah should use TLS verification for interacting with container registries
