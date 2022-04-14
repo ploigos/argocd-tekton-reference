@@ -66,9 +66,7 @@ spec:
             config: |
               ui = true
               listener "tcp" {
-                tls_disable = 0
-                tls_cert_file = "/var/run/secrets/kubernetes.io/certs/tls.crt"
-                tls_key_file = "/var/run/secrets/kubernetes.io/certs/tls.key"
+                tls_disable = 1
                 address = "[::]:8200"
                 cluster_address = "[::]:8201"
               }
