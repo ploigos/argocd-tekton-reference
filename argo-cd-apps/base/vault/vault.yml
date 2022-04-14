@@ -35,7 +35,7 @@ spec:
             tag: "1.10.0-ubi"
           route:
             enabled: true
-            host: vault.apps.cluster-x9ffw.x9ffw.sandbox305.opentlc.com
+            host: vault.apps.cluster-k2wgc.k2wgc.sandbox861.opentlc.com
             tls:
               termination: "passthrough"
           # Mount a configmap containing custom script for bootstrap
