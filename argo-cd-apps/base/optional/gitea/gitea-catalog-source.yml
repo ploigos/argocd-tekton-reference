@@ -10,7 +10,7 @@ spec:
   project: default
 
   source:
-    path: components/optional/gitea/catalog-source.yml
+    path: components/optional/gitea/catalog-source/
     repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
     targetRevision: argo-deploy
 
