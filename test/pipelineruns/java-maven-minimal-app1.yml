@@ -32,6 +32,8 @@ spec:
           requests:
             storage: 1Gi
         volumeMode: Filesystem
+  - name: gitops-repo-clone
+    emptyDir: {}
   - name: maven-settings
     emptyDir: { }
     #secret:
