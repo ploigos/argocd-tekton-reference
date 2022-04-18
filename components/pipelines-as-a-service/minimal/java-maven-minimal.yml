@@ -5,57 +5,75 @@ metadata:
 spec:
 
   params:
-  - default: ['package']
+  - name: mvnArgs
+    default: ['package']
     description: Arguments including goals, passed to the mvn command.
-    name: mvnArgs
     type: array
-  - default: "false"
+  - name: verbose
+    default: "false"
     description: Log any sh commands used during execution.
-    name: verbose
     type: string
-  - description: |
+  - name: appRepoUrl
+    description: |
       URL to the application repository to run the pipeline for.
-    name: appRepoUrl
     type: string
-  - description: |
+  - name: appRepoRef
+    description: |
       Git reference (tag, branch) of the application repository to run the pipeline for.
-    name: appRepoRef
     type: string
-  - description: |
+  - name: appImage
+    description: |
       The pipeline will build and push an application image with this tag.
-    name: appImage
     type: string
-  - description: |
+  - name: opsRepoUrl
+    description: |
       URL to the application ops repository (the repository that your gitops controller watches).
-      In order to deploy the updated changes, the pipeline will commit the new SHA of the build container image before triggering a rollout.
-      If left empty, the pipeline will assume the URL is the same as the application repository URL, but with "-ops" added to the repository name.
-    name: opsRepoUrl
+      In order to deploy the updated changes, the pipeline will commit the new SHA of the build container image before
+      triggering a rollout. If left empty, the pipeline will assume the URL is the same as the application repository
+      URL, but with "-ops" added to the repository name.
     default: ''
     type: string
-  - description: |
+  - name: opsRepoFilePath
+    description: |
+      In the ops repository, the path to a YAML file the that the gitops controller watches for the SHA of the
+      application's container image. For example, this could be a k8s Deployment manifest or a helm values.yml file for
+      Helm. The pipeline will edit this file and commit and push the change.
+    default: charts/reference-quarkus-mvn-deploy/values-DEV.yaml
+    type: string
+  - name: opsRepoYamlPath
+    description: |
+      The path to the YAML field that the pipeline should update with the SHA of the newly built image. Uses the same
+      syntax as the yq utility (i.e. '.my.field'). This path refers to the structure of the file specified
+      by opsRepoFilePath. The gitops controller should use the value at this path to decide which application image tag
+      to deploy.
+    default: .image.tag
+    type: string
+  - name: rolloutDeployment
+    description: |
       Rollout the deployment with this name after building the image. This will cause the Pod to restart. It will pull
       and use the newly built image after every build.
-    name: rolloutDeployment
     type: string
-  - description: |
+  - name: targetRegistry
+    description: |
       The container registry to push the image to.
-    name: targetRegistry
     default: image-registry.openshift-image-registry.svc
-  - default: "true"
+    type: string
+  - name: tlsVerify
+    default: "true"
     description: |
       If this is "false", no tasks will use TLS verification. Leave it "true" in production. If you want to turn
       off verification for only some tasks, fork the pipeline and add pipeline parameters.
-    name: tlsVerify
     type: string
-  - default: .
+  - name: containerBuildContext
     description:
       The context path for building the container. I.e. the directory from which you would run a docker build or buildah
       bud command.
-    name: containerBuildContext
-  - default: ./Containerfile
+    default: .
+    type: string
+  - name: containerfile
     description: |
       The path to the application's Containerfile or Dockerfile relative to the root of the source repository.
-    name: containerfile
+    default: ./Containerfile
     type: string
 
   tasks:
@@ -130,9 +148,9 @@ spec:
       - name: branch
         value: $(params.appRepoRef)
       - name: file
-        value: charts/reference-quarkus-mvn-deploy/values-DEV.yaml
+        value: $(params.opsRepoFilePath)
       - name: yqPath
-        value: .image.tag
+        value: $(params.opsRepoYamlPath)
       - name: value
         value: newsha1
     runAfter:

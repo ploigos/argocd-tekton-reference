@@ -20,6 +20,8 @@ spec:
       value: main
     - name: opsRepoUrl
       value: git@github.com:dwinchell/reference-quarkus-mvn-ops.git
+    - name:
+      value: charts/reference-quarkus-mvn-deploy/values-DEV.yaml
     - name: rolloutDeployment
       value: demo-app1
     - name: verbose
