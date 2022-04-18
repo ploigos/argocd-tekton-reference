@@ -98,7 +98,7 @@ spec:
     workspaces:
     - name: output
       workspace: source
-    - name: ssh-directory
+    - name: git-ssh-directory
       workspace: git-ssh-directory
 
   - name: build-application
@@ -178,5 +178,5 @@ spec:
     name: gitops-repo-clone
   - description: |
       A directory with ssh keys to use for cloning and pushing to git repositories. Use a Secret to supply the files.
-    name: git-ssh-keys
+    name: git-ssh-directory
     optional: true
