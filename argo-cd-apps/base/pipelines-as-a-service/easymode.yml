@@ -11,8 +11,8 @@ spec:
 
   source:
     path: components/pipelines-as-a-service/easymode
-    repoURL: https://github.com/twling/openshift-pipelines-quickstart.git
-    targetRevision: vault
+    repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
+    targetRevision: main 
 
   destination:
     namespace: pipelines-easymode

@@ -49,3 +49,5 @@ In your fork of this quickstart repository go to Settings -> Webhooks -> Add Web
 
 ## Vault Integration
 Hashicorp Vault will be deployed with all pipelines into the `vault` namespace. With a fresh deployment, Vault will initialize and unseal itself, with the unseal key(s) and initial root token stored in the following file on persistent storage: `/vault/data/init.log`. Ensure that the credentials are recorded externally and this file is deleted for additional security.
+
+The `Route` created by ArgoCD has a hardcoded host value that needs to be updated per cluster in this file: `argo-cd-apps/base/vault/vault.yml`
