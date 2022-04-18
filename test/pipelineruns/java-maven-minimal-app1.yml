@@ -42,6 +42,6 @@ spec:
     #  secretName: maven-settings
   - name: container-auth
     emptyDir: { }
-#    secret:
-#      secretName: container-auth
-
+  - name: git-ssh-keys
+    secret:
+      secretName: github-auth

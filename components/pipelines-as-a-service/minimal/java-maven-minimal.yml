@@ -98,6 +98,8 @@ spec:
     workspaces:
     - name: output
       workspace: source
+    - name: ssh-directory
+      workspace: git-ssh-directory
 
   - name: build-application
     params:
@@ -174,3 +176,7 @@ spec:
   - description: |
       Location to git clone the gitops repository for the application.
     name: gitops-repo-clone
+  - description: |
+      A directory with ssh keys to use for cloning and pushing to git repositories. Use a Secret to supply the files.
+    name: git-ssh-keys
+    optional: true
