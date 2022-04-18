@@ -3,5 +3,4 @@ kind: Kustomization
 
 resources:
   - openshift-pipelines.yml
-  - optional/
   - pipelines-as-a-service/
