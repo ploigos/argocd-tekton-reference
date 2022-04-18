@@ -98,7 +98,7 @@ spec:
     workspaces:
     - name: output
       workspace: source
-    - name: git-ssh-directory
+    - name: ssh-directory
       workspace: git-ssh-directory
 
   - name: build-application
