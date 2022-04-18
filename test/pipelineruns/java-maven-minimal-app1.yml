@@ -13,11 +13,13 @@ spec:
         - "-DskipITs"
         - "package"
     - name: appRepoUrl
-      value: https://github.com/ploigos-reference-apps/demo-app1.git
+      value: git@github.com:dwinchell/reference-quarkus-mvn.git
     - name: appImage
       value: image-registry.openshift-image-registry.svc:5000/pipelines-minimal/demo-app1:latest
     - name: appRepoRef
       value: main
+    - name: opsRepoUrl
+      value: git@github.com:dwinchell/reference-quarkus-mvn-ops.git
     - name: rolloutDeployment
       value: demo-app1
     - name: verbose
@@ -42,3 +44,4 @@ spec:
     emptyDir: { }
 #    secret:
 #      secretName: container-auth
+

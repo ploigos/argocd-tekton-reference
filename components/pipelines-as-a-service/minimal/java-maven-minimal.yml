@@ -26,6 +26,13 @@ spec:
     name: appImage
     type: string
   - description: |
+      URL to the application ops repository (the repository that your gitops controller watches).
+      In order to deploy the updated changes, the pipeline will commit the new SHA of the build container image before triggering a rollout.
+      If left empty, the pipeline will assume the URL is the same as the application repository URL, but with "-ops" added to the repository name.
+    name: opsRepoUrl
+    default: ''
+    type: string
+  - description: |
       Rollout the deployment with this name after building the image. This will cause the Pod to restart. It will pull
       and use the newly built image after every build.
     name: rolloutDeployment
@@ -117,11 +124,11 @@ spec:
       - name: gitEmail
         value: tekton@example.com
       - name: gitRepo
-        value: "https://github.com/dwinchell/reference-quarkus-mvn-ops.git"
+        value: $(params.opsRepoUrl)
       - name: commitMessage
         value: Deployment
       - name: branch
-        value: main
+        value: $(params.appRepoRef)
       - name: file
         value: charts/reference-quarkus-mvn-deploy/values-DEV.yaml
       - name: yqPath
