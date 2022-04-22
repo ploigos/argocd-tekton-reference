@@ -159,7 +159,7 @@ ArgoCD created many Tekton objects when we installed the App of Apps. That inclu
 2. Start the pipeline manually to build and deploy an example application.
    1. Actions -> Start -> Keep the default values -> Start
 
- ### Onboarding A New Application
+### Onboarding A New Application
 
 Onboarding a new application for a given pipeline service archetype requires two steps:
 
