@@ -1,0 +1,117 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vault
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+
+  source:
+    chart: vault
+    repoURL: https://helm.releases.hashicorp.com
+    targetRevision: v0.19.0
+    helm:
+      values: |
+        global:
+          openshift: true
+          tlsDisable: false
+        ui:
+          enabled: true
+        #injector config
+        injector:
+          image:
+            repository: "registry.connect.redhat.com/hashicorp/vault-k8s"
+            tag: "0.15.0-ubi"
+          agentImage:
+            repository: "registry.connect.redhat.com/hashicorp/vault"
+            tag: "1.10.0-ubi"
+          certs:
+            secretName: vault-agent-injector-tls
+            #caBundle: "/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt"
+            certName: tls.crt
+            keyName: tls.key
+          service:
+            annotations:
+              #utilize OCP service-ca for certs
+              service.beta.openshift.io/serving-cert-secret-name: vault-agent-injector-tls
+        #server config
+        server:
+          image:
+            repository: "registry.connect.redhat.com/hashicorp/vault"
+            tag: "1.10.0-ubi"
+          route:
+            enabled: true
+            host: vault.apps.cluster-k2wgc.k2wgc.sandbox861.opentlc.com
+            tls:
+              termination: "passthrough"
+          # Mount a configmap containing custom script for bootstrap
+          volumes:
+            - name: vault-init
+              configMap:
+                name: vault-bootstrap
+                defaultMode: 0755
+            - name: vault-server-tls
+              secret:
+                secretName: vault-server-tls
+          volumeMounts:
+            - name: "vault-init"
+              mountPath: "/vault/userconfig/script"
+              readOnly: false
+            - mountPath: "/vault/userconfig/vault-server-tls"
+              name: "vault-server-tls"
+              readOnly: false
+          # Configure readiness probe to report "ready" even if Vault is uninitialized and sealed.
+          # Useful when bootstrapping Vault for the first time.
+          readinessProbe:
+            path: "/v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204"
+          extraEnvironmentVars:
+            VAULT_CAPATH: "/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt"
+            VAULT_ADDR: "https://vault-internal.vault.svc.cluster.local:8200"
+          service:
+            enabled: true
+            annotations:
+              #utilize OCP service-ca for certs
+              service.beta.openshift.io/serving-cert-secret-name: vault-server-tls
+          #adjust standalone config for (tls_disable = 0)
+          standalone:
+            enabled: true
+            config: |
+              ui = true
+              listener "tcp" {
+                tls_disable = 0
+                tls_cert_file = "/vault/userconfig/vault-server-tls/tls.crt"
+                tls_key_file = "/vault/userconfig/vault-server-tls/tls.key"
+                address = "[::]:8200"
+                cluster_address = "[::]:8201"
+              }
+              storage "file" {
+                path = "/vault/data"
+              }
+          #Run post start config to init/unseal vault
+          postStart:
+            - "/bin/sh"
+            - "-c"
+            - "/vault/userconfig/script/bootstrap.sh"
+
+          
+
+  destination:
+    namespace: vault
+    server: https://kubernetes.default.svc
+
+  syncPolicy:
+
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true
+
+    retry:
+      limit: 5 # number of failed sync attempt retries; unlimited number of attempts if less than 0
+      backoff:
+        duration: 15s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")

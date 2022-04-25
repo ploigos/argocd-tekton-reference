@@ -34,4 +34,20 @@ Each one is in a directory under `components/pipelines-as-a-service/`.
 
 * **easy-mode** - Start here. It demonstrates the basics and works great for *non-production* proof of concepts, including demonstrations of onboarding new workloads.
 * **minimal** - Implements the Ploigos "minimal" standard workflow.
-test
+
+## Configuring GitHub to start your Pipeline when the App Code Changes
+In the GitHub repository for your application, go to Settings -> Webhooks -> Add Webhook.
+* `Payload URL` - Enter the Tekton *EventListener* webhook URL for your cluster. This is *NOT* the ArgoCD webhook URL. You can get the correct value with `oc get route -n pipelines-easymode -o wide`. The URL should look like https://easymode-pipelines-easymode.[your.cluster.com]/
+* `Content Type` - application/json
+* `SSL verification` - If your OpenShift cluster is using TLS certificates that GitHub does not trust, you will have to select SSL verification -> Disable. To avoid this when using github.com, you have to configure OpenShift with TLS certs signed by a well known certificate authority. 
+
+## (Optional) Triggering an ArgoCD Sync when your GitOps Repo Changes
+In your fork of this quickstart repository go to Settings -> Webhooks -> Add Webhook.
+* `Payload URL` - Enter the *ArgoCD* webhook URL for your cluster. This is *NOT* the Tekton EventListener webhook URL. You can get the first part of the value with `echo "https://$(oc get route openshift-gitops-server -n openshift-gitops -o jsonpath --template='{.spec.host}')/api/webhook"`. The URL should look like https://openshift-gitops-server-openshift-gitops.[your.cluster.com]/api/webhook
+* `Content Type` - application/json
+* `SSL verification` - If your OpenShift cluster is using TLS certificates that GitHub does not trust, you will have to select SSL verification -> Disable. To avoid this when using github.com, you have to configure OpenShift with TLS certs signed by a well known certificate authority.
+
+## Vault Integration
+Hashicorp Vault will be deployed with all pipelines into the `vault` namespace. With a fresh deployment, Vault will initialize and unseal itself, with the unseal key(s) and initial root token stored in the following file on persistent storage: `/vault/data/init.log`. Ensure that the credentials are recorded externally and this file is deleted for additional security.
+
+The `Route` created by ArgoCD has a hardcoded host value that needs to be updated per cluster in this file: `argo-cd-apps/base/vault/vault.yml`

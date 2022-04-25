@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-bootstrap
+  namespace: vault
+data:
+  bootstrap.sh: |
+    #!/bin/sh
+
+    OUTPUT=/vault/data/init.log
+
+    vault operator init -n 1 -t 1 >> ${OUTPUT?}
+
+    unseal=$(cat ${OUTPUT?} | grep "Unseal Key 1:" | sed -e "s/Unseal Key 1: //g")
+    root=$(cat ${OUTPUT?} | grep "Initial Root Token:" | sed -e "s/Initial Root Token: //g")
+
+    vault operator unseal ${unseal?}
+
+    #vault login -no-print ${root?}
