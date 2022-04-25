@@ -157,7 +157,9 @@ ArgoCD created many Tekton objects when we installed the App of Apps. That inclu
 1. View the easy-mode Tekton pipeline in the UI.
    1. Pipelines -> Pipelines -> Select the "pipelines-easymode" project.
 2. Start the pipeline manually to build and deploy an example application.
-   1. Actions -> Start -> Keep the default values -> Start
+   1. Actions -> Start
+   2. Change the dropdown option under Workspaces for shared-workspace from "Empty Directory" to "VolumeClaimTemplate".
+   3. Select Start
 
 ### Onboarding A New Application
 
