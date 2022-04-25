@@ -128,8 +128,8 @@ Each of these components consists of many differing kubernets resourecs.  They i
    1. Click the (+) icon at the top of the OpenShift Admin Console to create a resource.
    2. Copy and paste the contents of [minimal.yml](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/argo-cd-apps/app-of-apps/minimal.yml).
 3. Open the "Installed Operators" view in the OpenShift Admin Console to verify that OpenShift Pipelines Operator was installed.
-4. Open the ArgoCD console to verify that the app-of-apps application and dependent applications were created. You may have to wait for everything to install and sync. This could take up to 10 minutes depending on your cluster configuraiton. When the installation is done, all applications will say "Synced". The pipelines-minimall application will still also say "Progressing" until the pipeline has been started for the first time. That is normal.
- 
+4. Open the ArgoCD console to verify that the app-of-apps application and dependent applications were created.
+   1. **Note:** Depending on your cluster configuration, it may take 10 minutes or longer for ArgoCD to create and sync all of the Application CRDs. When the installation is done, all applications will say "Synced". The pipelines-minimal application will still also say "Progressing" or "Degraded" until the pipeline has been started for the first time. That is normal.
  
 ## Day 2 - Daily Operations
  
