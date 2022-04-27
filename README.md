@@ -11,7 +11,7 @@ If you have done this sort of thing before and are using OpenShift, these instru
 1. Install the OpenShift GitOps Operator and grant it RBAC permissions to install the remaining resources.
    * `oc create -k bootstrap/`
 2. Wait for the operator to start ArgoCD. This may take a few minutes. You can monitor progress by looking at the Pods in the openshift-gitops project.
-3. Install the "minimal" ArgoCD Application.
+3. Install the "minimal" app-of-apps ArgoCD Application.
    * `oc create -f argo-cd-apps/app-of-apps/minimal.yml`
 4. Fork the [example application](https://github.com/ploigos-reference-apps/pipelines-vote-api) on GitHub.
 5. Configure your fork in  GitHub to start your Pipeline when the Application source code canges.
