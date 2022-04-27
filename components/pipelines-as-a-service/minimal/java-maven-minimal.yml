@@ -17,7 +17,7 @@ spec:
       URL to the application repository to run the pipeline for.
     name: appRepoUrl
     type: string
-    default: "https://github.com/ploigos-reference-apps/pipelines-vote-api"
+    default: "https://github.com/ploigos-reference-apps/reference-quarkus-mvn"
   - description: |
       Git reference (tag, branch) of the application repository to run the pipeline for.
     name: appRepoRef
@@ -27,7 +27,7 @@ spec:
       The pipeline will build and push an application image with this tag.
     name: appImage
     type: string
-    default: image-registry.openshift-image-registry.svc:5000/pipelines-easymode/pipelines-vote-api
+    default: image-registry.openshift-image-registry.svc:5000/pipelines-minimal/demo-app1
   - description: |
       Rollout the deployment with this name after building the image. This will cause the Pod to restart. It will pull
       and use the newly built image after every build.
