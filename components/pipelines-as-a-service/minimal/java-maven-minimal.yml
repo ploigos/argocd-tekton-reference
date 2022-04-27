@@ -17,10 +17,12 @@ spec:
       URL to the application repository to run the pipeline for.
     name: appRepoUrl
     type: string
+    default: "https://github.com/ploigos-reference-apps/pipelines-vote-api"
   - description: |
       Git reference (tag, branch) of the application repository to run the pipeline for.
     name: appRepoRef
     type: string
+    default: main
   - description: |
       The pipeline will build and push an application image with this tag.
     name: appImage
@@ -30,6 +32,7 @@ spec:
       and use the newly built image after every build.
     name: rolloutDeployment
     type: string
+    default: "true"
   - description: |
       The container registry to push the image to.
     name: targetRegistry
