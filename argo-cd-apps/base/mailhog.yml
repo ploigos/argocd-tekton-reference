@@ -12,7 +12,7 @@ spec:
   source:
     path: components/mailhog
     repoURL: https://github.com/ploigos/argocd-tekton-reference.git
-    targetRevision: main
+    targetRevision: minimal-defaults
 
   destination:
     namespace: mailhog
