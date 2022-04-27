@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - openshift-pipelines/
   - pipelines-as-a-service/
+  - vault/
   - mailhog.yml
   - nexus-operator.yml
   - nexus-repo.yml
