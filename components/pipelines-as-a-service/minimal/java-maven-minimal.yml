@@ -27,6 +27,7 @@ spec:
       The pipeline will build and push an application image with this tag.
     name: appImage
     type: string
+    default: image-registry.openshift-image-registry.svc:5000/pipelines-easymode/pipelines-vote-api
   - description: |
       Rollout the deployment with this name after building the image. This will cause the Pod to restart. It will pull
       and use the newly built image after every build.
