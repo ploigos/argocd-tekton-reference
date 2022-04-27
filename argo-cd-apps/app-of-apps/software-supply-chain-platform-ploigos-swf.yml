@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: app-of-apps-software-supply-chain
+  name: app-of-apps
   namespace: devsecops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
