@@ -11,7 +11,7 @@ spec:
 
   source:
     path: argo-cd-apps/overlays/software-supply-chain-platform/ploigos-software-factory-operator
-    repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
+    repoURL: https://github.com/ploigos/argocd-tekton-reference.git
     targetRevision: main
 
   destination:
