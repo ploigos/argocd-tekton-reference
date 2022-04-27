@@ -12,7 +12,7 @@ spec:
   source:
     path: argo-cd-apps/overlays/software-supply-chain-platform/openshift-gitops
     repoURL: https://github.com/ploigos/argocd-tekton-reference.git
-    targetRevision: main
+    targetRevision: url-fix
 
   destination:
     namespace: openshift-gitops

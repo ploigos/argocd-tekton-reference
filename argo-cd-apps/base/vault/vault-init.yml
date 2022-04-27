@@ -12,7 +12,7 @@ spec:
   source:
     path: components/vault-init
     repoURL: https://github.com/ploigos/argocd-tekton-reference.git
-    targetRevision: main
+    targetRevision: url-fix
 
   destination:
     namespace: vault

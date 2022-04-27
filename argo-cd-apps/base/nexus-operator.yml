@@ -12,7 +12,7 @@ spec:
   source:
     path: components/nexus-operator
     repoURL: https://github.com/ploigos/argocd-tekton-reference.git
-    targetRevision: main
+    targetRevision: url-fix
 
   destination:
     namespace: openshift-operators
