@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitea-subscription
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+
+  source:
+    path: components/optional/gitea/subscription/
+    repoURL: https://github.com/ploigos/openshift-pipelines-quickstart.git
+    targetRevision: argo-deploy
+
+  destination:
+    namespace: openshift-marketplace
+    server: https://kubernetes.default.svc
+
+  syncPolicy:
+
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true
+
+    retry:
+      limit: 50 # number of failed sync attempt retries; unlimited number of attempts if less than 0
+      backoff:
+        duration: 15s # the amount to back off. Default unit is seconds, but could also be a duration (e.g. "2m", "1h")

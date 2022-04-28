@@ -1,0 +1,9 @@
+apiVersion: gpte.opentlc.com/v1
+kind: Gitea
+metadata:
+  name: gitea
+spec:
+  giteaImageTag: 1.15.10
+  giteaVolumeSize: 4Gi
+  giteaSsl: true
+  postgresqlVolumeSize: 4Gi
