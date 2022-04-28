@@ -1,13 +1,13 @@
 # ArgoCD Tekton Reference Implementation
 
-A reference implementation for using ArgoCD and Tekton together to implement gitops and deployment pipelines.
+A reference implementation for using ArgoCD, Tekton and OpenShift to implement gitops and deployment pipelines.
 
 ## Documentation
 * [Getting Started Tutorial](https://ploigos.github.io/argocd-tekton-reference/) - A detailed introduction and setup instructions.
 * [Local Development Environment Setup](https://github.com/ploigos/argocd-tekton-reference/blob/main/docs/Local_Dev_Environment.md) - Set up a local development environment using CodeReady Containers.
 
 ## Quick Setup
-If you have done this sort of thing before and are using OpenShift, these instructions will get you up and running quickly. The [Getting Started Tutorial](https://ploigos.github.io/argocd-tekton-reference/) includes alternative setup instructions that use the web UI.
+If you have done this sort of thing before, these instructions will get you up and running quickly. The [Getting Started Tutorial](https://ploigos.github.io/argocd-tekton-reference/) includes alternative setup instructions that use the web UI.
 1. Install the OpenShift GitOps Operator and grant it RBAC permissions to install the remaining resources.
    * `oc create -k bootstrap/`
 2. Wait for the operator to start ArgoCD. This may take a few minutes. You can monitor progress by looking at the Pods in the openshift-gitops project.
