@@ -1,0 +1,19 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  generateName: manual-buildah-
+  namespace: pipelines-minimal
+spec:
+  params:
+  - name: DOCKERFILE
+    value: Containerfile
+  serviceAccountName: pipeline
+  taskRef:
+    kind: ClusterTask
+    name: buildah
+  timeout: 1h0m0s
+  workspaces:
+  - name: source
+    configMap:
+      name: containerfile
+
