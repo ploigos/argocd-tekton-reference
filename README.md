@@ -43,7 +43,7 @@ You can configure your source code repository to trigger a webhook and start the
 1. Fork the [example application](https://github.com/ploigos-reference-apps/pipelines-vote-api) on GitHub.
 2. Configure your fork in  GitHub to start your Pipeline when the Application source code canges.
    * Settings -> Webhooks -> Add Webhook.
-   * `Payload URL` - Enter the URL for the "easymode" EventListener Route that Tekton is listening on. You can get the correct value with `oc get route -n pipelines-easymode -o wide`.
+   * `Payload URL` - Enter the URL for the "easymode" EventListener Route that Tekton is listening on. You can look up the correct the hostname with `oc get route -n pipelines-easymode -o wide`. The URL should look like https://[EventListner Route].[your.cluster.com]/
    * `Content Type` - application/json
    * `SSL verification` - If your OpenShift cluster is using TLS certificates that GitHub does not trust, you will have to select SSL verification -> Disable. To avoid this when using github.com, you have to configure OpenShift with TLS certs signed by a well known certificate authority.
 3. If you use the Test button on the GitHub settings page, the test will pass but the pipeline will not start. This is because the webhook event that GitHub uses to test does not contain all of the same information as real events.
