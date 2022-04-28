@@ -5,7 +5,7 @@ metadata:
 spec:
 
   params:
-  - default: ['-no-transfer-progress', 'package']
+  - default: ['-no-transfer-progress', '-DskipITs', 'package']
     description: Arguments including goals, passed to the mvn command.
     name: mvnArgs
     type: array
