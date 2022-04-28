@@ -1,8 +1,8 @@
 # Getting Started Tutorial
  
-This document explains the setup and features of this reference implementation.
+This tutorial covers the setup and features of the reference implementation. It assumes some familiarity with [Tekton](https://tekton.dev/docs/) and [ArgoCD](https://argo-cd.readthedocs.io/en/stable/).
  
-The tutorial uses web UIs to help an audience quickly understand with minimal background. There is different [README](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/README.md) with instructions for getting started quickly and repeatably with the CLI. 
+The instructions use web UIs. There is different [README](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/README.md) with instructions for getting started quickly and repeatably with the CLI.
  
 You will need an OpenShift cluster for this tutorial. It must be able to install the GitOps and Pipelines Operators from the Red Hat Marketplace.
 See [the local development environment instructions](Local_Dev_Environment.md) if you want to set that up on your local machine.
