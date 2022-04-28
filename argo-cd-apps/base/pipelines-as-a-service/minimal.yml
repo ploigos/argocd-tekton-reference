@@ -12,7 +12,7 @@ spec:
   source:
     path: components/pipelines-as-a-service/minimal
     repoURL: https://github.com/ploigos/argocd-tekton-reference.git
-    targetRevision: main
+    targetRevision: gitops
 
   destination:
     namespace: pipelines-minimal
