@@ -1,0 +1,12 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+  creationTimestamp: "2022-04-28T02:03:44Z"
+  name: default
+  resourceVersion: "257907"
+  uid: 946c8b1b-f22d-4b5a-a60b-172bf8ebb243
+provisioner: kubernetes.io/no-provisioner
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer

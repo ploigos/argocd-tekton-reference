@@ -17,14 +17,14 @@ If you have done this sort of thing before, these instructions will get you up a
 ## Starting a Pipeline Manually Using the OpenShift Developer Console
 You can use the OpenShift Developer Console to start the "easymode" pipeline with default options.
 
-**Note:** If you are using CodeReady Workspaces, this will not work because the CRC installer does not create a StorageClass resource object by default. See below for CLI instructions that work with CRC.
+**Note:** If you are using a fresh installation of CodeReady Workspaces, this will not work because there are StorageClasses. 
+See [Local Development Environment Setup](./docs/Local_Dev_Environment.md#Creating-a-Default-Storage-Class) for instructions to add one.
 
 To start the pipeline:
 1. In the OpenShift developer console, expand the Pipelines menu option on the left navigation.
 2. Pipelines -> easymode -> Actions -> Start
 3. Under Workspaces, expand the dropdown for "shared-workspace" and select "VolumeClaimTemplate". 
 4. Select Start.
-
 
 ## Starting a Pipeline Manually Using the Terminal
 You can use the [tkn cli](https://github.com/tektoncd/cli) to start the "easymode" pipeline using the command line.
