@@ -2,10 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - openshift-pipelines/
   - pipelines-as-a-service/
+  - openshift-pipelines/
+  - optional/
   - vault/
-  - mailhog.yml
-  - nexus-operator.yml
-  - nexus-repo.yml
-  - sonarqube.yml

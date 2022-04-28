@@ -3,6 +3,6 @@ kind: Kustomization
 
 resources:
   - mailhog-deployment.yml
-  - mailhog-svc.yml
   - mailhog-route.yml
   - mailhog-smtp-route.yml
+  - mailhog-svc.yml

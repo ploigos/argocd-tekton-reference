@@ -3,5 +3,5 @@ kind: Kustomization
 
 resources:
   - sonarqube-deployment.yml
-  - sonarqube-svc.yml
   - sonarqube-route.yml
+  - sonarqube-svc.yml

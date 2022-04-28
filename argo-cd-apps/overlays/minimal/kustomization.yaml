@@ -1,5 +1,5 @@
 resources:
-  - ../../base/pipelines-as-a-service
+  - ../../base/pipelines-as-a-service/
   - ../../base/openshift-pipelines/
 
 namespace: openshift-gitops
