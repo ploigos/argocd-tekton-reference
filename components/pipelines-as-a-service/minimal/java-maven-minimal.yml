@@ -6,7 +6,7 @@ spec:
 
   params:
   - default: ['-no-transfer-progress', '-DskipITs', 'package']
-  - name: mvnArgs
+    name: mvnArgs
     description: Arguments including goals, passed to the mvn command.
     type: array
   - name: verbose
@@ -18,19 +18,16 @@ spec:
       URL to the application repository to run the pipeline for.
     type: string
     default: "https://github.com/dwinchell/reference-quarkus-mvn"
-  - description: |
   - name: appRepoRef
     description: |
       Git reference (tag, branch) of the application repository to run the pipeline for.
     type: string
     default: main
-  - description: |
   - name: appImage
     description: |
       The pipeline will build and push an application image with this tag.
     type: string
     default: image-registry.openshift-image-registry.svc:5000/pipelines-minimal/demo-app1
-  - description: |
   - name: opsRepoUrl
     description: |
       URL to the application ops repository (the repository that your gitops controller watches).
@@ -60,7 +57,6 @@ spec:
       and use the newly built image after every build.
     type: string
     default: "demo-app1"
-  - description: |
   - name: targetRegistry
     description: |
       The container registry to push the image to.
@@ -88,26 +84,24 @@ spec:
 
   - name: clone-application
     params:
-    - name: verbose
-      value: $(params.verbose)
-    - name: url
-      value: $(params.appRepoUrl)
-    - name: revision
-      value: $(params.appRepoRef)
-    - name: deleteExisting
-      value: "true"
-    - name: sslVerify
-      value: $(params.tlsVerify)
-    - name: refspec
-      value: +refs/heads/$(params.appRepoRef):$(params.appRepoRef)
+      - name: verbose
+        value: $(params.verbose)
+      - name: url
+        value: $(params.appRepoUrl)
+      - name: revision
+        value: $(params.appRepoRef)
+      - name: deleteExisting
+        value: "true"
+      - name: sslVerify
+        value: $(params.tlsVerify)
+      - name: refspec
+        value: +refs/heads/$(params.appRepoRef):$(params.appRepoRef)
     taskRef:
       kind: ClusterTask
       name: git-clone
     workspaces:
-    - name: output
-      workspace: source
-#    - name: ssh-directory
-#      workspace: git-ssh-directory
+     - name: output
+       workspace: source
 
   - name: build-application
     params:
@@ -135,13 +129,13 @@ spec:
       - name: TLSVERIFY
         value: $(params.tlsVerify)
     runAfter:
-    - build-application
+      - build-application
     taskRef:
       kind: ClusterTask
       name: buildah
     workspaces:
-    - name: source
-      workspace: source
+      - name: source
+        workspace: source
 
   - name: deploy-latest
     taskRef:
