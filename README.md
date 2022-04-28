@@ -46,8 +46,10 @@ You can configure your source code repository to trigger a webhook and start the
    * `Payload URL` - Enter the URL for the "easymode" EventListener Route that Tekton is listening on. You can get the correct value with `oc get route -n pipelines-easymode -o wide`.
    * `Content Type` - application/json
    * `SSL verification` - If your OpenShift cluster is using TLS certificates that GitHub does not trust, you will have to select SSL verification -> Disable. To avoid this when using github.com, you have to configure OpenShift with TLS certs signed by a well known certificate authority.
-3. Watch the pipeline run!
-   * In the OpenShift console, Pipelines (left navigation) -> Pipelines 
+3. If you use the Test button on the GitHub settings page, the test will pass but the pipeline will not start. This is because the webhook event that GitHub uses to test does not contain all of the same information as real events.
+4. To test the webhook configuration, make a change to your application source code. Commit and push the change.
+5. Watch the pipeline run in the OpenShift developer console
+   * Pipelines (left navigation menu item) -> Pipelines
 
 ## Triggering an ArgoCD Sync when your GitOps Repo Changes
 You can configure your source code repository to trigger a webhook and cause ArgoCD to sync whenever your gitops code (i.e. the contents of this repository) changes. These instructions assume you are using GitHub. The steps are very similar for most other services.
