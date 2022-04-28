@@ -2,7 +2,7 @@
  
 This tutorial covers the setup and features of the reference implementation. It assumes some familiarity with [Tekton](https://tekton.dev/docs/) and [ArgoCD](https://argo-cd.readthedocs.io/en/stable/).
  
-The instructions use web UIs. There is different [README](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/README.md) with instructions for getting started quickly and repeatably with the CLI.
+The instructions use web UIs. There is different [README](https://github.com/ploigos/argocd-tekton-reference/blob/main/README.md) with instructions for getting started quickly and repeatably with the CLI.
  
 You will need an OpenShift cluster for this tutorial. It must be able to install the GitOps and Pipelines Operators from the Red Hat Marketplace.
 See [the local development environment instructions](Local_Dev_Environment.md) if you want to set that up on your local machine.
@@ -17,7 +17,7 @@ The Day 0, 1, and 2 concepts are critical to understanding the operations of any
   * This Day 0 can be found one the [Ploigos Workflows](https://ploigos.github.io/ploigos-docs/#_cicd_process_workflow).
   * This design distills the most common concepts for differing integration and deployment approach.
 * **Day 1** - Installation, setup, and configuration of the system
-  * The installation, setup, and configuration of the tooling is handled via the [Argo CD Apps](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main//argo-cd-apps/app-of-apps).
+  * The installation, setup, and configuration of the tooling is handled via the [Argo CD Apps](https://github.com/ploigos/argocd-tekton-reference/blob/main//argo-cd-apps/app-of-apps).
   * We  use an App of Apps approach where we delcare all required applications for a given workflow, then use Argo to manage the installation and confiugration.
   * This is a true [GitOps](https://www.redhat.com/en/topics/devops/what-is-gitops) approach to managing a software delivery platform.
 * **Day 2** - Continuous Operations of the system.  Such as peroidc tasks (houlry, daily, weekly, monthly, etc..), maintenance, and optimization
@@ -96,7 +96,7 @@ The platform consist of all the integration and deployment tooling & services re
    1. Operators (left navigation) -> Installed Operators 
 4. Create RBAC objects for ArgoCD
    1. Click the (+) icon at the top of the Admin Console to create a resource.
-   2. Copy and paste the contents of [openshift-gitops-clusterroles.yml](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/bootstrap/openshift-gitops-clusterroles.yml).
+   2. Copy and paste the contents of [openshift-gitops-clusterroles.yml](https://github.com/ploigos/argocd-tekton-reference/blob/main/bootstrap/openshift-gitops-clusterroles.yml).
    3. Select "Create"
    4. This grants the ArgoCD service account additional permissions in order to install the OpenShift Pipelines Operator.
 5. Open the ArgoCD web UI
@@ -126,7 +126,7 @@ Each of these components consists of many differing kubernets resourecs.  They i
 1. Open the OpenShift Admin Console.
 2. Create the ArgoCD Application CR.
    1. Click the (+) icon at the top of the OpenShift Admin Console to create a resource.
-   2. Copy and paste the contents of [minimal.yml](https://github.com/ploigos/openshift-pipelines-quickstart/blob/main/argo-cd-apps/app-of-apps/minimal.yml).
+   2. Copy and paste the contents of [minimal.yml](https://github.com/ploigos/argocd-tekton-reference/blob/main/argo-cd-apps/app-of-apps/minimal.yml).
 3. Open the "Installed Operators" view in the OpenShift Admin Console to verify that OpenShift Pipelines Operator was installed.
 4. Open the ArgoCD console to verify that the app-of-apps application and dependent applications were created.
    1. **Note:** Depending on your cluster configuration, it may take 10 minutes or longer for ArgoCD to create and sync all of the Application CRDs. When the installation is done, all applications will say "Synced". The pipelines-minimal application will still also say "Progressing" or "Degraded" until the pipeline has been started for the first time. That is normal.
