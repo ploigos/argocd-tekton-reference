@@ -5,7 +5,7 @@ metadata:
 spec:
 
   params:
-  - default: ['package']
+  - default: ['-no-transfer-progress', 'package']
     description: Arguments including goals, passed to the mvn command.
     name: mvnArgs
     type: array
@@ -17,7 +17,7 @@ spec:
       URL to the application repository to run the pipeline for.
     name: appRepoUrl
     type: string
-    default: "https://github.com/ploigos-reference-apps/reference-quarkus-mvn"
+    default: "https://github.com/dwinchell/reference-quarkus-mvn"
   - description: |
       Git reference (tag, branch) of the application repository to run the pipeline for.
     name: appRepoRef
@@ -33,7 +33,7 @@ spec:
       and use the newly built image after every build.
     name: rolloutDeployment
     type: string
-    default: "true"
+    default: "demo-app1"
   - description: |
       The container registry to push the image to.
     name: targetRegistry
