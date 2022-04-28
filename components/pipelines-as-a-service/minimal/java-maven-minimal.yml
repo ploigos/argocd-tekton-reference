@@ -34,7 +34,7 @@ spec:
       In order to deploy the updated changes, the pipeline will commit the new SHA of the build container image before
       triggering a rollout. If left empty, the pipeline will assume the URL is the same as the application repository
       URL, but with "-ops" added to the repository name.
-    default: ''
+    default: "https://github.com/dwinchell/reference-quarkus-mvn-ops"
     type: string
   - name: opsRepoFilePath
     description: |
