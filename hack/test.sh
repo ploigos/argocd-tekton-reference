@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+set -eux -o pipefail
 
 oc create -f test/pipelineruns/java-maven.yml
 sleep 1
