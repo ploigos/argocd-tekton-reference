@@ -28,7 +28,7 @@ The Day 0, 1, and 2 concepts are critical to understanding the operations of any
  
 You will have to fork the following repositories to complete this tutorial.  If you have a lot of existing repositories, it may be easiers to temporarily [create a new GitHub Organization](https://docs.githubeasier/organizations/collaborating-with-groups-in-organizations/creating-a-new-organization-from-scratch) to store the forks.
  
-* [OpenShift Pipelines Quickstart](https://github.com/ploigos/openshift-pipelines-quickstart)
+* [Argocd Tekton Reference](https://github.com/ploigos/argocd-tekton-reference)
 * [Pipelines Vote API](https://github.com/ploigos-reference-apps/pipelines-vote-api)
 * [Pipelines Vote UI](https://github.com/ploigos-reference-apps/pipelines-vote-ui)
 * [Demo App 2 - JMM ](https://github.com/ploigos-reference-apps/demo-app1)
