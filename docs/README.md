@@ -176,7 +176,7 @@ In our source code repo, go to **Settings** -> **Webhooks** -> ***Add Webhook***
 
 * `Payload URL`
   * Enter the Tekton *EventListener* webhook URL for your cluster. 
-  * This is *NOT* the ArgoCD webhook URL. You can get the correct value with `oc get route -n quickstart-app-easymode -o wide`. 
+  * This is *NOT* the ArgoCD webhook URL. You can get the correct hostname with `oc get route -n pipelines-easymode -o wide`. 
   * The URL should look like https://[EventListner Route].[your.cluster.com]/
 * `Content Type`
   * Select ***application/json***
