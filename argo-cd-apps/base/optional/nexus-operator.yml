@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: mailhog
+  name: nexus-operator
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,12 +10,12 @@ spec:
   project: default
 
   source:
-    path: components/mailhog
+    path: components/optional/nexus-operator
     repoURL: https://github.com/ploigos/argocd-tekton-reference.git
     targetRevision: main
 
   destination:
-    namespace: mailhog
+    namespace: openshift-operators
     server: https://kubernetes.default.svc
 
   syncPolicy:
