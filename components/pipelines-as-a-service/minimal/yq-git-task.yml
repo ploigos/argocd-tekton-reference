@@ -27,6 +27,11 @@ spec:
     - name: branch
       description: Checkout and commit to this branch. It must already exist.
       type: string
+    - name: pauseForDebug
+      type: string
+      description: |
+        If "true", pause the script before changing anything so the user can open a shell to the Pod for debugging purposes.
+      default: "false"
   results:
     - name: commitHash
       description: The hash of the new git commit that this task created, if one was created.
@@ -55,9 +60,25 @@ spec:
           value: $(results.commitHash.path)
         - name: BRANCH
           value: $(params.branch)
+        - name: PAUSE_FOR_DEBUG
+          value: $(params.pauseForDebug)
       script: |
         #!/usr/bin/sh
         set -euxo pipefail
+
+        if [ "${PAUSE_FOR_DEBUG}" == "true" ]; then
+          echo
+          echo "********************"
+          echo "* PAUSED FOR DEBUG *"
+          echo "********************"
+          echo "To continue:"
+          echo "> touch ${HOME}/workflow-continue"
+          while [ ! -f ${HOME}/workflow-continue ]; do
+            sleep 2
+          done
+          rm -f ${HOME}/workflow-continue
+        fi
+
         git clone -b ${BRANCH} ${GIT_REPO} .
         yq --inplace "${YQ_PATH} = \"${VALUE}\"" ${FILE}
         git config --global user.email ${GIT_EMAIL}

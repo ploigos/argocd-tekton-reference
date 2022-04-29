@@ -1,0 +1,63 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: manual-
+  namespace: pipelines-minimal
+spec:
+  params:
+  - name: mvnArgs
+    value:
+    - -no-transfer-progress
+    - -DskipITs
+    - package
+  - name: verbose
+    value: "false"
+  - name: appRepoUrl
+    value: https://github.com/dwinchell/reference-quarkus-mvn
+  - name: appRepoRef
+    value: main
+  - name: appImage
+    value: image-registry.openshift-image-registry.svc:5000/pipelines-minimal/demo-app1
+  - name: opsRepoUrl
+    value: git@github.com:dwinchell/reference-quarkus-mvn-ops.git
+  - name: opsRepoFilePath
+    value: charts/reference-quarkus-mvn-deploy/values-DEV.yaml
+  - name: opsRepoYamlPath
+    value: .image.tag
+  - name: rolloutDeployment
+    value: demo-app1
+  - name: targetRegistry
+    value: image-registry.openshift-image-registry.svc
+  - name: tlsVerify
+    value: "true"
+  - name: containerBuildContext
+    value: .
+  - name: containerfile
+    value: ./Containerfile
+  - name: pauseForDebug
+    value: "true"
+  pipelineRef:
+    name: java-maven-minimal
+  serviceAccountName: pipeline
+  timeout: 1h0m0s
+  workspaces:
+  - name: source
+    volumeClaimTemplate:
+      metadata:
+        creationTimestamp: null
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: standard
+        volumeMode: Filesystem
+      status: {}
+  - emptyDir: {}
+    name: maven-settings
+  - emptyDir: {}
+    name: container-auth
+  - emptyDir: {}
+    name: gitops-repo-clone
+
