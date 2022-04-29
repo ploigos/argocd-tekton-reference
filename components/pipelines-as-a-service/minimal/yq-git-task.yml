@@ -17,15 +17,19 @@ spec:
       type: string
     - name: gitName
       description: The human readable name for the git user that will show up in the git log. This is NOT the username used to authenticate. Equivalent to git config user.name"
+      default: Tekton
       type: string
     - name: gitEmail
       description: The email for the git user that will show up in the git log. Equivalent to git config user.email"
+      default: tekton@example.com
       type: string
     - name: commitMessage
       description: Message for the git commit log
+      default: Automated commit by yq-git Tekton task
       type: string
     - name: branch
       description: Checkout and commit to this branch. It must already exist.
+      default: main
       type: string
     - name: pauseForDebug
       type: string
