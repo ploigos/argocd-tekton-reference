@@ -1,3 +1,4 @@
+---
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
@@ -5,182 +6,182 @@ metadata:
 spec:
 
   params:
-  - default: ['-no-transfer-progress', '-DskipITs', 'package']
-    name: mvnArgs
-    description: Arguments including goals, passed to the mvn command.
-    type: array
-  - name: verbose
-    default: "false"
-    description: Log any sh commands used during execution.
-    type: string
-  - name: appRepoUrl
-    description: |
-      URL to the application repository to run the pipeline for.
-    type: string
-    default: "https://github.com/dwinchell/reference-quarkus-mvn"
-  - name: appRepoRef
-    description: |
-      Git reference (tag, branch) of the application repository to run the pipeline for.
-    type: string
-    default: main
-  - name: appImage
-    description: |
-      The pipeline will build and push an application image with this tag.
-    type: string
-    default: image-registry.openshift-image-registry.svc:5000/pipelines-minimal/demo-app1
-  - name: opsRepoUrl
-    description: |
-      URL to the application ops repository (the repository that your gitops controller watches).
-      In order to deploy the updated changes, the pipeline will commit the new SHA of the build container image before
-      triggering a rollout. If left empty, the pipeline will assume the URL is the same as the application repository
-      URL, but with "-ops" added to the repository name.
-    default: "git@github.com:dwinchell/reference-quarkus-mvn-ops.git"
-    type: string
-  - name: opsRepoFilePath
-    description: |
-      In the ops repository, the path to a YAML file the that the gitops controller watches for the SHA of the
-      application's container image. For example, this could be a k8s Deployment manifest or a helm values.yml file for
-      Helm. The pipeline will edit this file and commit and push the change.
-    default: charts/reference-quarkus-mvn-deploy/values-DEV.yaml
-    type: string
-  - name: opsRepoYamlPath
-    description: |
-      The path to the YAML field that the pipeline should update with the SHA of the newly built image. Uses the same
-      syntax as the yq utility (i.e. '.my.field'). This path refers to the structure of the file specified
-      by opsRepoFilePath. The gitops controller should use the value at this path to decide which application image tag
-      to deploy.
-    default: .image.tag
-    type: string
-  - name: rolloutDeployment
-    description: |
-      Rollout the deployment with this name after building the image. This will cause the Pod to restart. It will pull
-      and use the newly built image after every build.
-    type: string
-    default: "demo-app1"
-  - name: targetRegistry
-    description: |
-      The container registry to push the image to.
-    default: image-registry.openshift-image-registry.svc
-    type: string
-  - name: tlsVerify
-    default: "true"
-    description: |
-      If this is "false", no tasks will use TLS verification. Leave it "true" in production. If you want to turn
-      off verification for only some tasks, fork the pipeline and add pipeline parameters.
-    type: string
-  - name: containerBuildContext
-    description:
-      The context path for building the container. I.e. the directory from which you would run a docker build or buildah
-      bud command.
-    default: .
-    type: string
-  - name: containerfile
-    description: |
-      The path to the application's Containerfile or Dockerfile relative to the root of the source repository.
-    default: ./Containerfile
-    type: string
+    - default: ['-no-transfer-progress', '-DskipITs', 'package']
+      name: mvnArgs
+      description: Arguments including goals, passed to the mvn command.
+      type: array
+    - name: verbose
+      default: "false"
+      description: Log any sh commands used during execution.
+      type: string
+    - name: appRepoUrl
+      description: |
+        URL to the application repository to run the pipeline for.
+      type: string
+      default: "https://github.com/dwinchell/reference-quarkus-mvn"
+    - name: appRepoRef
+      description: |
+        Git reference (tag, branch) of the application repository to run the pipeline for.
+      type: string
+      default: main
+    - name: appImage
+      description: |
+        The pipeline will build and push an application image with this tag.
+      type: string
+      default: image-registry.openshift-image-registry.svc:5000/pipelines-minimal/demo-app1
+    - name: opsRepoUrl
+      description: |
+        URL to the application ops repository (the repository that your gitops controller watches).
+        In order to deploy the updated changes, the pipeline will commit the new SHA of the build container image before
+        triggering a rollout. If left empty, the pipeline will assume the URL is the same as the application repository
+        URL, but with "-ops" added to the repository name.
+      default: "git@github.com:dwinchell/reference-quarkus-mvn-ops.git"
+      type: string
+    - name: opsRepoFilePath
+      description: |
+        In the ops repository, the path to a YAML file the that the gitops controller watches for the SHA of the
+        application's container image. For example, this could be a k8s Deployment manifest or a helm values.yml file for
+        Helm. The pipeline will edit this file and commit and push the change.
+      default: charts/reference-quarkus-mvn-deploy/values-DEV.yaml
+      type: string
+    - name: opsRepoYamlPath
+      description: |
+        The path to the YAML field that the pipeline should update with the SHA of the newly built image. Uses the same
+        syntax as the yq utility (i.e. '.my.field'). This path refers to the structure of the file specified
+        by opsRepoFilePath. The gitops controller should use the value at this path to decide which application image tag
+        to deploy.
+      default: .image.tag
+      type: string
+    - name: rolloutDeployment
+      description: |
+        Rollout the deployment with this name after building the image. This will cause the Pod to restart. It will pull
+        and use the newly built image after every build.
+      type: string
+      default: "demo-app1"
+    - name: targetRegistry
+      description: |
+        The container registry to push the image to.
+      default: image-registry.openshift-image-registry.svc
+      type: string
+    - name: tlsVerify
+      default: "true"
+      description: |
+        If this is "false", no tasks will use TLS verification. Leave it "true" in production. If you want to turn
+        off verification for only some tasks, fork the pipeline and add pipeline parameters.
+      type: string
+    - name: containerBuildContext
+      description:
+        The context path for building the container. I.e. the directory from which you would run a docker build or buildah
+        bud command.
+      default: .
+      type: string
+    - name: containerfile
+      description: |
+        The path to the application's Containerfile or Dockerfile relative to the root of the source repository.
+      default: ./Containerfile
+      type: string
 
   tasks:
 
-  - name: clone-application
-    params:
-      - name: verbose
-        value: $(params.verbose)
-      - name: url
-        value: $(params.appRepoUrl)
-      - name: revision
-        value: $(params.appRepoRef)
-      - name: deleteExisting
-        value: "true"
-      - name: sslVerify
-        value: $(params.tlsVerify)
-      - name: refspec
-        value: +refs/heads/$(params.appRepoRef):$(params.appRepoRef)
-    taskRef:
-      kind: ClusterTask
-      name: git-clone
-    workspaces:
-     - name: output
-       workspace: source
-
-  - name: build-application
-    params:
-      - name: GOALS
-        value: ["$(params.mvnArgs[*])"]
-    runAfter:
-      - clone-application
-    taskRef:
-      kind: ClusterTask
-      name: maven
-    workspaces:
-      - name: source
-        workspace: source
-      - name: maven-settings
-        workspace: maven-settings
-
-  - name: build-container-image
-    params:
-      - name: IMAGE
-        value: $(params.appImage)
-      - name: CONTEXT
-        value: $(params.containerBuildContext)
-      - name: DOCKERFILE
-        value: $(params.containerfile)
-      - name: TLSVERIFY
-        value: $(params.tlsVerify)
-    runAfter:
-      - build-application
-    taskRef:
-      kind: ClusterTask
-      name: buildah
-    workspaces:
-      - name: source
-        workspace: source
-
-  - name: deploy-latest
-    taskRef:
-      name: yq-git
-    params:
-      - name: gitName
-        value: CI Pipeline
-      - name: gitEmail
-        value: tekton@example.com
-      - name: gitRepo
-        value: $(params.opsRepoUrl)
-      - name: commitMessage
-        value: Deployment
-      - name: branch
-        value: $(params.appRepoRef)
-      - name: file
-        value: $(params.opsRepoFilePath)
-      - name: yqPath
-        value: $(params.opsRepoYamlPath)
-      - name: value
-        value: newsha1
-      - name: pauseForDebug
-        value: false
-    runAfter:
-      - build-container-image
-    workspaces:
-      - name: clone
-        workspace: gitops-repo-clone
-
+    - name: clone-application
+      params:
+        - name: verbose
+          value: $(params.verbose)
+        - name: url
+          value: $(params.appRepoUrl)
+        - name: revision
+          value: $(params.appRepoRef)
+        - name: deleteExisting
+          value: "true"
+        - name: sslVerify
+          value: $(params.tlsVerify)
+        - name: refspec
+          value: +refs/heads/$(params.appRepoRef):$(params.appRepoRef)
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: source
+  
+    - name: build-application
+      params:
+        - name: GOALS
+          value: ["$(params.mvnArgs[*])"]
+      runAfter:
+        - clone-application
+      taskRef:
+        kind: ClusterTask
+        name: maven
+      workspaces:
+        - name: source
+          workspace: source
+        - name: maven-settings
+          workspace: maven-settings
+  
+    - name: build-container-image
+      params:
+        - name: IMAGE
+          value: $(params.appImage)
+        - name: CONTEXT
+          value: $(params.containerBuildContext)
+        - name: DOCKERFILE
+          value: $(params.containerfile)
+        - name: TLSVERIFY
+          value: $(params.tlsVerify)
+      runAfter:
+        - build-application
+      taskRef:
+        kind: ClusterTask
+        name: buildah
+      workspaces:
+        - name: source
+          workspace: source
+  
+    - name: deploy-latest
+      taskRef:
+        name: yq-git
+      params:
+        - name: gitName
+          value: CI Pipeline
+        - name: gitEmail
+          value: tekton@example.com
+        - name: gitRepo
+          value: $(params.opsRepoUrl)
+        - name: commitMessage
+          value: Deployment
+        - name: branch
+          value: $(params.appRepoRef)
+        - name: file
+          value: $(params.opsRepoFilePath)
+        - name: yqPath
+          value: $(params.opsRepoYamlPath)
+        - name: value
+          value: newsha1
+        - name: pauseForDebug
+          value: false
+      runAfter:
+        - build-container-image
+      workspaces:
+        - name: clone
+          workspace: gitops-repo-clone
+  
   workspaces:
-  - description: |
-     Holds the application source code.
-    name: source
-  - description: |
-      Workspace for the Maven settings directory (.m2). Useful for adding files like settings.xml.
-      You can use a ConfigMap or Secret to inject files like settings.xml.
-      See https://github.com/tektoncd/catalog/tree/main/task/maven/0.2 for usage.
-    name: maven-settings
-  - description: |
-      Used to pass a json configuration file with authentication information for container registries.
-    name: container-auth
-  - description: |
-      Location to git clone the gitops repository for the application.
-    name: gitops-repo-clone
-  - description: |
-      A directory with ssh keys to use for cloning and pushing to git repositories. Use a Secret to supply the files.
-    name: git-ssh-directory
-    optional: true
+    - description: |
+       Holds the application source code.
+      name: source
+    - description: |
+        Workspace for the Maven settings directory (.m2). Useful for adding files like settings.xml.
+        You can use a ConfigMap or Secret to inject files like settings.xml.
+        See https://github.com/tektoncd/catalog/tree/main/task/maven/0.2 for usage.
+      name: maven-settings
+    - description: |
+        Used to pass a json configuration file with authentication information for container registries.
+      name: container-auth
+    - description: |
+        Location to git clone the gitops repository for the application.
+      name: gitops-repo-clone
+    - description: |
+        A directory with ssh keys to use for cloning and pushing to git repositories. Use a Secret to supply the files.
+      name: git-ssh-directory
+      optional: true
