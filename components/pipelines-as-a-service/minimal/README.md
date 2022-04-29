@@ -36,7 +36,7 @@
   # Create a secret to store the private key and then delete the private key file
   PIPELINES_NAMESPACE=pipelines-minimal # ArgoCD creates this namespace. Change it here if you customized the deployment.
   oc create secret generic github-auth --type=kubernetes.io/ssh-auth --from-file=ssh-privatekey=pipeline_rsa -n ${PIPELINES_NAMESPACE}
-  oc patch secret github-auth -p '{"metadata":{"annotations":{"tekton-dev/git-0":"github.com"}}}' -n ${PIPELINES_NAMESPACE}
+  oc patch secret github-auth -p '{"metadata":{"annotations":{"tekton.dev/git-0":"github.com"}}}' -n ${PIPELINES_NAMESPACE}
   oc secret link pipeline github-auth -n ${PIPELINES_NAMESPACE}
   rm pipeline_rsa
 
