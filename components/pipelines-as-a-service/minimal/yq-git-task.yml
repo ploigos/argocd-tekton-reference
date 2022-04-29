@@ -72,11 +72,11 @@ spec:
           echo "* PAUSED FOR DEBUG *"
           echo "********************"
           echo "To continue:"
-          echo "> touch ${HOME}/workflow-continue"
-          while [ ! -f ${HOME}/workflow-continue ]; do
+          echo "> touch ${HOME}/unpause"
+          while [ ! -f ${HOME}/unpause ]; do
             sleep 2
           done
-          rm -f ${HOME}/workflow-continue
+          rm -f ${HOME}/unpause
         fi
 
         git clone -b ${BRANCH} ${GIT_REPO} .
