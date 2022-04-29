@@ -140,6 +140,7 @@ spec:
   
     - name: deploy-latest
       taskRef:
+        kind: Task
         name: yq-git
       params:
         - name: gitName
