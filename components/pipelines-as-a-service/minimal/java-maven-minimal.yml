@@ -159,7 +159,7 @@ spec:
         - name: value
           value: newsha1
         - name: pauseForDebug
-          value: false
+          value: "false"
       runAfter:
         - build-container-image
       workspaces:
