@@ -1,0 +1,70 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: EventListener
+metadata:
+  name: cpp-make-minimal-el
+spec:
+  namespaceSelector: {}
+  resources: {}
+  serviceAccountName: pipeline
+  triggers:
+  - name: cpp-make-minimal
+    bindings:
+    - kind: ClusterTriggerBinding
+      ref: github-push
+    template:
+      spec:
+        params:
+          - name: git-revision
+          - name: git-commit-message
+          - name: git-repo-url
+          - name: git-repo-name
+          - name: content-type
+          - name: pusher-name
+        resourcetemplates:
+          - apiVersion: tekton.dev/v1beta1
+            kind: PipelineRun
+            metadata:
+              annotations:
+                argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+              generateName: cpp-make-minimal-
+              labels:
+                app.kubernetes.io/instance: cpp-make-minimal
+                tekton.dev/pipeline: cpp-make-minimal
+              namespace: pipelines-minimal
+            spec:
+              params:
+                - name: mvnArgs
+                  value:
+                    - "--no-transfer-progress"
+                    - "-DskipITs"
+                    - "package"
+                - name: appRepoUrl
+                  value: $(tt.params.git-repo-url)
+                - name: appImage
+                  value: image-registry.openshift-image-registry.svc:5000/pipelines-minimal/$(tt.params.git-repo-name)
+                - name: appRepoRef
+                  value: main
+                - name: containerBuildContext
+                  value: .
+                - name: containerfile
+                  value: Containerfile
+                - name: rolloutDeployment
+                  value: $(tt.params.git-repo-name)
+                - name: verbose
+                  value: 'true'
+              pipelineRef:
+                name: cpp-make-minimal
+              workspaces:
+                - name: source
+                  volumeClaimTemplate:
+                    spec:
+                      accessModes:
+                        - ReadWriteOnce
+                      resources:
+                        requests:
+                          storage: 1Gi
+                      volumeMode: Filesystem
+                - emptyDir: {}
+                  name: maven-settings
+                - emptyDir: {}
+                  name: container-auth
